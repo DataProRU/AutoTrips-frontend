@@ -1,0 +1,11 @@
+{
+    "logo": "Loqo",
+    "autotransport": "Avtodaşıma",
+    "main": {
+        "welcome": "Xoş gəlmisiniz təsviri mətni",
+        "login": "Daxil ol",
+        "forgot_password": "Şifrəmi unutdum",
+        "register": "Qeydiyyat",
+        "contact_manager": "Menecerə sual verin"
+    }
+}

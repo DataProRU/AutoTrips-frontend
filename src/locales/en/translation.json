@@ -1,0 +1,11 @@
+{
+    "logo": "Logo",
+    "autotransport": "Autotransport",
+    "main": {
+        "welcome": "Welcome description text",
+        "login": "Log in",
+        "forgot_password": "Forgot password",
+        "register": "Sign up",
+        "contact_manager": "Contact manager"
+    }
+}

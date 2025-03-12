@@ -2,7 +2,7 @@
     "logo": "Logo",
     "autotransport": "Autotransport",
     "main": {
-        "welcome": "Welcome description text",
+        "welcome": "Our car selling platform welcomes you!",
         "login": "Log in",
         "forgot_password": "Forgot password",
         "register": "Sign up",

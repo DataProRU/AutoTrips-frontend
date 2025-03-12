@@ -4,8 +4,11 @@
 }
 
 .main__header {
-  font-size: 2rem;
-  margin-bottom: 50px;
+  margin-bottom: 46px;
+  font-weight: normal;
+  font-size: 20px;
+  text-align: center;
+  color: var(--black);
 }
 
 .container {
@@ -29,23 +32,16 @@
   width: 100%;
 }
 
-.main__link {
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-  margin-bottom: 10px;
-  width: 100%;
-  background-color: rgb(216, 171, 48);
-  border-radius: 10px;
-  color: black;
-  font-weight: bold;
-  border: 2px solid black;
-}
+
 
 .main__forget {
   margin-bottom: 5px;
   color: black;
   text-decoration: underline;
+}
+
+.main__forget:hover {
+  color: var(--gray);
 }
 
 .main__contact {
@@ -55,9 +51,4 @@
   justify-content: center;
   padding: 10px;
   width: 100%;
-  background-color: rgb(122, 121, 116);
-  border-radius: 10px;
-  color: black;
-  font-weight: bold;
-  border: 2px solid black;
 }

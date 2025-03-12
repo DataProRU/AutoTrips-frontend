@@ -1,0 +1,64 @@
+.group {
+    position: relative;
+    width: 100%;
+}
+
+.group-photos {
+    position: absolute;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.input {
+    position: relative;
+    z-index: 1;
+    padding: 20px 16px;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid var(--grey-dark);
+    background: transparent;
+    outline: none;
+}
+
+.placeholder {
+    position: absolute;
+    left: 16px;
+    top: 20px;
+    color: var(--gray);
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 0;
+}
+
+
+.required {
+    color: red;
+}
+
+input:focus + .placeholder,
+input:not(:placeholder-shown) + .placeholder {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.error{
+    position: absolute;
+    top: 59px;
+    width: 100%;
+}
+
+.error-photos {
+    top:45px;
+    width: 200px;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+}

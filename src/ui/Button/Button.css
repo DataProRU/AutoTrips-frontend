@@ -1,0 +1,29 @@
+.link {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    background: var(--primary);
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 24px;
+    text-align: center;
+    color: var(--white);
+    font-weight: normal;
+    border: 1px solid var(--secondary);
+    transition: 0.3s ease;
+}
+
+
+.link:hover {
+  background: var(--gray);
+}
+
+.link:not(:last-child){
+  margin-bottom: 30px;
+}
+
+.link:nth-child(2) {
+  margin-bottom: 10px;
+}

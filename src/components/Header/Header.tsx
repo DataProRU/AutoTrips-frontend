@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { observer } from "mobx-react";
-import { useTranslation } from "react-i18next";
 import "./Header.css";
 import LanguageStore from "../../store/LanguageStore";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/logo.png";
+import authStore from "../../store/AuthStore";
 
 const Header: React.FC = observer(() => {
   const [isMenuOpen, setMenuOpen] = useState<boolean>(false);
-  const { t } = useTranslation();
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -18,43 +18,40 @@ const Header: React.FC = observer(() => {
     setMenuOpen(false);
   };
 
+  const allLanguages = [
+    { code: "ru", name: "RU" },
+    { code: "en", name: "EN" },
+    { code: "az", name: "AZ" },
+    { code: "ge", name: "GE" },
+  ];
+
+  const availableLanguages = allLanguages.filter(
+    (lang) => lang.code !== LanguageStore.selectedLanguage
+  );
+
   return (
     <header className="menu">
       <Link to="/" className="menu__logo">
-        {t("logo")}
+        <img src={Logo} alt="Logo" />
       </Link>
-      <div className="menu__company">{t("autotransport")}</div>
+      <h2 className="menu__header">{authStore.page}</h2>
       <div className="menu__language">
-        <div className="menu__burger" onClick={toggleMenu}>
-          ☰
+        <button className="menu__burger menu__burger-selected" onClick={toggleMenu}>
+          <span className="menu__language">
+            {LanguageStore.selectedLanguage.toUpperCase()}
+          </span>
+        </button>
+        <div className={`languages ${isMenuOpen ? "languages__open" : ""}`}>
+          {availableLanguages.map((lang) => (
+            <button
+              key={lang.code}
+              className="languages__btn"
+              onClick={() => handleLanguageChange(lang.code)}
+            >
+              {lang.name}
+            </button>
+          ))}
         </div>
-        <div className={`languages ${isMenuOpen ? "open" : ""}`}>
-          <button
-            className="languages__btn"
-            onClick={() => handleLanguageChange("ru")}
-          >
-            Русский
-          </button>
-          <button
-            className="languages__btn"
-            onClick={() => handleLanguageChange("en")}
-          >
-            English
-          </button>
-          <button
-            className="languages__btn"
-            onClick={() => handleLanguageChange("az")}
-          >
-            Azərbaycan
-          </button>
-          <button
-            className="languages__btn"
-            onClick={() => handleLanguageChange("ge")}
-          >
-            ქართული
-          </button>
-        </div>
-        <div className="menu__language">{LanguageStore.selectedLanguage}</div>
       </div>
     </header>
   );

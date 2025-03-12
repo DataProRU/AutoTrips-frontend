@@ -1,7 +1,35 @@
+@import "normalize.css";
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+@font-face {
+  font-family: 'PTSans';
+  src: url('./fonts/PTSans-Regular.woff') format('woff'),
+       url('./fonts/PTSans-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+:root {
+	--primary: #154b65;
+	--secondary: #2a97cb;
+	--darck-blue-gray: #3e4545;
+	--grey-dark: #b6bcbc;
+	--gray: #9aaaab;
+	--red: #710000;
+	--black: #000;
+	--backgraund: rgba(27, 28, 28, 0.7);
+	--red-100: rgba(113, 0, 0, 0.1);
+	--white: #fff;
+  --gradient: linear-gradient(180deg, #2a97cb 0%, #154b65 100%);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'PTSans', sans-serif;
 }
 
 ul {
@@ -20,4 +48,39 @@ button {
   background-color: transparent;
   border: none;
   cursor: pointer;
+  outline: none;
+}
+
+.slick-list{
+  width: 75%;
+  margin: 0 auto;
+  height: 154px;
+  border-radius: 12px;
+  border: 1px solid var(--primary);
+}
+
+.slick-slider {
+  margin-bottom: 14px;
+} 
+
+.slide-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.slick-prev {
+  left: 0;
+  top: 64%;
+  width: 50px;
+  height: 50px;
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.slick-next {
+  right: 0;
+  top: 36%;
+  width: 50px;
+  height: 50px;
+  transform: translateY(-50%);
 }

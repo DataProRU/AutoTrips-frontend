@@ -15,11 +15,15 @@ class AuthStore {
     this.isAuth = auth;
   }
 
-  async login(email: string, password: string) {
+  async login(login: string, password: string) {
+
     try {
-      const response = await AuthService.login(email, password);
-      localStorage.setItem("accessToken", response.data.accessToken);
+      const response = await AuthService.login(login, password);
+      localStorage.setItem("access", response.data.access);
       this.setAuth(true);
+
+      console.log(response.status);
+      
     } catch (e) {
       console.error("Error while logging in:", e);
     }
@@ -33,6 +37,9 @@ class AuthStore {
       const response = await AuthService.register(data);
       localStorage.setItem("accessToken", response.data.accessToken);
       this.setAuth(true);
+
+      console.log(response.status);
+      
     } catch (e) {
       console.error("Error while logging in:", e);
     }

@@ -5,15 +5,16 @@ import axios, { AxiosResponse } from "axios";
 
 export default class AuthService {
   static async login(
-    email: string,
+    login: string,
     password: string
   ): Promise<AxiosResponse<AuthResponse>> {
     try {
-      return await apiInstance.post<AuthResponse>(
-        "/auth/login",
-        { email, password },
+      return await axios.post<AuthResponse>(
+        "http://127.0.0.1:8000/api/v1/accounts/token/",
+        { phone: login , password },
         { headers: { "Content-Type": "application/json" } }
       );
+
     } catch (error) {
       console.error("Error during login request:", error);
       throw error;

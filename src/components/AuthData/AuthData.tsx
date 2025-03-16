@@ -3,8 +3,9 @@ import InputField from "../../ui/Input/Input";
 import "./AuthData.css";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../../ui/Button/Button";
+import { Context } from "../../main";
 
 const schema = z.object({
   login: z.string().min(1, "Логин обязательно для заполнения"),
@@ -24,8 +25,10 @@ const AuthData = () => {
     resolver: zodResolver(schema),
   });
 
+  const { authStore } = useContext(Context);
+
   const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+    authStore.login(data.login, data.password);
   };
 
   return (

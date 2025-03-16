@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Slider from "react-slick";
-import authStore from "../../store/AuthStore";
 import "./RegisterData.css";
 import InputField from "../../ui/Input/Input";
 import Button from "../../ui/Button/Button";
@@ -13,6 +12,7 @@ import Pagination from "../../ui/Pagination/Pagination";
 import { observer } from "mobx-react";
 import Checkbox from "../../ui/Checkbox/Checkbox";
 import DeletePicture from "../../assets/swiper/delete.svg";
+import { Context } from "../../main";
 
 const schema = z
   .object({
@@ -56,7 +56,7 @@ const schema = z
 type RegisterFormData = z.infer<typeof schema>;
 
 const RegisterData = () => {
-  authStore.page = "Регистрация";
+  // authStore.page = "Регистрация";
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
@@ -77,10 +77,13 @@ const RegisterData = () => {
     },
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log(data);
-  };
+  const { authStore } = useContext(Context);
 
+
+  const onSubmit = (data: RegisterFormData) => {
+    authStore.register(data);
+  };
+  
   const handleTakePhoto = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
 

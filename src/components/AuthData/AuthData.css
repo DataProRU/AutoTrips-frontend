@@ -1,3 +1,8 @@
 .login__form {
+  position: relative;
   width: 100%;
+}
+
+.error-password{
+  top: -20px;
 }

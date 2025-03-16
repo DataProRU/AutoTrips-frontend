@@ -3,18 +3,23 @@ import InputField from "../../ui/Input/Input";
 import "./AuthData.css";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../../ui/Button/Button";
+import { Context } from "../../main";
+import { observer } from "mobx-react";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   login: z.string().min(1, "Логин обязательно для заполнения"),
   password: z.string().min(6, "Пароль должен содержать минимум 6 символов"),
-});
+}); 
 
 type LoginFormData = z.infer<typeof schema>;
 
 const AuthData = () => {
+  const { authStore } = useContext(Context);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -24,8 +29,11 @@ const AuthData = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log(data);
+  const onSubmit = async (data: LoginFormData) => {
+    await authStore.login(data.login, data.password);
+    if (authStore.isAuth) {
+      navigate("/");
+    }
   };
 
   return (
@@ -35,6 +43,11 @@ const AuthData = () => {
           <div className="main__content">
             <h2 className="main__header">Войдите в приложение</h2>
             <form className="login__form" onSubmit={handleSubmit(onSubmit)}>
+              {authStore.errorMessage && (
+                <div className="error error-password">
+                  {authStore.errorMessage}
+                </div>
+              )}
               <InputField
                 type="text"
                 placeholder="Логин/Номер телефона"
@@ -62,4 +75,4 @@ const AuthData = () => {
   );
 };
 
-export default AuthData;
+export default observer(AuthData);

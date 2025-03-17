@@ -3,6 +3,8 @@ import Main from "./pages/Main/Main";
 import "./setup/i18next";
 import Auth from "./pages/Auth/Auth";
 import Register from "./pages/Register/Register";
+import Regards from "./pages/Regards/Regards";
+
 
 function App() {
   return (
@@ -11,6 +13,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/regards" element={<Regards />} />
       </Routes>
     </Router>
   );

@@ -39,6 +39,17 @@ class AuthStore {
       console.error("Error while registering:", e);
     }
   }
+
+  async logout() {
+    try {
+      // await AuthService.logout();
+      this.isAuth = false;
+      localStorage.removeItem("access"); 
+      localStorage.removeItem("refresh"); 
+    } catch (error) {
+      console.error("Failed to logout:", error);
+    }
+  }
 }
 
 const authStore = new AuthStore();

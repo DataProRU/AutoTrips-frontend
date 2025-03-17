@@ -70,6 +70,12 @@ export default class AuthService {
   }
 
   static async logout() {
-    return $api.post("/accounts/logout");
-  }
+      try {
+        const response = await $api.post("/accounts/logout");
+        return response.data;
+      } catch (error) {
+        console.error("Logout error:", error);
+        throw error;
+      }
+    }
 }

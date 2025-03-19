@@ -132,6 +132,11 @@ const RegisterData = () => {
   };
 
   const handleDeleteImage = (index: number) => {
+    const isConfirmed = window.confirm(
+      "Вы уверены, что хотите удалить это фото?"
+    );
+    if (!isConfirmed) return;
+
     const deletedPreview = imagePreviews[index];
     URL.revokeObjectURL(deletedPreview);
     const updatedPreviews = imagePreviews.filter((_, i) => i !== index);

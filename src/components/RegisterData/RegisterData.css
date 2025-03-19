@@ -3,7 +3,8 @@
 }
 
 .register__label {
-  margin-bottom: 6px;
+  display: inline-block;
+  margin-bottom: 8px;
   font-weight: 400;
   font-size: 18px;
   text-align: center;
@@ -18,7 +19,7 @@
   display: flex;
 }
 
-.register__delete{
+.register__delete {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -47,7 +48,7 @@
   border-bottom-right-radius: 12px;
 }
 
-.register__swiper{
+.register__swiper {
   position: relative;
 }
 

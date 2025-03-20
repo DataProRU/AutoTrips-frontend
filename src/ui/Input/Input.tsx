@@ -22,6 +22,7 @@ interface InputFieldProps {
   className: string;
   showPasswordButton?: boolean;
   onTogglePassword?: () => void;
+  disabled?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -36,6 +37,7 @@ const InputField: React.FC<InputFieldProps> = ({
   showPasswordButton = false,
   onTogglePassword,
   className,
+  disabled = false,
 }) => {
   const isIdentityPhotos = name === "identityPhotos";
   const [isEmpty, setIsEmpty] = useState(true);
@@ -59,6 +61,7 @@ const InputField: React.FC<InputFieldProps> = ({
           onBlur={() => setIsFocused(false)}
           onInput={handleInput}
           className={className}
+          disabled={disabled}
         />
 
         {error && <div className={`error`}>{error.message}</div>}
@@ -82,11 +85,6 @@ const InputField: React.FC<InputFieldProps> = ({
           </button>
         )}
       </div>
-      {error && (
-        <p className={`error ${isIdentityPhotos ? "error-photos" : ""}`}>
-          {/* {error.message} */}
-        </p>
-      )}
     </div>
   );
 };

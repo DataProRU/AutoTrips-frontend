@@ -1,0 +1,21 @@
+.file-uploader__btn {
+  flex-grow: 1;
+  margin-bottom: 22px;
+  width: 50%;
+  padding: 12px 0;
+  background: var(--primary);
+  border: 1px solid var(--secondary);
+  font-weight: 400;
+  font-size: 14px;
+  text-align: center;
+  color: var(--white);
+}
+
+.file-uploader__btn-first {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+.file-uploader__btn-second {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}

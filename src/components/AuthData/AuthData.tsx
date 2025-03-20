@@ -12,17 +12,7 @@ import { useTranslation } from "react-i18next";
 
 const schema = z.object({
   login: z.string().min(1, "Логин обязательно для заполнения"),
-  password: z
-    .string()
-    .min(6, "Мин. 6 символов")
-    .regex(
-      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
-      "Пароль должен содержать заглавную, строчную букву, цифру и спецсимвол"
-    ),
-  confirmPassword: z.string(),
-  consent: z.boolean().refine((val) => val === true, {
-    message: "Необходимо согласие на обработку персональных данных",
-  }),
+  password: z.string().min(6, "Пароль должен содержать минимум 6 символов"),
 });
 
 type LoginFormData = z.infer<typeof schema>;

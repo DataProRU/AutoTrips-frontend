@@ -6,12 +6,13 @@
 
 .checkbox-group {
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: 1.4rem;
 }
 
 .checkbox-container {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   cursor: pointer;
   font-size: 16px;
@@ -71,6 +72,8 @@
   color: var(--red);
 }
 
-.error-checkbox{
-  top: 20px;
+.error-checkbox {
+  top: 22px;
+  text-align: center;
+
 }

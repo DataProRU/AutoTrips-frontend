@@ -3,17 +3,34 @@ import Main from "./pages/Main/Main";
 import "./setup/i18next";
 import Auth from "./pages/Auth/Auth";
 import Register from "./pages/Register/Register";
+import Regards from "./pages/Regards/Regards";
+import { useContext, useEffect } from "react";
+import { Context } from "./main";
+import { observer } from "mobx-react";
+
 
 function App() {
+  const { authStore } = useContext(Context);
+
+  useEffect(() => {
+    const refreshToken = localStorage.getItem("refresh");
+    if (refreshToken) {
+      authStore.refresh(refreshToken);
+    } else {
+      authStore.refresh("test")
+    }
+  }, []);
+  
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={authStore.isAuth ? <Regards /> : <Main />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/regards" element={<Regards />} />
       </Routes>
     </Router>
   );
 }
 
-export default App;
+export default observer(App);

@@ -1,9 +1,8 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Slider from "react-slick";
-import authStore from "../../store/AuthStore";
 import "./RegisterData.css";
 import InputField from "../../ui/Input/Input";
 import Button from "../../ui/Button/Button";
@@ -13,6 +12,9 @@ import Pagination from "../../ui/Pagination/Pagination";
 import { observer } from "mobx-react";
 import Checkbox from "../../ui/Checkbox/Checkbox";
 import DeletePicture from "../../assets/swiper/delete.svg";
+import { AxiosError } from "../../models/response/AxiosError";
+import authStore from "../../store/AuthStore";
+import { useNavigate } from "react-router-dom";
 
 const schema = z
   .object({
@@ -42,7 +44,13 @@ const schema = z
           ),
         "Поддерживаются только форматы JPEG, PNG и GIF"
       ),
-    password: z.string().min(6, "Пароль должен содержать минимум 6 символов"),
+    password: z
+      .string()
+      .min(6, "Мин. 6 символов")
+      .regex(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
+        "Пароль должен содержать заглавную, строчную букву, цифру и спецсимвол"
+      ),
     confirmPassword: z.string(),
     consent: z.boolean().refine((val) => val === true, {
       message: "Необходимо согласие на обработку персональных данных",
@@ -56,79 +64,64 @@ const schema = z
 type RegisterFormData = z.infer<typeof schema>;
 
 const RegisterData = () => {
-  authStore.page = "Регистрация";
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach((preview) => URL.revokeObjectURL(preview));
+    };
+  }, [imagePreviews]);
 
   const {
     register,
     handleSubmit,
     control,
     setValue,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      identityPhotos: undefined,
+      identityPhotos: [],
     },
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log(data);
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      await authStore.register(data);
+      navigate("/regards");
+    } catch (error) {
+      const axiosError = error as AxiosError;
+
+      if (axiosError.response?.status === 400) {
+        const errors = axiosError.response.data;
+
+        if (errors?.phone) {
+          setError("phoneNumber", {
+            type: "manual",
+            message: errors.phone[0],
+          });
+        }
+
+        if (errors?.telegram) {
+          setError("telegramLogin", {
+            type: "manual",
+            message: errors.telegram[0],
+          });
+        }
+      }
+    }
   };
 
-  const handleTakePhoto = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-
-    if (videoRef.current) {
-      videoRef.current.srcObject = stream;
-      videoRef.current.play();
-
-      setTimeout(() => {
-        const canvas = canvasRef.current;
-        if (canvas) {
-          const context = canvas.getContext("2d");
-          if (context && videoRef.current) {
-            context.drawImage(
-              videoRef.current,
-              0,
-              0,
-              canvas.width,
-              canvas.height
-            );
-            canvas.toBlob((blob) => {
-              if (blob) {
-                const file = new File([blob], "photo.jpg", {
-                  type: "image/jpeg",
-                });
-
-                const currentFiles = control._formValues.identityPhotos || [];
-                const dataTransfer = new DataTransfer();
-
-                if (Array.isArray(currentFiles)) {
-                  currentFiles.forEach((file) => dataTransfer.items.add(file));
-                } else if (currentFiles instanceof FileList) {
-                  Array.from(currentFiles).forEach((file) =>
-                    dataTransfer.items.add(file)
-                  );
-                }
-
-                dataTransfer.items.add(file);
-                const fileList = dataTransfer.files;
-
-                setValue("identityPhotos", fileList);
-
-                handleFileChange(fileList);
-              }
-            });
-          }
-        }
-        stream.getTracks().forEach((track) => track.stop());
-      }, 1000);
+  const handleTakePhoto = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.setAttribute("capture", "environment");
+      fileInputRef.current.click();
     }
   };
 
@@ -139,6 +132,13 @@ const RegisterData = () => {
   };
 
   const handleDeleteImage = (index: number) => {
+    const isConfirmed = window.confirm(
+      "Вы уверены, что хотите удалить это фото?"
+    );
+    if (!isConfirmed) return;
+
+    const deletedPreview = imagePreviews[index];
+    URL.revokeObjectURL(deletedPreview);
     const updatedPreviews = imagePreviews.filter((_, i) => i !== index);
     setImagePreviews(updatedPreviews);
 
@@ -219,11 +219,9 @@ const RegisterData = () => {
               type="button"
               className="register__btn register__btn-second"
               onClick={() => {
-                const fileInput = document.querySelector(
-                  'input[type="file"]'
-                ) as HTMLInputElement;
-                if (fileInput) {
-                  fileInput.click();
+                if (fileInputRef.current) {
+                  fileInputRef.current.removeAttribute("capture");
+                  fileInputRef.current.click();
                 }
               }}
             >
@@ -234,19 +232,16 @@ const RegisterData = () => {
               control={control}
               defaultValue={undefined}
               render={({ field }) => (
-                <InputField
+                <input
                   type="file"
-                  name="identityPhotos"
-                  className="register__photos"
-                  register={register}
-                  error={errors.identityPhotos}
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  accept="image/*"
                   multiple
                   onChange={(e) => {
                     const newFiles = e.target.files ? e.target.files : [];
-
                     const currentFiles =
                       control._formValues.identityPhotos || [];
-
                     const dataTransfer = new DataTransfer();
 
                     if (Array.isArray(currentFiles)) {
@@ -265,19 +260,12 @@ const RegisterData = () => {
                     const fileList = dataTransfer.files;
 
                     field.onChange(fileList);
-                    handleFileChange(fileList);
+                    handleFileChange(Array.from(newFiles));
                   }}
                 />
               )}
             />
           </div>
-          <video ref={videoRef} style={{ display: "none" }} />
-          <canvas
-            ref={canvasRef}
-            style={{ display: "none" }}
-            width={640}
-            height={480}
-          />
         </div>
         <div className="register__swiper">
           {imagePreviews.length > 0 ? (
@@ -353,5 +341,4 @@ const RegisterData = () => {
     </div>
   );
 };
-
 export default observer(RegisterData);

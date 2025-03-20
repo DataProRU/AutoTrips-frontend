@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FieldError,
   Merge,
@@ -38,6 +38,13 @@ const InputField: React.FC<InputFieldProps> = ({
   className,
 }) => {
   const isIdentityPhotos = name === "identityPhotos";
+  const [isEmpty, setIsEmpty] = useState(true);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsEmpty(e.target.value === "");
+    onChange?.(e);
+  };
 
   return (
     <div className={`group ${isIdentityPhotos ? "group-photos" : ""}`}>
@@ -48,10 +55,17 @@ const InputField: React.FC<InputFieldProps> = ({
           placeholder=""
           {...register(name)}
           multiple={multiple}
-          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onInput={handleInput}
           className={className}
         />
-        <span className="placeholder">
+
+        {error && <div className={`error`}>{error.message}</div>}
+
+        <span
+          className={`placeholder ${!isEmpty || isFocused ? "hidden" : ""}`}
+        >
           {placeholder} <span className="required">*</span>
         </span>
         {showPasswordButton && (
@@ -60,14 +74,17 @@ const InputField: React.FC<InputFieldProps> = ({
             className="password-toggle"
             onClick={onTogglePassword}
           >
-            {type === "password" ? 
-            <img src={HidePassword} alt="Показать пароль" /> : <img src={ShowPassword} alt="Скрыть пароль" />}
+            {type === "password" ? (
+              <img src={HidePassword} alt="Показать пароль" />
+            ) : (
+              <img src={ShowPassword} alt="Скрыть пароль" />
+            )}
           </button>
         )}
       </div>
       {error && (
         <p className={`error ${isIdentityPhotos ? "error-photos" : ""}`}>
-          {error.message}
+          {/* {error.message} */}
         </p>
       )}
     </div>

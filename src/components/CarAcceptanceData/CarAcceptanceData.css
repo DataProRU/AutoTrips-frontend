@@ -14,7 +14,7 @@
   margin-bottom: 18px;
 }
 
-.acceptance__comparison{
+.acceptance__comparison {
   margin-bottom: 18px !important;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .warning {
-  margin-bottom: 4px;
+  margin-bottom: 4px !important;
   height: 54px;
   background: var(--red);
   border: 1px solid var(--darck-blue-gray);

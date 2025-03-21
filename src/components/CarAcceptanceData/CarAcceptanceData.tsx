@@ -8,10 +8,13 @@ import getTodayDate from "../../utils/getTodayDate";
 import Select from "../../ui/Select/Select";
 import FileUploader from "../../ui/FileUploader/FileUploader";
 import InputField from "../../ui/Input/Input";
+import ReportsService from "../../services/ReportsService";
+import { AcceptanceData } from "../../@types/AcceptanceData";
+import { useEffect } from "react";
+import reportsStore from "../../store/ReportsStore";
 
 const schema = z.object({
-  acceptanceDate: z.string().min(1, "Дата принятия обязательно для заполнения"),
-  vinNumber: z.string().min(1, "VIN номер обязателен"),
+  vin: z.string().min(1, "VIN номер обязателен"),
   carPhotos: z
     .array(z.instanceof(File))
     .min(1, "Загрузите хотя бы одно фото")
@@ -55,6 +58,7 @@ const schema = z.object({
       "Поддерживаются только форматы JPEG, PNG и GIF"
     ),
   place: z.string().min(1, "Расположение авто обязательно"),
+  notes: z.string().optional(),
 });
 
 type CarAcceptanceFormData = z.infer<typeof schema>;
@@ -64,6 +68,7 @@ const CarAcceptanceData = () => {
     register,
     handleSubmit,
     control,
+    watch,
     formState: { errors },
   } = useForm<CarAcceptanceFormData>({
     resolver: zodResolver(schema),
@@ -71,35 +76,74 @@ const CarAcceptanceData = () => {
       carPhotos: [],
       keyPhotos: [],
       docsPhotos: [],
+      notes: "",
     },
   });
 
-  const vinOptions = [
-    { value: "1HGBH41JXMN109186", label: "1HGBH41JXMN109186" },
-    { value: "2HGFA16508H000001", label: "2HGFA16508H000001" },
-    { value: "3VWFE21C04M000001", label: "3VWFE21C04M000001" },
-  ];
+  useEffect(() => {
+    reportsStore.fetchCars();
+  }, []);
 
-  const onSubmit = (data: CarAcceptanceFormData) => {
-    console.log("Form data:", data);
+  const selectedVin = watch("vin");
+
+  const getCarModel = () => {
+    return selectedVin && reportsStore.vins[selectedVin]
+      ? reportsStore.vins[selectedVin]
+      : "";
+  };
+
+  const handleAcceptCar = async (data: CarAcceptanceFormData) => {
+    const submissionData: AcceptanceData = {
+      vin: data.vin,
+      model: getCarModel(),
+      carPhotos: data.carPhotos,
+      keyPhotos: data.keyPhotos,
+      docsPhotos: data.docsPhotos,
+      place: data.place,
+      notes: data.notes || "",
+      status: "Принят",
+    };
+
+    await ReportsService.addReport(submissionData);
+  };
+
+  const handleDamagedCar = async (data: CarAcceptanceFormData) => {
+    const submissionData: AcceptanceData = {
+      vin: data.vin,
+      model: getCarModel(),
+      carPhotos: data.carPhotos,
+      keyPhotos: data.keyPhotos,
+      docsPhotos: data.docsPhotos,
+      place: data.place,
+      notes: data.notes || "",
+      status: "Повреждён",
+    };
+
+    await ReportsService.addReport(submissionData);
   };
 
   return (
     <div className="acceptance__form">
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form>
         <p className="input acceptance__date">
           Дата принятия: {getTodayDate()}
         </p>
         <Select
-          name="vinNumber"
+          name="vin"
           control={control}
-          options={vinOptions}
+          options={reportsStore.vinOptions}
           placeholder="VIN номер"
-          error={errors.vinNumber}
+          error={errors.vin}
         />
 
-        <p className="acceptance__text">Марка: [марка автомобиля]</p>
-        <Button type="button" text="Сравнить модель" className="link acceptance__comparison" />
+        <p className="acceptance__text">
+          Марка: <span className="acceptance__text-model">{getCarModel()}</span>
+        </p>
+        <Button
+          type="button"
+          text="Сравнить модель"
+          className="link acceptance__comparison"
+        />
 
         <div className="group">
           <label className="label">
@@ -177,20 +221,29 @@ const CarAcceptanceData = () => {
           className="input"
         />
 
-        <input
+        <InputField
           type="text"
           placeholder="Комментарий"
           name="notes"
+          register={register}
+          error={errors.notes}
           className="input acceptance__notes"
         />
+
         <div className="acceptance__btns">
           <Button
-            type="submit"
+            type="button"
             text="Принять авто"
             className="link acceptance__btn"
+            onClick={handleSubmit(handleAcceptCar)}
           />
           <div className="acceptance__damaged acceptance__btn">
-            <Button type="submit" text="Повреждено" className="link warning" />
+            <Button
+              type="button"
+              text="Повреждено"
+              className="link warning"
+              onClick={handleSubmit(handleDamagedCar)}
+            />
             <span className="acceptance__warning">
               *Отправим запрос в тех. поддержку
             </span>

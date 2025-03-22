@@ -12,6 +12,7 @@ import ReportsService from "../../services/ReportsService";
 import { AcceptanceData } from "../../@types/AcceptanceData";
 import { useEffect } from "react";
 import reportsStore from "../../store/ReportsStore";
+import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
 
 const schema = z.object({
   vin: z.string().min(1, "VIN номер обязателен"),
@@ -120,6 +121,25 @@ const CarAcceptanceData = () => {
     };
 
     await ReportsService.addReport(submissionData);
+  };
+
+  const onAcceptCarSubmit = (data: CarAcceptanceFormData) => {
+    ConfirmModal({
+      title: "Подтверждение",
+      message: "Вы уверены, что хотите принять автомобиль?",
+      onConfirm: () => handleAcceptCar(data),
+      onCancel: () => console.log("Принятие отменено"),
+    });
+  };
+
+  const onDamagedCarSubmit = (data: CarAcceptanceFormData) => {
+    ConfirmModal({
+      title: "Подтверждение",
+      message:
+        "Вы уверены, что хотите отметить автомобиль как повреждённый? Это отправит запрос в тех. поддержку.",
+      onConfirm: () => handleDamagedCar(data),
+      onCancel: () => console.log("Отмена действия"),
+    });
   };
 
   return (
@@ -235,14 +255,14 @@ const CarAcceptanceData = () => {
             type="button"
             text="Принять авто"
             className="link acceptance__btn"
-            onClick={handleSubmit(handleAcceptCar)}
+            onClick={handleSubmit(onAcceptCarSubmit)}
           />
           <div className="acceptance__damaged acceptance__btn">
             <Button
               type="button"
               text="Повреждено"
               className="link warning"
-              onClick={handleSubmit(handleDamagedCar)}
+              onClick={handleSubmit(onDamagedCarSubmit)}
             />
             <span className="acceptance__warning">
               *Отправим запрос в тех. поддержку

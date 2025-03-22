@@ -16,6 +16,7 @@ import { AxiosError } from "../../models/response/AxiosError";
 import authStore from "../../store/AuthStore";
 import { useNavigate } from "react-router-dom";
 import FileUploader from "../../ui/FileUploader/FileUploader";
+import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
 
 const schema = z
   .object({
@@ -128,19 +129,22 @@ const RegisterData = () => {
   };
 
   const handleDeleteImage = (index: number) => {
-    const isConfirmed = window.confirm(
-      "Вы уверены, что хотите удалить это фото?"
-    );
-    if (!isConfirmed) return;
-
-    const deletedPreview = imagePreviews[index];
-    URL.revokeObjectURL(deletedPreview);
-    const updatedPreviews = imagePreviews.filter((_, i) => i !== index);
-    setImagePreviews(updatedPreviews);
-
-    const currentFiles = control._formValues.identityPhotos as File[];
-    const updatedFiles = currentFiles.filter((_, i) => i !== index);
-    setValue("identityPhotos", updatedFiles);
+    ConfirmModal({
+      title: "Удаление фото",
+      message: "Вы уверены, что хотите удалить это фото?",
+      onConfirm: () => {
+        const deletedPreview = imagePreviews[index];
+        URL.revokeObjectURL(deletedPreview);
+        const updatedPreviews = imagePreviews.filter((_, i) => i !== index);
+        setImagePreviews(updatedPreviews);
+  
+        const currentFiles = control._formValues.identityPhotos as File[];
+        const updatedFiles = currentFiles.filter((_, i) => i !== index);
+        setValue("identityPhotos", updatedFiles);
+      },
+      onCancel: () => {
+      },
+    });
   };
 
   const settings = {

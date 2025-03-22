@@ -109,11 +109,14 @@ class AuthStore {
     if (this.isCheckingAuth) return;
     try {
       this.isCheckingAuth = true;
+      console.log("Попытка обновления токена...");
       const response = await AuthService.refresh(refreshToken);
       localStorage.setItem("access", response.data.access);
       this.setAuth(true);
       this.setError(null);
+      console.log("Токен успешно обновлен");
     } catch (e) {
+      console.error("Ошибка обновления токена:", e);
       this.handleError(e);
       this.setAuth(false);
     } finally {

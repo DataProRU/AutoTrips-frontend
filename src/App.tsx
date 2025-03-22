@@ -15,11 +15,20 @@ function App() {
 
   useEffect(() => {
     const refreshToken = localStorage.getItem("refresh");
-    if (refreshToken) {
-      authStore.refresh(refreshToken);
-    } else {
-      authStore.refresh("test")
-    }
+
+    const refreshAuth = async () => {
+      if (refreshToken) {
+        try {
+          await authStore.refresh(refreshToken);
+        } catch (e) {
+          console.error("Ошибка обновления токена:", e);
+        }
+      } else {
+        console.log('Пользователь не был авторизован')
+      }
+    };
+
+    refreshAuth();
   }, []);
   
   return (

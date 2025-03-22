@@ -6,6 +6,8 @@ class AuthStore {
   role: string | null = null;
   isAuth: boolean = false;
   userId: number | null = null;
+  approved: boolean = false;
+  onboarded: boolean = false;
 
   page: string | null = null;
   errorMessage: string | null = null;
@@ -40,12 +42,20 @@ class AuthStore {
     makeAutoObservable(this);
   }
 
-  setUserId(userId: number) {
+  setUserId(userId: number | null) {
     this.userId = userId;
   }
 
   setAuth(auth: boolean) {
     this.isAuth = auth;
+  }
+
+  setApproved(approved: boolean) {
+    this.approved = approved;
+  }
+
+  setOnboarded(onboarded: boolean) {
+    this.onboarded = onboarded;
   }
 
   setRole(role: string | null) {
@@ -65,6 +75,8 @@ class AuthStore {
       this.setRole(response.data.role);
       this.setUserId(response.data.user_id);
       this.setError(null);
+      this.setApproved(response.data.approved);
+      this.setOnboarded(response.data.onboarded);
       return response;
     } catch (e) {
       this.handleError(e);
@@ -83,8 +95,11 @@ class AuthStore {
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
       this.setRole(null);
+      this.setUserId(null);
       this.setError(null);
       this.setAuth(false);
+      this.setApproved(false);
+      this.setOnboarded(false);
     } catch (e) {
       this.handleError(e);
     }
@@ -94,11 +109,14 @@ class AuthStore {
     if (this.isCheckingAuth) return;
     try {
       this.isCheckingAuth = true;
+      console.log("Попытка обновления токена...");
       const response = await AuthService.refresh(refreshToken);
       localStorage.setItem("access", response.data.access);
       this.setAuth(true);
       this.setError(null);
+      console.log("Токен успешно обновлен");
     } catch (e) {
+      console.error("Ошибка обновления токена:", e);
       this.handleError(e);
       this.setAuth(false);
     } finally {

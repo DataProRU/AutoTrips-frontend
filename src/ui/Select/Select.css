@@ -1,0 +1,15 @@
+.form-group {
+    position: relative;
+} 
+
+.react-select-container {
+    margin-bottom: 18px;
+}
+
+.react-select__indicator{
+    padding: 16px !important;
+}
+
+.react-select__control{
+    border-radius: 12px !important;
+}

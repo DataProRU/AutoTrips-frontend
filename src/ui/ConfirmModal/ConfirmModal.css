@@ -1,0 +1,36 @@
+.react-confirm-alert-body {
+    text-align: center;
+}
+
+.react-confirm-alert-body h1 {
+  margin-bottom: 10px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 28px;
+  text-align: center;
+  color: var(--black);
+}
+
+.react-confirm-alert-button-group{
+    display: flex;
+    justify-content: space-between;
+}
+
+.react-confirm-alert-button-group button {
+    padding: 10px;
+    width: 50%;
+}
+
+.react-confirm-alert-button-group button:first-child {
+    background-color: var(--primary);
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+}
+
+.react-confirm-alert-button-group button:last-child {
+    background-color: var(--red);
+    font-weight: 400;
+    font-size: 20px;
+    text-align: center;
+}

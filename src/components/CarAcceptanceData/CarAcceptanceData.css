@@ -1,0 +1,68 @@
+.acceptance__form {
+  padding: 94px 16px 0;
+}
+
+.acceptance__date {
+  position: relative;
+  z-index: 1;
+  padding: 20px 16px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--grey-dark);
+  background: transparent;
+  outline: none;
+  margin-bottom: 18px;
+}
+
+.acceptance__comparison {
+  margin-bottom: 18px !important;
+}
+
+.acceptance__text {
+  margin-bottom: 6px;
+  font-weight: 400;
+  font-size: 18px;
+  text-align: center;
+  color: var(--black);
+}
+
+.acceptance__notes {
+  margin-bottom: 19px;
+}
+
+.acceptance__notes::placeholder {
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--gray);
+}
+
+.acceptance__btns {
+  display: flex;
+  justify-content: space-between;
+  align-self: top;
+}
+
+.acceptance__btn {
+  width: 50%;
+  height: 54px;
+}
+
+.acceptance__btn:not(:last-child) {
+  margin-right: 20px;
+  margin-bottom: 0;
+}
+
+.warning {
+  margin-bottom: 4px !important;
+  height: 54px;
+  background: var(--red);
+  border: 1px solid var(--darck-blue-gray);
+}
+
+.acceptance__warning {
+  display: block;
+  font-weight: 400;
+  font-size: 10px;
+  text-align: center;
+  color: var(--black);
+}

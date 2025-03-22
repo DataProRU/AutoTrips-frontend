@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,6 +15,8 @@ import DeletePicture from "../../assets/swiper/delete.svg";
 import { AxiosError } from "../../models/response/AxiosError";
 import authStore from "../../store/AuthStore";
 import { useNavigate } from "react-router-dom";
+import FileUploader from "../../ui/FileUploader/FileUploader";
+import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
 
 const schema = z
   .object({
@@ -27,19 +29,15 @@ const schema = z
       .string()
       .min(1, "Логин Telegram обязателен для заполнения"),
     identityPhotos: z
-      .any()
+      .array(z.instanceof(File))
+      .min(1, "Загрузите хотя бы одно фото")
       .refine(
-        (files) => files && files.length > 0,
-        "Загрузите хотя бы одно фото"
-      )
-      .refine(
-        (files) =>
-          Array.from<File>(files).every((file) => file.size <= 5 * 1024 * 1024),
+        (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
         "Каждый файл должен быть меньше 5MB"
       )
       .refine(
         (files) =>
-          Array.from<File>(files).every((file) =>
+          files.every((file) =>
             ["image/jpeg", "image/png", "image/gif"].includes(file.type)
           ),
         "Поддерживаются только форматы JPEG, PNG и GIF"
@@ -68,7 +66,6 @@ const RegisterData = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -93,21 +90,27 @@ const RegisterData = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await authStore.register(data);
+      const dataTransfer = new DataTransfer();
+      data.identityPhotos.forEach((file) => dataTransfer.items.add(file));
+      const fileList = dataTransfer.files;
+
+      const updatedData = {
+        ...data,
+        identityPhotos: fileList,
+      };
+
+      await authStore.register(updatedData);
       navigate("/regards");
     } catch (error) {
       const axiosError = error as AxiosError;
-
       if (axiosError.response?.status === 400) {
         const errors = axiosError.response.data;
-
         if (errors?.phone) {
           setError("phoneNumber", {
             type: "manual",
             message: errors.phone[0],
           });
         }
-
         if (errors?.telegram) {
           setError("telegramLogin", {
             type: "manual",
@@ -118,40 +121,30 @@ const RegisterData = () => {
     }
   };
 
-  const handleTakePhoto = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.setAttribute("capture", "environment");
-      fileInputRef.current.click();
-    }
-  };
-
-  const handleFileChange = (files: FileList | File[]) => {
-    const fileArray = Array.from<File>(files);
+  const handleFileChange = (files: FileList) => {
+    const fileArray = Array.from(files);
     const newPreviews = fileArray.map((file) => URL.createObjectURL(file));
     setImagePreviews((prev) => [...prev, ...newPreviews]);
+    setValue("identityPhotos", fileArray);
   };
 
   const handleDeleteImage = (index: number) => {
-    const isConfirmed = window.confirm(
-      "Вы уверены, что хотите удалить это фото?"
-    );
-    if (!isConfirmed) return;
-
-    const deletedPreview = imagePreviews[index];
-    URL.revokeObjectURL(deletedPreview);
-    const updatedPreviews = imagePreviews.filter((_, i) => i !== index);
-    setImagePreviews(updatedPreviews);
-
-    const currentFiles = control._formValues.identityPhotos || [];
-    const updatedFiles = Array.from<File>(currentFiles).filter(
-      (_, i) => i !== index
-    );
-
-    const dataTransfer = new DataTransfer();
-    updatedFiles.forEach((file) => dataTransfer.items.add(file));
-    const fileList = dataTransfer.files;
-
-    setValue("identityPhotos", fileList);
+    ConfirmModal({
+      title: "Удаление фото",
+      message: "Вы уверены, что хотите удалить это фото?",
+      onConfirm: () => {
+        const deletedPreview = imagePreviews[index];
+        URL.revokeObjectURL(deletedPreview);
+        const updatedPreviews = imagePreviews.filter((_, i) => i !== index);
+        setImagePreviews(updatedPreviews);
+  
+        const currentFiles = control._formValues.identityPhotos as File[];
+        const updatedFiles = currentFiles.filter((_, i) => i !== index);
+        setValue("identityPhotos", updatedFiles);
+      },
+      onCancel: () => {
+      },
+    });
   };
 
   const settings = {
@@ -207,66 +200,25 @@ const RegisterData = () => {
             Фото для подтверждения личности{" "}
             <span className="register__label-required">*</span>
           </label>
-          <div className="register__buttons">
-            <button
-              type="button"
-              className="register__btn register__btn-first"
-              onClick={handleTakePhoto}
-            >
-              Сделать фото
-            </button>
-            <button
-              type="button"
-              className="register__btn register__btn-second"
-              onClick={() => {
-                if (fileInputRef.current) {
-                  fileInputRef.current.removeAttribute("capture");
-                  fileInputRef.current.click();
-                }
-              }}
-            >
-              Выбрать из галереи
-            </button>
-            <Controller
-              name="identityPhotos"
-              control={control}
-              defaultValue={undefined}
-              render={({ field }) => (
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  accept="image/*"
-                  multiple
-                  onChange={(e) => {
-                    const newFiles = e.target.files ? e.target.files : [];
-                    const currentFiles =
-                      control._formValues.identityPhotos || [];
-                    const dataTransfer = new DataTransfer();
-
-                    if (Array.isArray(currentFiles)) {
-                      currentFiles.forEach((file) =>
-                        dataTransfer.items.add(file)
-                      );
-                    } else if (currentFiles instanceof FileList) {
-                      Array.from(currentFiles).forEach((file) =>
-                        dataTransfer.items.add(file)
-                      );
-                    }
-                    Array.from(newFiles).forEach((file) =>
-                      dataTransfer.items.add(file)
-                    );
-
-                    const fileList = dataTransfer.files;
-
-                    field.onChange(fileList);
-                    handleFileChange(Array.from(newFiles));
-                  }}
-                />
-              )}
-            />
-          </div>
+          <Controller
+            name="identityPhotos"
+            control={control}
+            render={({ field }) => (
+              <FileUploader
+                onFilesSelected={(files) => {
+                  field.onChange(Array.from(files));
+                  handleFileChange(files);
+                }}
+              />
+            )}
+          />
+          {errors.identityPhotos && (
+            <span className="error error-photos">
+              {errors.identityPhotos.message}
+            </span>
+          )}
         </div>
+
         <div className="register__swiper">
           {imagePreviews.length > 0 ? (
             <>
@@ -336,9 +288,10 @@ const RegisterData = () => {
           label="Согласие на обработку персональных данных"
         />
 
-        <Button type="submit" text={"Зарегистрироваться"} className="link" />
+        <Button type="submit" text="Зарегистрироваться" className="link" />
       </form>
     </div>
   );
 };
+
 export default observer(RegisterData);

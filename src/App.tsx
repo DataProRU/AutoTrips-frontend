@@ -7,6 +7,7 @@ import Regards from "./pages/Regards/Regards";
 import { useContext, useEffect } from "react";
 import { Context } from "./main";
 import { observer } from "mobx-react";
+import CarAcceptance from "./pages/CarAcceptance/CarAcceptance";
 
 
 function App() {
@@ -14,17 +15,26 @@ function App() {
 
   useEffect(() => {
     const refreshToken = localStorage.getItem("refresh");
-    if (refreshToken) {
-      authStore.refresh(refreshToken);
-    } else {
-      authStore.refresh("test")
-    }
+
+    const refreshAuth = async () => {
+      if (refreshToken) {
+        try {
+          await authStore.refresh(refreshToken);
+        } catch (e) {
+          console.error("Ошибка обновления токена:", e);
+        }
+      } else {
+        console.log('Пользователь не был авторизован')
+      }
+    };
+
+    refreshAuth();
   }, []);
   
   return (
     <Router>
       <Routes>
-        <Route path="/" element={authStore.isAuth ? <Regards /> : <Main />} />
+        <Route path="/" element={authStore.isAuth ? <CarAcceptance /> : <Main />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
         <Route path="/regards" element={<Regards />} />

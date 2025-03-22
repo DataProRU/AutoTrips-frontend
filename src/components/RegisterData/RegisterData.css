@@ -2,7 +2,7 @@
   padding: 94px 16px 0;
 }
 
-.register__label {
+.label {
   display: inline-block;
   margin-bottom: 8px;
   font-weight: 400;
@@ -11,8 +11,12 @@
   color: var(--black);
 }
 
-.register__label-required {
+.label-required {
   color: var(--red);
+}
+
+.group{
+  position: relative;
 }
 
 .register__buttons {
@@ -23,29 +27,6 @@
   position: absolute;
   top: 10px;
   right: 10px;
-}
-
-.register__btn {
-  flex-grow: 1;
-  margin-bottom: 22px;
-  width: 50%;
-  padding: 12px 0;
-  background: var(--primary);
-  border: 1px solid var(--secondary);
-  font-weight: 400;
-  font-size: 14px;
-  text-align: center;
-  color: var(--white);
-}
-
-.register__btn-first {
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-}
-
-.register__btn-second {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
 }
 
 .register__swiper {
@@ -60,4 +41,8 @@
   display: flex;
   justify-content: center;
   margin-bottom: 14px;
+}
+
+.error-photos {
+  top: 75px;
 }

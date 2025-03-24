@@ -81,7 +81,7 @@ const RegisterData = () => {
     setValue,
     setError,
     formState: { errors },
-  } = useForm({
+  } = useForm<RegisterFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       identityPhotos: [],
@@ -124,8 +124,16 @@ const RegisterData = () => {
   const handleFileChange = (files: FileList) => {
     const fileArray = Array.from(files);
     const newPreviews = fileArray.map((file) => URL.createObjectURL(file));
+
+    const currentFiles = control._formValues.identityPhotos || [];
+    console.log("Current files before update:", currentFiles.length);
+
+    const updatedFiles = [...currentFiles, ...fileArray];
+    console.log("New files added:", fileArray.length);
+    console.log("Total files after update:", updatedFiles.length);
+
     setImagePreviews((prev) => [...prev, ...newPreviews]);
-    setValue("identityPhotos", fileArray);
+    setValue("identityPhotos", updatedFiles, { shouldValidate: true });
   };
 
   const handleDeleteImage = (index: number) => {
@@ -137,13 +145,12 @@ const RegisterData = () => {
         URL.revokeObjectURL(deletedPreview);
         const updatedPreviews = imagePreviews.filter((_, i) => i !== index);
         setImagePreviews(updatedPreviews);
-  
+
         const currentFiles = control._formValues.identityPhotos as File[];
         const updatedFiles = currentFiles.filter((_, i) => i !== index);
-        setValue("identityPhotos", updatedFiles);
+        setValue("identityPhotos", updatedFiles, { shouldValidate: true });
       },
-      onCancel: () => {
-      },
+      onCancel: () => {},
     });
   };
 
@@ -206,8 +213,8 @@ const RegisterData = () => {
             render={({ field }) => (
               <FileUploader
                 onFilesSelected={(files) => {
-                  field.onChange(Array.from(files));
-                  handleFileChange(files);
+                  handleFileChange(files); // Обработка всех файлов
+                  field.onChange(control._formValues.identityPhotos);
                 }}
               />
             )}

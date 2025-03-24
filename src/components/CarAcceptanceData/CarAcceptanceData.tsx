@@ -70,6 +70,7 @@ const CarAcceptanceData = () => {
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<CarAcceptanceFormData>({
     resolver: zodResolver(schema),
@@ -91,6 +92,20 @@ const CarAcceptanceData = () => {
     return selectedVin && reportsStore.vins[selectedVin]
       ? reportsStore.vins[selectedVin]
       : "";
+  };
+
+  const handleFileChange = (
+    files: FileList,
+    fieldName: "carPhotos" | "keyPhotos" | "docsPhotos",
+  ) => {
+    const fileArray = Array.from(files);
+
+    const currentFiles = control._formValues[fieldName] || [];
+    const updatedFiles = [...currentFiles, ...fileArray];
+
+    console.log(`Загружено ${fileArray.length} файла(ов) для поля ${fieldName}`);
+    console.log(`Всего файлов в поле ${fieldName}: ${updatedFiles.length}`);
+    setValue(fieldName, updatedFiles, { shouldValidate: true });
   };
 
   const handleAcceptCar = async (data: CarAcceptanceFormData) => {
@@ -176,7 +191,8 @@ const CarAcceptanceData = () => {
             render={({ field }) => (
               <FileUploader
                 onFilesSelected={(files) => {
-                  field.onChange(Array.from(files));
+                  handleFileChange(files, "carPhotos");
+                  field.onChange(control._formValues.carPhotos);
                 }}
               />
             )}
@@ -198,7 +214,8 @@ const CarAcceptanceData = () => {
             render={({ field }) => (
               <FileUploader
                 onFilesSelected={(files) => {
-                  field.onChange(Array.from(files));
+                  handleFileChange(files, "keyPhotos");
+                  field.onChange(control._formValues.keyPhotos);
                 }}
               />
             )}
@@ -220,7 +237,8 @@ const CarAcceptanceData = () => {
             render={({ field }) => (
               <FileUploader
                 onFilesSelected={(files) => {
-                  field.onChange(Array.from(files));
+                  handleFileChange(files, "docsPhotos");
+                  field.onChange(control._formValues.docsPhotos);
                 }}
               />
             )}

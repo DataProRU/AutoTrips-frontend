@@ -108,6 +108,13 @@ const CarAcceptanceData = () => {
     setValue(fieldName, updatedFiles, { shouldValidate: true });
   };
 
+  const handleDeleteFiles = (
+    updatedFiles: File[],
+    fieldName: "carPhotos" | "keyPhotos" | "docsPhotos"
+  ) => {
+    setValue(fieldName, updatedFiles, { shouldValidate: true });
+  };
+
   const handleAcceptCar = async (data: CarAcceptanceFormData) => {
     const submissionData: AcceptanceData = {
       vin: data.vin,
@@ -194,6 +201,7 @@ const CarAcceptanceData = () => {
                   handleFileChange(files, "carPhotos");
                   field.onChange(control._formValues.carPhotos);
                 }}
+                onDelete={(updatedFiles) => handleDeleteFiles(updatedFiles, "carPhotos")}
               />
             )}
           />
@@ -217,6 +225,7 @@ const CarAcceptanceData = () => {
                   handleFileChange(files, "keyPhotos");
                   field.onChange(control._formValues.keyPhotos);
                 }}
+                onDelete={(updatedFiles) => handleDeleteFiles(updatedFiles, "keyPhotos")}
               />
             )}
           />
@@ -240,6 +249,7 @@ const CarAcceptanceData = () => {
                   handleFileChange(files, "docsPhotos");
                   field.onChange(control._formValues.docsPhotos);
                 }}
+                onDelete={(updatedFiles) => handleDeleteFiles(updatedFiles, "docsPhotos")}
               />
             )}
           />

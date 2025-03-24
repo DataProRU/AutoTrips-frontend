@@ -213,9 +213,10 @@ const RegisterData = () => {
             render={({ field }) => (
               <FileUploader
                 onFilesSelected={(files) => {
-                  handleFileChange(files); // Обработка всех файлов
+                  handleFileChange(files);
                   field.onChange(control._formValues.identityPhotos);
                 }}
+                onDelete={() => {}}
               />
             )}
           />

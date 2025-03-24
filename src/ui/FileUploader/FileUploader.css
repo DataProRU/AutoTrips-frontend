@@ -1,7 +1,8 @@
 .file-uploader__btn {
   flex-grow: 1;
   margin-bottom: 22px;
-  width: 50%;
+  max-width: 50%;
+  min-width: 33%;
   padding: 12px 0;
   background: var(--primary);
   border: 1px solid var(--secondary);
@@ -9,13 +10,27 @@
   font-size: 14px;
   text-align: center;
   color: var(--white);
+
 }
 
 .file-uploader__btn-first {
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
+  min-width: 33%;
+  flex-grow: 1;
 }
 .file-uploader__btn-second {
+  min-width: 33%;
+  flex-grow: 1;
+}
+
+.file-uploader__btn-third {
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
+  min-width: 33%;
+  flex-grow: 1;
+}
+
+.file-uploader__buttons {
+  display: flex;
 }

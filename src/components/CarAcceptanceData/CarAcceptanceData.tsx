@@ -10,9 +10,11 @@ import FileUploader from "../../ui/FileUploader/FileUploader";
 import InputField from "../../ui/Input/Input";
 import ReportsService from "../../services/ReportsService";
 import { AcceptanceData } from "../../@types/AcceptanceData";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import reportsStore from "../../store/ReportsStore";
 import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
+import MessageBox from "../../ui/MessageBox/MessageBox";
+import ComparisonsData from "../ComparisonsData/ComparisonsData";
 
 const schema = z.object({
   vin: z.string().min(1, "VIN номер обязателен"),
@@ -65,11 +67,15 @@ const schema = z.object({
 type CarAcceptanceFormData = z.infer<typeof schema>;
 
 const CarAcceptanceData = () => {
+  const [uploaderKey, setUploaderKey] = useState(0);
+  const [showComparison, setShowComparison] = useState(false);
+
   const {
     register,
     handleSubmit,
     control,
     watch,
+    reset,
     setValue,
     formState: { errors },
   } = useForm<CarAcceptanceFormData>({
@@ -88,6 +94,18 @@ const CarAcceptanceData = () => {
 
   const selectedVin = watch("vin");
 
+  const resetForm = () => {
+    reset({
+      carPhotos: [],
+      keyPhotos: [],
+      docsPhotos: [],
+      notes: "",
+      place: "",
+      vin: "",
+    });
+    setUploaderKey((prev) => prev + 1);
+  };
+
   const getCarModel = () => {
     return selectedVin && reportsStore.vins[selectedVin]
       ? reportsStore.vins[selectedVin]
@@ -96,14 +114,16 @@ const CarAcceptanceData = () => {
 
   const handleFileChange = (
     files: FileList,
-    fieldName: "carPhotos" | "keyPhotos" | "docsPhotos",
+    fieldName: "carPhotos" | "keyPhotos" | "docsPhotos"
   ) => {
     const fileArray = Array.from(files);
 
     const currentFiles = control._formValues[fieldName] || [];
     const updatedFiles = [...currentFiles, ...fileArray];
 
-    console.log(`Загружено ${fileArray.length} файла(ов) для поля ${fieldName}`);
+    console.log(
+      `Загружено ${fileArray.length} файла(ов) для поля ${fieldName}`
+    );
     console.log(`Всего файлов в поле ${fieldName}: ${updatedFiles.length}`);
     setValue(fieldName, updatedFiles, { shouldValidate: true });
   };
@@ -128,6 +148,14 @@ const CarAcceptanceData = () => {
     };
 
     await ReportsService.addReport(submissionData);
+
+    MessageBox({
+      title: "Успешно",
+      message: "Операция выполнена успешно",
+      onClose: () => {},
+      buttonText: "ОК",
+    });
+    resetForm();
   };
 
   const handleDamagedCar = async (data: CarAcceptanceFormData) => {
@@ -143,6 +171,14 @@ const CarAcceptanceData = () => {
     };
 
     await ReportsService.addReport(submissionData);
+
+    MessageBox({
+      title: "Успешно",
+      message: "Операция выполнена успешно. Запрос отправлен в тех поддержку",
+      onClose: () => {},
+      buttonText: "ОК",
+    });
+    resetForm();
   };
 
   const onAcceptCarSubmit = (data: CarAcceptanceFormData) => {
@@ -163,6 +199,15 @@ const CarAcceptanceData = () => {
       onCancel: () => console.log("Отмена действия"),
     });
   };
+
+  if (showComparison) {
+    return (
+      <ComparisonsData 
+        onBack={() => setShowComparison(false)} 
+        initialVin={selectedVin}
+      />
+    );
+  }
 
   return (
     <div className="acceptance__form">
@@ -185,6 +230,8 @@ const CarAcceptanceData = () => {
           type="button"
           text="Сравнить модель"
           className="link acceptance__comparison"
+          disabled={!selectedVin}
+          onClick={() => setShowComparison(true)}
         />
 
         <div className="group">
@@ -197,11 +244,14 @@ const CarAcceptanceData = () => {
             control={control}
             render={({ field }) => (
               <FileUploader
+                key={`carPhotos-${uploaderKey}`}
                 onFilesSelected={(files) => {
                   handleFileChange(files, "carPhotos");
                   field.onChange(control._formValues.carPhotos);
                 }}
-                onDelete={(updatedFiles) => handleDeleteFiles(updatedFiles, "carPhotos")}
+                onDelete={(updatedFiles) =>
+                  handleDeleteFiles(updatedFiles, "carPhotos")
+                }
               />
             )}
           />
@@ -221,11 +271,14 @@ const CarAcceptanceData = () => {
             control={control}
             render={({ field }) => (
               <FileUploader
+                key={`keyPhotos-${uploaderKey}`}
                 onFilesSelected={(files) => {
                   handleFileChange(files, "keyPhotos");
                   field.onChange(control._formValues.keyPhotos);
                 }}
-                onDelete={(updatedFiles) => handleDeleteFiles(updatedFiles, "keyPhotos")}
+                onDelete={(updatedFiles) =>
+                  handleDeleteFiles(updatedFiles, "keyPhotos")
+                }
               />
             )}
           />
@@ -245,11 +298,14 @@ const CarAcceptanceData = () => {
             control={control}
             render={({ field }) => (
               <FileUploader
+                key={`docsPhotos-${uploaderKey}`}
                 onFilesSelected={(files) => {
                   handleFileChange(files, "docsPhotos");
                   field.onChange(control._formValues.docsPhotos);
                 }}
-                onDelete={(updatedFiles) => handleDeleteFiles(updatedFiles, "docsPhotos")}
+                onDelete={(updatedFiles) =>
+                  handleDeleteFiles(updatedFiles, "docsPhotos")
+                }
               />
             )}
           />

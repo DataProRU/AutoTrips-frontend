@@ -1,6 +1,16 @@
 import { makeAutoObservable } from "mobx";
 import AuthService from "../services/AuthService";
 import { RegisterFormData } from "../@types/RegisterFormData";
+import { jwtDecode } from "jwt-decode";
+
+interface JwtPayload {
+  user_id: number;
+  role: string;
+  exp: number;
+  iat?: number;
+  approved: boolean;
+  onboarded: boolean;
+}
 
 class AuthStore {
   role: string | null = null;
@@ -66,17 +76,34 @@ class AuthStore {
     this.errorMessage = message;
   }
 
+  decodeToken(token: string | null): JwtPayload | null {
+    if (!token) return null;
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      return decoded;
+    } catch (e) {
+      console.error("Ошибка декодирования JWT:", e);
+      this.setError("Невалидный токен");
+      return null;
+    }
+  }
+
   async login(login: string, password: string) {
     try {
       const response = await AuthService.login(login, password);
-      localStorage.setItem("access", response.data.access);
+      const accessToken = response.data.access
+      localStorage.setItem("access", accessToken);
       localStorage.setItem("refresh", response.data.refresh);
       this.setAuth(true);
-      this.setRole(response.data.role);
-      this.setUserId(response.data.user_id);
+      const decoded = this.decodeToken(accessToken);
+      if (decoded) {
+        this.setRole(decoded.role);
+        this.setUserId(decoded.user_id);
+        this.setApproved(decoded.approved);
+        this.setOnboarded(decoded.onboarded);
+      }
       this.setError(null);
-      this.setApproved(response.data.approved);
-      this.setOnboarded(response.data.onboarded);
+      
       return response;
     } catch (e) {
       this.handleError(e);
@@ -90,7 +117,6 @@ class AuthStore {
 
   async logout() {
     try {
-      //await AuthService.logout();
       this.isAuth = false;
       localStorage.removeItem("access");
       localStorage.removeItem("refresh");
@@ -111,7 +137,16 @@ class AuthStore {
       this.isCheckingAuth = true;
       console.log("Попытка обновления токена...");
       const response = await AuthService.refresh(refreshToken);
-      localStorage.setItem("access", response.data.access);
+      const accessToken = response.data.access
+      localStorage.setItem("access", accessToken);
+      const decoded = this.decodeToken(accessToken);
+      if (decoded) {
+        this.setRole(decoded.role);
+        this.setUserId(decoded.user_id);
+        this.setApproved(decoded.approved);
+        this.setOnboarded(decoded.onboarded);
+        console.log(decoded.onboarded)
+      }
       this.setAuth(true);
       this.setError(null);
       console.log("Токен успешно обновлен");
@@ -119,9 +154,20 @@ class AuthStore {
       console.error("Ошибка обновления токена:", e);
       this.handleError(e);
       this.setAuth(false);
+      this.setRole(null);
     } finally {
       this.isCheckingAuth = false;
     }
+  }
+
+  async onboard() {
+    try {
+      await AuthService.onboard();
+      this.setOnboarded(true);
+    } catch {
+      this.setOnboarded(false);
+    }
+
   }
 }
 

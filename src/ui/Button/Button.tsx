@@ -4,20 +4,22 @@ import "./Button.css";
 
 interface ButtonProps {
   text: string;
-  type?: "button" | "submit"; // Only button types
-  to?: string; // Link destination
+  type?: "button" | "submit";
+  to?: string;
   onClick?: () => void;
   className?: string;
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
   text,
-  type = "button", // Default to "button"
+  type = "button",
   to,
   onClick,
   className,
+  disabled = false,
 }) => {
-  if (to) { // If 'to' is provided, render a Link
+  if (to) {
     return (
       <Link to={to} className={className}>
         {text}
@@ -26,7 +28,12 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button type={type} onClick={onClick} className={className}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={className}
+      disabled={disabled}
+    >
       {text}
     </button>
   );

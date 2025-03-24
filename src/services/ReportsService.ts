@@ -47,4 +47,8 @@ export default class ReportsService {
   static getCars() {
     return $api.get<CarsResponse>("/autotrips/reports/cars/");
   }
+
+  static getVinReports(vin: string) {
+    return $api.get(`/autotrips/reports/?vin=${vin}`);
+  }
 }

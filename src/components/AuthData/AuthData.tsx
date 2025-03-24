@@ -33,7 +33,8 @@ const AuthData = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     await authStore.login(data.login, data.password);
-    if (authStore.isAuth) {
+    const response = await authStore.login(data.login, data.password);
+    if (response && authStore.isAuth) {
       navigate("/");
     }
   };

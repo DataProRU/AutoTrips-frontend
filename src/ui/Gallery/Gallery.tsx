@@ -4,14 +4,21 @@ import "./Gallery.css";
 import FullscreenSlider from "../FullscreenSlider/FullscreenSlider.tsx";
 import DeletePicture from "../../assets/swiper/delete.svg";
 import Button from "../Button/Button.tsx";
+import ConfirmModal from "../ConfirmModal/ConfirmModal.tsx";
 
 interface GalleryProps {
   photos: File[];
   onClose: () => void;
   onDelete: (updatedPhotos: File[]) => void;
+  isDeletable?: boolean;
 }
 
-const Gallery: React.FC<GalleryProps> = ({ photos, onClose, onDelete }) => {
+const Gallery: React.FC<GalleryProps> = ({
+  photos,
+  onClose,
+  onDelete,
+  isDeletable = true,
+}) => {
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
   const [currentPhotos, setCurrentPhotos] = useState<File[]>(photos);
 
@@ -24,9 +31,21 @@ const Gallery: React.FC<GalleryProps> = ({ photos, onClose, onDelete }) => {
   }, []);
 
   const handleDeleteImage = (index: number) => {
-    const updatedPhotos = currentPhotos.filter((_, i) => i !== index);
-    setCurrentPhotos(updatedPhotos);
-    onDelete(updatedPhotos);
+    if (document.querySelector('.react-confirm-alert')) {
+      return;
+    }
+    
+    ConfirmModal({
+      title: "Удаление фото",
+      message: "Вы уверены, что хотите удалить это фото?",
+      onConfirm: () => {
+        const updatedPhotos = currentPhotos.filter((_, i) => i !== index);
+        setCurrentPhotos(updatedPhotos);
+        onDelete(updatedPhotos);
+      },
+      onCancel: () => {},
+    });
+
   };
 
   return (
@@ -47,13 +66,15 @@ const Gallery: React.FC<GalleryProps> = ({ photos, onClose, onDelete }) => {
                 className="gallery-img"
                 onClick={() => setSelectedPhoto(index)}
               />
-              <button
-                type="button"
-                className="register__delete"
-                onClick={() => handleDeleteImage(index)}
-              >
-                <img src={DeletePicture} alt="Картинка удаления" />
-              </button>
+              {isDeletable ? (
+                <button
+                  type="button"
+                  className="gallery__delete"
+                  onClick={() => handleDeleteImage(index)}
+                >
+                  <img src={DeletePicture} alt="Картинка удаления" />
+                </button>
+              ) : null}
             </div>
           ))}
         </div>

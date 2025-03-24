@@ -8,7 +8,8 @@ import { useContext, useEffect } from "react";
 import { Context } from "./main";
 import { observer } from "mobx-react";
 import CarAcceptance from "./pages/CarAcceptance/CarAcceptance";
-
+import Comparisons from "./pages/Comparisons/Comparisons";
+import Guide from "./pages/Guide/Guide";
 
 function App() {
   const { authStore } = useContext(Context);
@@ -24,20 +25,34 @@ function App() {
           console.error("Ошибка обновления токена:", e);
         }
       } else {
-        console.log('Пользователь не был авторизован')
+        console.log("Пользователь не был авторизован");
       }
     };
 
     refreshAuth();
   }, []);
-  
+
+  function getHomeComponent() {
+    if (!authStore.isAuth) return <Main />;
+
+    if (authStore.role === "user") {
+      if (!authStore.approved) return <Regards />;
+      if (!authStore.onboarded) return <Guide />;
+      return <CarAcceptance />;
+    }
+
+    if (authStore.role === "admin") return <Comparisons />;
+
+    return <Main />;
+  }
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={authStore.isAuth ? <CarAcceptance /> : <Main />} />
+        <Route path="/" element={getHomeComponent()} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/regards" element={<Regards />} />
+        <Route path="/camparisons" element={<Comparisons />} />
       </Routes>
     </Router>
   );

@@ -1,22 +1,19 @@
+// RegisterData.tsx
 import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import Slider from "react-slick";
 import "./RegisterData.css";
 import InputField from "../../ui/Input/Input";
 import Button from "../../ui/Button/Button";
-import SwiperPreview from "../../assets/swiper/swiper-preview.svg";
-import Swipe from "../../assets/swiper/swipe.svg";
-import Pagination from "../../ui/Pagination/Pagination";
 import { observer } from "mobx-react";
 import Checkbox from "../../ui/Checkbox/Checkbox";
-import DeletePicture from "../../assets/swiper/delete.svg";
 import { AxiosError } from "../../models/response/AxiosError";
 import authStore from "../../store/AuthStore";
 import { useNavigate } from "react-router-dom";
 import FileUploader from "../../ui/FileUploader/FileUploader";
 import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
+import ImageSlider from "../../ui/ImageSlider/ImageSlider";
 
 const schema = z
   .object({
@@ -100,7 +97,7 @@ const RegisterData = () => {
       };
 
       await authStore.register(updatedData);
-      navigate("/regards");
+      navigate("/");
     } catch (error) {
       const axiosError = error as AxiosError;
       if (axiosError.response?.status === 400) {
@@ -126,11 +123,7 @@ const RegisterData = () => {
     const newPreviews = fileArray.map((file) => URL.createObjectURL(file));
 
     const currentFiles = control._formValues.identityPhotos || [];
-    console.log("Current files before update:", currentFiles.length);
-
     const updatedFiles = [...currentFiles, ...fileArray];
-    console.log("New files added:", fileArray.length);
-    console.log("Total files after update:", updatedFiles.length);
 
     setImagePreviews((prev) => [...prev, ...newPreviews]);
     setValue("identityPhotos", updatedFiles, { shouldValidate: true });
@@ -152,24 +145,6 @@ const RegisterData = () => {
       },
       onCancel: () => {},
     });
-  };
-
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: (
-      <button className="arrow next">
-        <img src={Swipe} alt="Следующий слайд" />
-      </button>
-    ),
-    prevArrow: (
-      <button className="arrow prev">
-        <img src={Swipe} alt="Предыдущий слайд" />
-      </button>
-    ),
   };
 
   return (
@@ -217,6 +192,7 @@ const RegisterData = () => {
                   field.onChange(control._formValues.identityPhotos);
                 }}
                 onDelete={() => {}}
+                isDeletable={false}
               />
             )}
           />
@@ -227,45 +203,12 @@ const RegisterData = () => {
           )}
         </div>
 
-        <div className="register__swiper">
-          {imagePreviews.length > 0 ? (
-            <>
-              <Slider
-                {...settings}
-                afterChange={(current: number) => setCurrentSlide(current)}
-              >
-                {imagePreviews.map((src, index) => (
-                  <div key={index} className="slide-container">
-                    <img
-                      src={src}
-                      alt={`preview ${index}`}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <button
-                      type="button"
-                      className="register__delete"
-                      onClick={() => handleDeleteImage(index)}
-                    >
-                      <img src={DeletePicture} alt="Картинка удаления" />
-                    </button>
-                  </div>
-                ))}
-              </Slider>
-              <Pagination
-                currentSlide={currentSlide}
-                totalSlides={imagePreviews.length}
-              />
-            </>
-          ) : (
-            <div className="register__slider">
-              <img src={SwiperPreview} alt="Превью слайдера" />
-            </div>
-          )}
-        </div>
+        <ImageSlider
+          imagePreviews={imagePreviews}
+          currentSlide={currentSlide}
+          onSlideChange={setCurrentSlide}
+          onDeleteImage={handleDeleteImage}
+        />
 
         <InputField
           type={showPassword ? "text" : "password"}

@@ -1,0 +1,78 @@
+.fullscreen-slider {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  z-index: 9999;
+}
+
+.fullscreen-slick-slider {
+  width: 100vw;
+  height: 100vh;
+}
+
+.fullscreen-slick-slider .slick-list {
+  width: 100vw;
+  height: 100vh;
+}
+
+.fullscreen-slick-slider .slick-slide {
+  width: 100vw;
+  height: 100vh;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullscreen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.close-fullscreen-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+  z-index: 10000;
+}
+
+.fullscreen-slick-slider .slick-prev,
+.fullscreen-slick-slider .slick-next {
+  z-index: 10;
+}
+
+.fullscreen-slick-slider .slick-prev {
+  transform: rotate(180deg) translateY(-100%);
+  left: 20px;
+}
+
+.fullscreen-slick-slider .slick-next {
+  right: 20px;
+}
+
+.fullscreen-slick-slider .slick-prev:before,
+.fullscreen-slick-slider .slick-next:before {
+  content: none;
+}
+
+.fullscreen-slick-slider .slick-dots {
+  bottom: 20px;
+}
+
+.fullscreen-slick-slider .slick-dots li button:before {
+  color: white;
+  opacity: 1;
+}
+
+.fullscreen-slick-slider .slick-dots li.slick-active button:before {
+  color: var(--primary);
+}
+

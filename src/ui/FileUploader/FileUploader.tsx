@@ -1,12 +1,16 @@
-import { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./FileUploader.css";
+import Gallery from "../Gallery/Gallery";
 
 interface FileUploaderProps {
   onFilesSelected: (files: FileList) => void;
+  onDelete: (updatedFiles: File[]) => void;
 }
 
-const FileUploader = ({ onFilesSelected }: FileUploaderProps) => {
+const FileUploader = ({ onFilesSelected, onDelete }: FileUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const handleTakePhoto = () => {
     if (fileInputRef.current) {
@@ -24,8 +28,15 @@ const FileUploader = ({ onFilesSelected }: FileUploaderProps) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
+      const filesArray = Array.from(e.target.files);
+      setSelectedFiles((prevFiles) => [...prevFiles, ...filesArray]);
       onFilesSelected(e.target.files);
     }
+  };
+
+  const handleDelete = (updatedFiles: File[]) => {
+    setSelectedFiles(updatedFiles);
+    onDelete(updatedFiles);
   };
 
   return (
@@ -45,7 +56,17 @@ const FileUploader = ({ onFilesSelected }: FileUploaderProps) => {
         >
           Выбрать из галереи
         </button>
+        {selectedFiles.length > 0 && (
+          <button
+            type="button"
+            className="file-uploader__btn file-uploader__btn-third"
+            onClick={() => setModalOpen(true)}
+          >
+            Посмотреть фото
+          </button>
+        )}
       </div>
+
       <input
         type="file"
         ref={fileInputRef}
@@ -54,6 +75,14 @@ const FileUploader = ({ onFilesSelected }: FileUploaderProps) => {
         multiple
         onChange={handleFileChange}
       />
+
+      {isModalOpen && (
+        <Gallery
+          photos={selectedFiles}
+          onClose={() => setModalOpen(false)}
+          onDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };

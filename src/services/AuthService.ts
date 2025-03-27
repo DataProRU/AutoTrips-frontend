@@ -44,6 +44,12 @@ export default class AuthService {
   }
 
   static async refresh(refreshToken: string) {
-    return $api.post<AuthResponse>("/accounts/token/refresh/", { refresh: refreshToken });
+    return $api.post<AuthResponse>("/accounts/token/refresh/", {
+      refresh: refreshToken,
+    });
+  }
+
+  static async onboard() {
+    return $api.patch<AuthResponse>("/accounts/users/current-user/onboard/");
   }
 }

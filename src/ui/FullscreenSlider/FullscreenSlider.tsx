@@ -8,7 +8,7 @@ import Swipe from "../../assets/swiper/swipe.svg";
 import Close from "../../assets/modals/close.svg";
 
 interface FullscreenSliderProps {
-  photos: File[];
+  photos: File[] | string[];
   initialSlide: number;
   onClose: () => void;
 }
@@ -38,6 +38,11 @@ const FullscreenSlider: React.FC<FullscreenSliderProps> = ({
     ),
   };
 
+  const getImageSrc = (item: File | string) => {
+    return typeof item === 'string' ? item : URL.createObjectURL(item);
+  };
+
+
   return (
     <div className="fullscreen-slider">
       <Slider {...sliderSettings} className="fullscreen-slick-slider">
@@ -60,7 +65,7 @@ const FullscreenSlider: React.FC<FullscreenSliderProps> = ({
                 }}
               >
                 <img
-                  src={URL.createObjectURL(file)}
+                  src={getImageSrc(file)}
                   alt={`Фото ${index + 1}`}
                   className="fullscreen-img"
                 />

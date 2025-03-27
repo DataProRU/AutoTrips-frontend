@@ -5,9 +5,14 @@ import Gallery from "../Gallery/Gallery";
 interface FileUploaderProps {
   onFilesSelected: (files: FileList) => void;
   onDelete: (updatedFiles: File[]) => void;
+  isDeletable?: boolean;
 }
 
-const FileUploader = ({ onFilesSelected, onDelete }: FileUploaderProps) => {
+const FileUploader = ({
+  onFilesSelected,
+  onDelete,
+  isDeletable = true,
+}: FileUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -81,6 +86,7 @@ const FileUploader = ({ onFilesSelected, onDelete }: FileUploaderProps) => {
           photos={selectedFiles}
           onClose={() => setModalOpen(false)}
           onDelete={handleDelete}
+          isDeletable={isDeletable}
         />
       )}
     </div>

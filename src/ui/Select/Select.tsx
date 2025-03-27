@@ -1,4 +1,3 @@
-// src/ui/Select/Select.tsx
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 import "./Select.css";
@@ -6,14 +5,15 @@ import "./Select.css";
 interface CustomSelectProps {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: any;
-  options: { value: string; label: string }[];
+  control?: any;
+  options: { value: string; label: string}[];
   placeholder?: string;
   isClearable?: boolean;
   isSearchable?: boolean;
   className?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any;
+  disabled?: boolean;
 }
 
 const CustomSelect = ({
@@ -25,6 +25,7 @@ const CustomSelect = ({
   isSearchable = true,
   className,
   error,
+  disabled = false,
 }: CustomSelectProps) => {
   return (
     <div className={`form-group ${className || ""}`}>
@@ -45,6 +46,7 @@ const CustomSelect = ({
               field.onChange(selectedOption?.value || "")
             }
             value={options.find((option) => option.value === field.value) || null}
+            isDisabled={disabled}
           />
         )}
       />

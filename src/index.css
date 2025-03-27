@@ -50,37 +50,3 @@ button {
   cursor: pointer;
   outline: none;
 }
-
-.slick-list{
-  width: 75%;
-  margin: 0 auto;
-  height: 154px;
-  border-radius: 12px;
-  border: 1px solid var(--primary);
-}
-
-.slick-slider {
-  margin-bottom: 14px;
-} 
-
-.slide-container {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-.slick-prev {
-  left: 0;
-  top: 64%;
-  width: 50px;
-  height: 50px;
-  transform: translateY(-50%) rotate(180deg);
-}
-
-.slick-next {
-  right: 0;
-  top: 36%;
-  width: 50px;
-  height: 50px;
-  transform: translateY(-50%);
-}

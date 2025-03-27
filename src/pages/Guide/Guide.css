@@ -1,0 +1,22 @@
+.guide {
+  padding: 162px 16px 0;
+}
+
+.guide__text {
+  margin-bottom: 32px;
+  font-weight: 400;
+  font-size: 20px;
+  text-align: center;
+  color: var(--black);
+}
+
+.guide__video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+  width: 100%;
+  height: 209px;
+  border: 1px solid black;
+  border-radius: 10px;
+}

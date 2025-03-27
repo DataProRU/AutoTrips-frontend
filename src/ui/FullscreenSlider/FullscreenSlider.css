@@ -50,12 +50,13 @@
 }
 
 .fullscreen-slick-slider .slick-prev {
-  transform: rotate(180deg) translateY(-100%);
-  left: 20px;
+  top: 50%;
+  left: 0;
 }
 
 .fullscreen-slick-slider .slick-next {
-  right: 20px;
+  top: 50%;
+  right: 0;
 }
 
 .fullscreen-slick-slider .slick-prev:before,

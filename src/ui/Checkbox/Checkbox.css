@@ -6,7 +6,7 @@
 
 .checkbox-group {
   position: relative;
-  margin-bottom: 1.4rem;
+  margin-bottom: 2.2rem;
 }
 
 .checkbox-container {
@@ -73,7 +73,6 @@
 }
 
 .error-checkbox {
-  top: 22px;
+  top: 38px;
   text-align: center;
-
 }

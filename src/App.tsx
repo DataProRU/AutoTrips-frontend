@@ -8,8 +8,13 @@ import { useContext, useEffect } from "react";
 import { Context } from "./main";
 import { observer } from "mobx-react";
 import CarAcceptance from "./pages/CarAcceptance/CarAcceptance";
-import Comparisons from "./pages/Comparisons/Comparisons";
 import Guide from "./pages/Guide/Guide";
+import AdminPage from "./pages/AdminPage/AdminPage";
+import Documents from "./pages/Documents/Documents";
+import CarPhotos from "./pages/CarPhotos/CarPhotos";
+import KeyPhotos from "./pages/KeyPhotos/KeyPhotos";
+import DocsPhotos from "./pages/DocsPhotos/DocsPhotos";
+import UserDocs from "./pages/UserDocs/UserDocs";
 
 function App() {
   const { authStore } = useContext(Context);
@@ -41,7 +46,7 @@ function App() {
       return <CarAcceptance />;
     }
 
-    if (authStore.role === "admin") return <Comparisons />;
+    if (authStore.role === "admin") return <AdminPage />;
 
     return <Main />;
   }
@@ -52,7 +57,11 @@ function App() {
         <Route path="/" element={getHomeComponent()} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/camparisons" element={<Comparisons />} />
+        <Route path="/documents" element={<Documents />} />
+        <Route path="/reports/:reportId/car-photos" element={<CarPhotos />} />
+        <Route path="/reports/:reportId/key-photos" element={<KeyPhotos />} />
+        <Route path="/reports/:reportId/doc-photos" element={<DocsPhotos />} />
+        <Route path="/docs/:userId" element={<UserDocs />} />
       </Routes>
     </Router>
   );

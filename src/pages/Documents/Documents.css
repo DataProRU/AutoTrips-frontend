@@ -1,0 +1,34 @@
+
+
+.error-text {
+    margin-bottom: 20px;
+}
+
+.documents .link{
+  margin-bottom: 10px;
+}
+
+.documents {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 20px);
+  padding: 93px 16px 0;
+}
+
+.documents__title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.documents__scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.documents__users {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

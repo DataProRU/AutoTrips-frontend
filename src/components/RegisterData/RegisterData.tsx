@@ -1,4 +1,3 @@
-// RegisterData.tsx
 import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,49 +13,54 @@ import { useNavigate } from "react-router-dom";
 import FileUploader from "../../ui/FileUploader/FileUploader";
 import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
 import ImageSlider from "../../ui/ImageSlider/ImageSlider";
+import { useTranslation } from "react-i18next";
 
-const schema = z
-  .object({
-    fullName: z.string().min(1, "ФИО обязательно для заполнения"),
-    phoneNumber: z
-      .string()
-      .min(1, "Номер телефона обязателен для заполнения")
-      .regex(/^\+?[0-9]{10,15}$/, "Номер телефона должен быть действительным"),
-    telegramLogin: z
-      .string()
-      .min(1, "Логин Telegram обязателен для заполнения"),
-    identityPhotos: z
-      .array(z.instanceof(File))
-      .min(1, "Загрузите хотя бы одно фото")
-      .refine(
-        (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
-        "Каждый файл должен быть меньше 5MB"
-      )
-      .refine(
-        (files) =>
-          files.every((file) =>
-            ["image/jpeg", "image/png", "image/gif"].includes(file.type)
-          ),
-        "Поддерживаются только форматы JPEG, PNG и GIF"
-      ),
-    password: z
-      .string()
-      .min(6, "Мин. 6 символов")
-      .regex(
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
-        "Пароль должен содержать заглавную, строчную букву, цифру и спецсимвол"
-      ),
-    confirmPassword: z.string(),
-    consent: z.boolean().refine((val) => val === true, {
-      message: "Необходимо согласие на обработку персональных данных",
-    }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Пароли должны совпадать",
-    path: ["confirmPassword"],
-  });
+const getSchema = (t: (key: string) => string) =>
+  z
+    .object({
+      fullName: z.string().min(1, t("registerData.errors.fullNameRequired")),
+      phoneNumber: z
+        .string()
+        .min(1, t("registerData.errors.phoneNumberRequired"))
+        .regex(
+          /^\+?[0-9]{10,15}$/,
+          t("registerData.errors.phoneNumberInvalid")
+        ),
+      telegramLogin: z
+        .string()
+        .min(1, t("registerData.errors.telegramLoginRequired")),
+      identityPhotos: z
+        .array(z.instanceof(File))
+        .min(1, t("registerData.errors.photosRequired"))
+        .refine(
+          (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
+          t("registerData.errors.fileSizeLimit")
+        )
+        .refine(
+          (files) =>
+            files.every((file) =>
+              ["image/jpeg", "image/png", "image/gif"].includes(file.type)
+            ),
+          t("registerData.errors.fileFormatLimit")
+        ),
+      password: z
+        .string()
+        .min(6, t("registerData.errors.passwordRequired"))
+        .regex(
+          /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
+          t("registerData.errors.passwordComplexity")
+        ),
+      confirmPassword: z.string(),
+      consent: z.boolean().refine((val) => val === true, {
+        message: t("registerData.errors.consentRequired"),
+      }),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t("registerData.errors.passwordsMustMatch"),
+      path: ["confirmPassword"],
+    });
 
-type RegisterFormData = z.infer<typeof schema>;
+type RegisterFormData = z.infer<ReturnType<typeof getSchema>>;
 
 const RegisterData = () => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
@@ -64,6 +68,7 @@ const RegisterData = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -79,7 +84,7 @@ const RegisterData = () => {
     setError,
     formState: { errors },
   } = useForm<RegisterFormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(getSchema(t)),
     defaultValues: {
       identityPhotos: [],
     },
@@ -131,8 +136,10 @@ const RegisterData = () => {
 
   const handleDeleteImage = (index: number) => {
     ConfirmModal({
-      title: "Удаление фото",
-      message: "Вы уверены, что хотите удалить это фото?",
+      title: t("registerData.ui.deleteImageTitle"),
+      message: t("registerData.ui.deleteImageMessage"),
+      confirmLabel: t("common.ui.yes"), // Передаём переведённый текст
+      cancelLabel: t("common.ui.no"),
       onConfirm: () => {
         const deletedPreview = imagePreviews[index];
         URL.revokeObjectURL(deletedPreview);
@@ -142,6 +149,8 @@ const RegisterData = () => {
         const currentFiles = control._formValues.identityPhotos as File[];
         const updatedFiles = currentFiles.filter((_, i) => i !== index);
         setValue("identityPhotos", updatedFiles, { shouldValidate: true });
+
+
       },
       onCancel: () => {},
     });
@@ -152,7 +161,7 @@ const RegisterData = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputField
           type="text"
-          placeholder="ФИО"
+          placeholder={t("registerData.ui.fullNamePlaceholder")}
           name="fullName"
           register={register}
           error={errors.fullName}
@@ -161,7 +170,7 @@ const RegisterData = () => {
 
         <InputField
           type="text"
-          placeholder="Номер телефона"
+          placeholder={t("registerData.ui.phoneNumberPlaceholder")}
           name="phoneNumber"
           register={register}
           error={errors.phoneNumber}
@@ -170,7 +179,7 @@ const RegisterData = () => {
 
         <InputField
           type="text"
-          placeholder="Логин Telegram"
+          placeholder={t("registerData.ui.telegramLoginPlaceholder")}
           name="telegramLogin"
           register={register}
           error={errors.telegramLogin}
@@ -179,7 +188,7 @@ const RegisterData = () => {
 
         <div className="register__group">
           <label className="register__label">
-            Фото для подтверждения личности{" "}
+            {t("registerData.ui.identityPhotosLabel")}{" "}
             <span className="register__label-required">*</span>
           </label>
           <Controller
@@ -212,7 +221,7 @@ const RegisterData = () => {
 
         <InputField
           type={showPassword ? "text" : "password"}
-          placeholder="Пароль для входа в приложение"
+          placeholder={t("registerData.ui.passwordPlaceholder")}
           name="password"
           register={register}
           error={errors.password}
@@ -223,7 +232,7 @@ const RegisterData = () => {
 
         <InputField
           type={showConfirmPassword ? "text" : "password"}
-          placeholder="Повторите пароль"
+          placeholder={t("registerData.ui.confirmPasswordPlaceholder")}
           name="confirmPassword"
           register={register}
           error={errors.confirmPassword}
@@ -236,10 +245,14 @@ const RegisterData = () => {
           name="consent"
           register={register}
           error={errors.consent}
-          label="Согласие на обработку персональных данных"
+          label={t("registerData.ui.consentLabel")}
         />
 
-        <Button type="submit" text="Зарегистрироваться" className="link" />
+        <Button
+          type="submit"
+          text={t("registerData.ui.registerButton")}
+          className="link"
+        />
       </form>
     </div>
   );

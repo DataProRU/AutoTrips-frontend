@@ -7,6 +7,8 @@ interface ConfirmModalProps {
   message: string;
   onConfirm: () => void;
   onCancel?: () => void;
+  confirmLabel?: string;
+  cancelLabel?: string;  
 }
 
 const ConfirmModal = ({
@@ -14,19 +16,21 @@ const ConfirmModal = ({
   message,
   onConfirm,
   onCancel,
+  confirmLabel = "Да", // Значение по умолчанию 
+  cancelLabel = "Нет",  
 }: ConfirmModalProps) => {
   confirmAlert({
     title,
     message,
     buttons: [
       {
-        label: "Да",
+        label: confirmLabel,
         onClick: () => {
           setTimeout(onConfirm, 100);
         },
       },
       {
-        label: "Нет",
+        label: cancelLabel,
         onClick: () => {
           onCancel?.();
         },

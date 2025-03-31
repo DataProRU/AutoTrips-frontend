@@ -1,11 +1,197 @@
 {
-    "logo": "Лого",
-    "autotransport": "Автоперевозки",
-    "main": {
-        "welcome": "Наша площадка для продажи авто Приветствует Вас!",
-        "login": "Войти",
-        "forgot_password": "Не помню пароль",
-        "register": "Зарегистрироваться",
-        "contact_manager": "Задать вопрос менеджеру"
+  "logo": "Лого",
+  "autotransport": "Автоперевозки",
+  "main": {
+    "welcome": "Наша площадка для продажи авто Приветствует Вас!",
+    "login": "Войти",
+    "forgot_password": "Не помню пароль",
+    "register": "Зарегистрироваться",
+    "contact_manager": "Задать вопрос менеджеру"
+  },
+  "regards": {
+    "title": "Благодарим за Вашу заявку!",
+    "subtitle": "Мы ответим в ближайшее рабочее время"
+  },
+  "registerData": {
+    "ui": {
+      "fullNamePlaceholder": "Введите ФИО",
+      "phoneNumberPlaceholder": "Введите номер телефона",
+      "telegramLoginPlaceholder": "Введите логин Telegram",
+      "identityPhotosLabel": "Фотографии документа",
+      "passwordPlaceholder": "Введите пароль",
+      "confirmPasswordPlaceholder": "Подтвердите пароль",
+      "consentLabel": "Согласие на обработку персональных данных",
+      "registerButton": "Зарегистрироваться",
+      "deleteImageTitle": "Удалить изображение",
+      "deleteImageMessage": "Вы уверены, что хотите удалить это изображение?"
+    },
+    "errors": {
+      "fullNameRequired": "ФИО обязательно для заполнения",
+      "phoneNumberRequired": "Номер телефона обязателен для заполнения",
+      "phoneNumberInvalid": "Номер телефона должен быть действительным",
+      "telegramLoginRequired": "Логин Telegram обязателен для заполнения",
+      "photosRequired": "Загрузите хотя бы одно фото",
+      "fileSizeLimit": "Каждый файл должен быть меньше 5MB",
+      "fileFormatLimit": "Поддерживаются только форматы JPEG, PNG и GIF",
+      "passwordRequired": "Мин. 6 символов",
+      "passwordComplexity": "Пароль должен содержать заглавную, строчную букву, цифру и спецсимвол",
+      "consentRequired": "Необходимо согласие на обработку персональных данных",
+      "passwordsMustMatch": "Пароли должны совпадать"
     }
+  },
+  "fileUploader": {
+    "ui": {
+      "takePhoto": "Сделать фото",
+      "chooseFromGallery": "Выбрать из галереи",
+      "viewPhotos": "Посмотреть фото"
+    }
+  },
+  "authData": {
+    "ui": {
+      "loginTitle": "Войдите в приложение",
+      "loginPlaceholder": "Логин/Номер телефона",
+      "passwordPlaceholder": "Пароль для входа в приложение",
+      "loginButton": "Войти",
+      "forgotPassword": "Забыли пароль?"
+    },
+    "errors": {
+      "loginRequired": "Логин обязательно для заполнения",
+      "passwordRequired": "Пароль должен содержать минимум 6 символов"
+    }
+  },
+  "authStore": {
+    "errors": {
+      "unexpectedError": "Произошла неожиданная ошибка",
+      "unknownError": "Произошла неизвестная ошибка",
+      "invalidCredentials": "Неправильный логин или пароль",
+      "networkError": "Ошибка подключения к серверу",
+      "invalidToken": "Невалидный токен"
+    }
+  },
+  "carAcceptanceData": {
+    "ui": {
+      "acceptanceDate": "Дата принятия",
+      "vinPlaceholder": "VIN номер",
+      "brandLabel": "Марка",
+      "compareModel": "Сравнить модель",
+      "carPhotosLabel": "Фото автомобиля (экстерьер/интерьер)",
+      "keyPhotosLabel": "Фото ключа",
+      "docsPhotosLabel": "Фото документов",
+      "placePlaceholder": "Где находится авто",
+      "notesPlaceholder": "Комментарий",
+      "acceptButton": "Принять авто",
+      "damagedButton": "Повреждено",
+      "damagedWarning": "*Отправим запрос в тех. поддержку",
+      "statusAccepted": "Принят",
+      "statusDamaged": "Повреждён",
+      "successTitle": "Успешно",
+      "successMessage": "Операция выполнена успешно",
+      "successDamagedMessage": "Операция выполнена успешно. Запрос отправлен в тех поддержку",
+      "okButton": "ОК",
+      "confirmTitle": "Подтверждение",
+      "confirmAcceptMessage": "Вы уверены, что хотите принять автомобиль?",
+      "confirmDamagedMessage": "Вы уверены, что хотите отметить автомобиль как повреждённый? Это отправит запрос в тех. поддержку."
+    },
+    "errors": {
+      "vinRequired": "VIN номер обязателен",
+      "photosRequired": "Загрузите хотя бы одно фото",
+      "fileSizeLimit": "Каждый файл должен быть меньше 5MB",
+      "fileFormatLimit": "Поддерживаются только форматы JPEG, PNG и GIF",
+      "placeRequired": "Расположение авто обязательно"
+    }
+  },
+  "comparisonsData": {
+    "ui": {
+      "vinPlaceholder": "VIN номер",
+      "checksPlaceholder": "Дата приёма/сдачи",
+      "backButton": "Назад"
+    }
+  },
+  "confirmModal": {
+    "ui": {
+      "yes": "Да",
+      "no": "Нет"
+    }
+  },
+  "carPhotos": {
+    "ui": {
+      "pageTitle": "Фотографии авто",
+      "noAccess": "У вас нет доступа к данной странице",
+      "toMain": "На главную"
+    }
+  },
+  "docsPhotos": {
+    "ui": {
+      "pageTitle": "Фотографии документов",
+      "noAccess": "У вас нет доступа к данной странице",
+      "toMain": "На главную"
+    }
+  },
+  "keyPhotos": {
+    "ui": {
+      "pageTitle": "Фотографии ключей",
+      "noAccess": "У вас нет доступа к данной странице",
+      "toMain": "На главную"
+    }
+  },
+  "guide": {
+    "ui": {
+      "introText": "Ваша заявка принята! Ознакомьтесь, пожалуйста, с видео инструкцией по использованию данного приложения",
+      "videoPlaceholder": "ЗДЕСЬ БУДЕТ ВИДЕО",
+      "consentLabel": "Я ознакомлен(а)",
+      "submitButton": "Войти"
+    },
+    "errors": {
+      "consentRequired": "Необходимо подтвердить ознакомление"
+    }
+  },
+  "userDocs": {
+    "ui": {
+      "pageTitle": "Фотографии документов",
+      "noAccess": "У вас нет доступа к данной странице",
+      "toMain": "На главную"
+    }
+  },
+  "documents": {
+    "ui": {
+      "pageTitle": "Документы",
+      "noAccess": "У вас нет доступа к данной странице",
+      "toMain": "На главную",
+      "usersListTitle": "Список пользователей",
+      "back": "Назад"
+    }
+  },
+  "select": {
+    "ui": {
+      "defaultPlaceholder": "Выберите значение"
+    }
+  },
+  "gallery": {
+    "ui": {
+      "deleteTitle": "Удаление фото",
+      "deleteMessage": "Вы уверены, что хотите удалить это фото?",
+      "photoAlt": "Фото {{index}}",
+      "deleteIconAlt": "Картинка удаления",
+      "backButton": "Вернуться назад"
+    }
+  },
+  "common": {
+    "ui": {
+      "yes": "Да",
+      "no": "Нет"
+    }
+  },
+  "adminPage": {
+    "ui": {
+      "pageTitle": "Панель управления",
+      "comparisonsTitle": "Сравнения",
+      "comparisonsButton": "Сравнения",
+      "documentsLink": "Документы"
+    }
+  },
+  "auth": {
+    "ui": {
+      "pageTitle": "Авторизация"
+    }
+  }
 }

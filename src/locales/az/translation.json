@@ -1,11 +1,197 @@
 {
-    "logo": "Loqo",
-    "autotransport": "Avtodaşıma",
-    "main": {
-        "welcome": "Avtomobil satış platformamız sizi salamlayır!",
-        "login": "Daxil ol",
-        "forgot_password": "Şifrəmi unutdum",
-        "register": "Qeydiyyat",
-        "contact_manager": "Menecerə sual verin"
+  "logo": "Loqo",
+  "autotransport": "Avtodaşıma",
+  "main": {
+    "welcome": "Avtomobil satış platformamız sizi salamlayır!",
+    "login": "Daxil ol",
+    "forgot_password": "Şifrəmi unutdum",
+    "register": "Qeydiyyat",
+    "contact_manager": "Menecerə sual verin"
+  },
+  "regards": {
+    "title": "Müraciətiniz üçün təşəkkür edirik!",
+    "subtitle": "Biz ən qısa müddətdə, iş saatları ərzində cavab verəcəyik"
+  },
+  "registerData": {
+    "ui": {
+      "fullNamePlaceholder": "Tam adı daxil edin",
+      "phoneNumberPlaceholder": "Telefon nömrəsini daxil edin",
+      "telegramLoginPlaceholder": "Telegram loginini daxil edin",
+      "identityPhotosLabel": "Şəxsiyyət fotoşəkilləri",
+      "passwordPlaceholder": "Parolu daxil edin",
+      "confirmPasswordPlaceholder": "Parolu təsdiqləyin",
+      "consentLabel": "Şəxsi məlumatların işlənməsinə razılıq",
+      "registerButton": "Qeydiyyat",
+      "deleteImageTitle": "Şəkli sil",
+      "deleteImageMessage": "Bu şəkli silmək istədiyinizə əminsiniz?"
+    },
+    "errors": {
+      "fullNameRequired": "Tam ad tələb olunur",
+      "phoneNumberRequired": "Telefon nömrəsi tələb olunur",
+      "phoneNumberInvalid": "Telefon nömrəsi düzgün olmalıdır",
+      "telegramLoginRequired": "Telegram login tələb olunur",
+      "photosRequired": "Ən azı bir foto yükləyin",
+      "fileSizeLimit": "Hər bir fayl 5 MB-dən kiçik olmalıdır",
+      "fileFormatLimit": "Yalnız JPEG, PNG və GIF formatları dəstəklənir",
+      "passwordRequired": "Parol ən azı 6 simvoldan ibarət olmalıdır",
+      "passwordComplexity": "Parolda böyük, kiçik hərf, rəqəm və xüsusi simvol olmalıdır",
+      "consentRequired": "Şəxsi məlumatların işlənməsinə razılıq tələb olunur",
+      "passwordsMustMatch": "Parollar uyğun olmalıdır"
     }
+  },
+  "fileUploader": {
+    "ui": {
+      "takePhoto": "Şəkil çək",
+      "chooseFromGallery": "Qalereyadan seç",
+      "viewPhotos": "Şəkillərə bax"
+    }
+  },
+  "authData": {
+    "ui": {
+      "loginTitle": "Proqrama daxil ol",
+      "loginPlaceholder": "Login/Telefon nömrəsi",
+      "passwordPlaceholder": "Proqrama daxil olmaq üçün parol",
+      "loginButton": "Daxil ol",
+      "forgotPassword": "Parolu unutdunuz?"
+    },
+    "errors": {
+      "loginRequired": "Login tələb olunur",
+      "passwordRequired": "Parol ən azı 6 simvoldan ibarət olmalıdır"
+    }
+  },
+  "authStore": {
+    "errors": {
+      "unexpectedError": "Gözlənilməz bir xəta baş verdi",
+      "unknownError": "Naməlum bir xəta baş verdi",
+      "invalidCredentials": "Yanlış login və ya parol",
+      "networkError": "Şəbəkə bağlantısı xətası",
+      "invalidToken": "Yanlış token"
+    }
+  },
+  "carAcceptanceData": {
+    "ui": {
+      "acceptanceDate": "Qəbul tarixi Yorkshire",
+      "vinPlaceholder": "VIN nömrəsi",
+      "brandLabel": "Marka",
+      "compareModel": "Modeli müqayisə et",
+      "carPhotosLabel": "Avtomobil şəkilləri (xarici/daxili)",
+      "keyPhotosLabel": "Açar şəkilləri",
+      "docsPhotosLabel": "Sənəd şəkilləri",
+      "placePlaceholder": "Avtomobil harada yerləşir",
+      "notesPlaceholder": "Şərh",
+      "acceptButton": "Avtomobili qəbul et",
+      "damagedButton": "Zədələnmiş",
+      "damagedWarning": "*Texniki dəstəyə sorğu göndəriləcək",
+      "statusAccepted": "Qəbul edilmiş",
+      "statusDamaged": "Zədələnmiş",
+      "successTitle": "Uğurlu",
+      "successMessage": "Əməliyyat uğurla başa çatdı",
+      "successDamagedMessage": "Əməliyyat uğurla başa çatdı. Sorğu texniki dəstəyə göndərildi",
+      "okButton": "OK",
+      "confirmTitle": "Təsdiq",
+      "confirmAcceptMessage": "Avtomobili qəbul etmək istədiyinizə əminsiniz?",
+      "confirmDamagedMessage": "Avtomobili zədələnmiş kimi qeyd etmək istədiyinizə əminsiniz? Bu, texniki dəstəyə sorğu göndərəcək."
+    },
+    "errors": {
+      "vinRequired": "VIN nömrəsi tələb olunur",
+      "photosRequired": "Ən azı bir şəkil yükləyin",
+      "fileSizeLimit": "Hər bir fayl 5 MB-dən kiçik olmalıdır",
+      "fileFormatLimit": "Yalnız JPEG, PNG və GIF formatları dəstəklənir",
+      "placeRequired": "Avtomobilin yeri tələb olunur"
+    }
+  },
+  "comparisonsData": {
+    "ui": {
+      "vinPlaceholder": "VIN nömrəsi",
+      "checksPlaceholder": "Qəbul/Təhvil tarixi",
+      "backButton": "Geri"
+    }
+  },
+  "confirmModal": {
+    "ui": {
+      "yes": "Bəli",
+      "no": "Xeyr"
+    }
+  },
+  "carPhotos": {
+    "ui": {
+      "pageTitle": "Avtomobil Şəkilləri",
+      "noAccess": "Bu səhifəyə girişiniz yoxdur",
+      "toMain": "Əsas səhifəyə"
+    }
+  },
+  "docsPhotos": {
+    "ui": {
+      "pageTitle": "Sənəd Şəkilləri",
+      "noAccess": "Bu səhifəyə girişiniz yoxdur",
+      "toMain": "Əsas səhifəyə"
+    }
+  },
+  "keyPhotos": {
+    "ui": {
+      "pageTitle": "Açar Şəkilləri",
+      "noAccess": "Bu səhifəyə girişiniz yoxdur",
+      "toMain": "Əsas səhifəyə"
+    }
+  },
+  "guide": {
+    "ui": {
+      "introText": "Sizin müraciətiniz qəbul edildi! Xahiş edirik, bu proqramdan istifadə üçün video təlimatla tanış olun",
+      "videoPlaceholder": "BURADA VİDEO OLACAQ",
+      "consentLabel": "Mən tanış oldum",
+      "submitButton": "Daxil ol"
+    },
+    "errors": {
+      "consentRequired": "Tanışlığın təsdiqlənməsi tələb olunur"
+    }
+  },
+  "userDocs": {
+    "ui": {
+      "pageTitle": "Sənəd Şəkilləri",
+      "noAccess": "Bu səhifəyə girişiniz yoxdur",
+      "toMain": "Əsas səhifəyə"
+    }
+  },
+  "documents": {
+    "ui": {
+      "pageTitle": "Sənədlər",
+      "noAccess": "Bu səhifəyə girişiniz yoxdur",
+      "toMain": "Əsas səhifəyə",
+      "usersListTitle": "İstifadəçilərin siyahısı",
+      "back": "Geri"
+    }
+  },
+  "select": {
+    "ui": {
+      "defaultPlaceholder": "Dəyər seçin"
+    }
+  },
+  "gallery": {
+    "ui": {
+      "deleteTitle": "Şəkli Sil",
+      "deleteMessage": "Bu şəkli silmək istədiyinizə əminsiniz?",
+      "photoAlt": "Şəkil {{index}}",
+      "deleteIconAlt": "Sil şəkli",
+      "backButton": "Geri qayıt"
+    }
+  },
+  "common": {
+    "ui": {
+      "yes": "Bəli",
+      "no": "Xeyr"
+    }
+  },
+  "adminPage": {
+    "ui": {
+      "pageTitle": "İdarəetmə Paneli",
+      "comparisonsTitle": "Müqayisələr",
+      "comparisonsButton": "Müqayisələr",
+      "documentsLink": "Sənədlər"
+    }
+  },
+  "auth": {
+    "ui": {
+      "pageTitle": "Avtorizasiya"
+    }
+  }
 }

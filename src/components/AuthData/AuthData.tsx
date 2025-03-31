@@ -10,12 +10,13 @@ import { observer } from "mobx-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const schema = z.object({
-  login: z.string().min(1, "Логин обязательно для заполнения"),
-  password: z.string().min(6, "Пароль должен содержать минимум 6 символов"),
-});
+const getSchema = (t: (key: string) => string) =>
+  z.object({
+    login: z.string().min(1, t("authData.errors.loginRequired")),
+    password: z.string().min(6, t("authData.errors.passwordRequired")),
+  });
 
-type LoginFormData = z.infer<typeof schema>;
+type LoginFormData = z.infer<ReturnType<typeof getSchema>>;
 
 const AuthData = () => {
   const { authStore } = useContext(Context);
@@ -27,8 +28,8 @@ const AuthData = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(schema),
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(getSchema(t)),
   });
 
   const onSubmit = async (data: LoginFormData) => {
@@ -44,7 +45,7 @@ const AuthData = () => {
       <div className="main">
         <div className="container">
           <div className="main__content">
-            <h2 className="main__header">Войдите в приложение</h2>
+            <h2 className="main__header">{t("authData.ui.loginTitle")}</h2>
             <form className="login__form" onSubmit={handleSubmit(onSubmit)}>
               {authStore.errorMessage && (
                 <div className="error error-password">
@@ -53,7 +54,7 @@ const AuthData = () => {
               )}
               <InputField
                 type="text"
-                placeholder="Логин/Номер телефона"
+                placeholder={t("authData.ui.loginPlaceholder")}
                 name="login"
                 register={register}
                 error={errors.login}
@@ -61,7 +62,7 @@ const AuthData = () => {
               />
               <InputField
                 type={showPassword ? "text" : "password"}
-                placeholder="Пароль для входа в приложение"
+                placeholder={t("authData.ui.passwordPlaceholder")}
                 name="password"
                 register={register}
                 error={errors.password}
@@ -69,10 +70,14 @@ const AuthData = () => {
                 showPasswordButton
                 onTogglePassword={() => setShowPassword(!showPassword)}
               />
-              <Button type="submit" text={"Войти"} className="link" />
+              <Button
+                type="submit"
+                text={t("authData.ui.loginButton")}
+                className="link"
+              />
             </form>
             <Link to="#" className="main__forget">
-              {t("main.forgot_password")}
+              {t("authData.ui.forgotPassword")}
             </Link>
           </div>
         </div>

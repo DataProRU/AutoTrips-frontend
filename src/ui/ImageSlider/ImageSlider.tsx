@@ -56,7 +56,7 @@ const ImageSlider = ({
                     objectFit: "contain",
                   }}
                   onClick={() => {
-                    console.log('Image clicked', index); // Добавьте это
+                    console.log("Image clicked", index);
                     onImageClick?.(index);
                   }}
                 />

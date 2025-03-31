@@ -8,6 +8,7 @@ import ImageSlider from "../../ui/ImageSlider/ImageSlider";
 import { ReportPhoto } from "../../models/response/ReportPhoto";
 import FullscreenSlider from "../../ui/FullscreenSlider/FullscreenSlider";
 import Button from "../../ui/Button/Button";
+import { useTranslation } from "react-i18next";
 
 interface ComparisonsDataProps {
   onBack?: () => void;
@@ -15,6 +16,7 @@ interface ComparisonsDataProps {
 }
 
 const ComparisonsData = ({ onBack, initialVin }: ComparisonsDataProps) => {
+  const { t } = useTranslation();
   const { control, watch, setValue } = useForm({
     defaultValues: {
       vin: initialVin || "",
@@ -113,14 +115,14 @@ const ComparisonsData = ({ onBack, initialVin }: ComparisonsDataProps) => {
         name="vin"
         control={control}
         options={reportsStore.vinOptions}
-        placeholder="VIN номер"
+        placeholder={t("comparisonsData.ui.vinPlaceholder")}
       />
 
       <Select
         name="checks1"
         control={control}
         options={reportsStore.reportDatesOptions}
-        placeholder="Дата приёма/сдачи"
+        placeholder={t("comparisonsData.ui.checksPlaceholder")}
         disabled={!selectedVin || reportsStore.vinReports.length === 0}
       />
 
@@ -137,7 +139,7 @@ const ComparisonsData = ({ onBack, initialVin }: ComparisonsDataProps) => {
         name="checks2"
         control={control}
         options={reportsStore.reportDatesOptions}
-        placeholder="Дата приёма/сдачи"
+        placeholder={t("comparisonsData.ui.checksPlaceholder")}
         disabled={!selectedVin || reportsStore.vinReports.length === 0}
       />
 
@@ -152,7 +154,7 @@ const ComparisonsData = ({ onBack, initialVin }: ComparisonsDataProps) => {
 
       <Button
         type="button"
-        text="Назад"
+        text={t("comparisonsData.ui.backButton")}
         className="link comparisons__back"
         onClick={onBack}
       />

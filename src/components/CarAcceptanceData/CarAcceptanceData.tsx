@@ -15,60 +15,63 @@ import reportsStore from "../../store/ReportsStore";
 import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
 import MessageBox from "../../ui/MessageBox/MessageBox";
 import ComparisonsData from "../ComparisonsData/ComparisonsData";
+import { useTranslation } from "react-i18next";
 
-const schema = z.object({
-  vin: z.string().min(1, "VIN номер обязателен"),
-  carPhotos: z
-    .array(z.instanceof(File))
-    .min(1, "Загрузите хотя бы одно фото")
-    .refine(
-      (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
-      "Каждый файл должен быть меньше 5MB"
-    )
-    .refine(
-      (files) =>
-        files.every((file) =>
-          ["image/jpeg", "image/png", "image/gif"].includes(file.type)
-        ),
-      "Поддерживаются только форматы JPEG, PNG и GIF"
-    ),
-  keyPhotos: z
-    .array(z.instanceof(File))
-    .min(1, "Загрузите хотя бы одно фото")
-    .refine(
-      (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
-      "Каждый файл должен быть меньше 5MB"
-    )
-    .refine(
-      (files) =>
-        files.every((file) =>
-          ["image/jpeg", "image/png", "image/gif"].includes(file.type)
-        ),
-      "Поддерживаются только форматы JPEG, PNG и GIF"
-    ),
-  docsPhotos: z
-    .array(z.instanceof(File))
-    .min(1, "Загрузите хотя бы одно фото")
-    .refine(
-      (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
-      "Каждый файл должен быть меньше 5MB"
-    )
-    .refine(
-      (files) =>
-        files.every((file) =>
-          ["image/jpeg", "image/png", "image/gif"].includes(file.type)
-        ),
-      "Поддерживаются только форматы JPEG, PNG и GIF"
-    ),
-  place: z.string().min(1, "Расположение авто обязательно"),
-  notes: z.string().optional(),
-});
+const getSchema = (t: (key: string) => string) =>
+  z.object({
+    vin: z.string().min(1, t("carAcceptanceData.errors.vinRequired")),
+    carPhotos: z
+      .array(z.instanceof(File))
+      .min(1, t("carAcceptanceData.errors.photosRequired"))
+      .refine(
+        (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
+        t("carAcceptanceData.errors.fileSizeLimit")
+      )
+      .refine(
+        (files) =>
+          files.every((file) =>
+            ["image/jpeg", "image/png", "image/gif"].includes(file.type)
+          ),
+        t("carAcceptanceData.errors.fileFormatLimit")
+      ),
+    keyPhotos: z
+      .array(z.instanceof(File))
+      .min(1, t("carAcceptanceData.errors.photosRequired"))
+      .refine(
+        (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
+        t("carAcceptanceData.errors.fileSizeLimit")
+      )
+      .refine(
+        (files) =>
+          files.every((file) =>
+            ["image/jpeg", "image/png", "image/gif"].includes(file.type)
+          ),
+        t("carAcceptanceData.errors.fileFormatLimit")
+      ),
+    docsPhotos: z
+      .array(z.instanceof(File))
+      .min(1, t("carAcceptanceData.errors.photosRequired"))
+      .refine(
+        (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
+        t("carAcceptanceData.errors.fileSizeLimit")
+      )
+      .refine(
+        (files) =>
+          files.every((file) =>
+            ["image/jpeg", "image/png", "image/gif"].includes(file.type)
+          ),
+        t("carAcceptanceData.errors.fileFormatLimit")
+      ),
+    place: z.string().min(1, t("carAcceptanceData.errors.placeRequired")),
+    notes: z.string().optional(),
+  });
 
-type CarAcceptanceFormData = z.infer<typeof schema>;
+type CarAcceptanceFormData = z.infer<ReturnType<typeof getSchema>>;
 
 const CarAcceptanceData = () => {
   const [uploaderKey, setUploaderKey] = useState(0);
   const [showComparison, setShowComparison] = useState(false);
+  const { t } = useTranslation();
 
   const {
     register,
@@ -79,7 +82,7 @@ const CarAcceptanceData = () => {
     setValue,
     formState: { errors },
   } = useForm<CarAcceptanceFormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(getSchema(t)),
     defaultValues: {
       carPhotos: [],
       keyPhotos: [],
@@ -144,16 +147,16 @@ const CarAcceptanceData = () => {
       docsPhotos: data.docsPhotos,
       place: data.place,
       notes: data.notes || "",
-      status: "Принят",
+      status: t("carAcceptanceData.ui.statusAccepted"),
     };
 
     await ReportsService.addReport(submissionData);
 
     MessageBox({
-      title: "Успешно",
-      message: "Операция выполнена успешно",
+      title: t("carAcceptanceData.ui.successTitle"),
+      message: t("carAcceptanceData.ui.successMessage"),
       onClose: () => {},
-      buttonText: "ОК",
+      buttonText: t("carAcceptanceData.ui.okButton"),
     });
     resetForm();
   };
@@ -167,43 +170,46 @@ const CarAcceptanceData = () => {
       docsPhotos: data.docsPhotos,
       place: data.place,
       notes: data.notes || "",
-      status: "Повреждён",
+      status: t("carAcceptanceData.ui.statusDamaged"),
     };
 
     await ReportsService.addReport(submissionData);
 
     MessageBox({
-      title: "Успешно",
-      message: "Операция выполнена успешно. Запрос отправлен в тех поддержку",
+      title: t("carAcceptanceData.ui.successTitle"),
+      message: t("carAcceptanceData.ui.successDamagedMessage"),
       onClose: () => {},
-      buttonText: "ОК",
+      buttonText: t("carAcceptanceData.ui.okButton"),
     });
     resetForm();
   };
 
   const onAcceptCarSubmit = (data: CarAcceptanceFormData) => {
     ConfirmModal({
-      title: "Подтверждение",
-      message: "Вы уверены, что хотите принять автомобиль?",
+      title: t("carAcceptanceData.ui.confirmTitle"),
+      message: t("carAcceptanceData.ui.confirmAcceptMessage"),
       onConfirm: () => handleAcceptCar(data),
       onCancel: () => console.log("Принятие отменено"),
+      confirmLabel: t("common.ui.yes"), 
+      cancelLabel: t("common.ui.no"),
     });
   };
 
   const onDamagedCarSubmit = (data: CarAcceptanceFormData) => {
     ConfirmModal({
-      title: "Подтверждение",
-      message:
-        "Вы уверены, что хотите отметить автомобиль как повреждённый? Это отправит запрос в тех. поддержку.",
+      title: t("carAcceptanceData.ui.confirmTitle"),
+      message: t("carAcceptanceData.ui.confirmDamagedMessage"),
       onConfirm: () => handleDamagedCar(data),
       onCancel: () => console.log("Отмена действия"),
+      confirmLabel: t("common.ui.yes"), // Передаём переведённый текст
+      cancelLabel: t("common.ui.no"),
     });
   };
 
   if (showComparison) {
     return (
-      <ComparisonsData 
-        onBack={() => setShowComparison(false)} 
+      <ComparisonsData
+        onBack={() => setShowComparison(false)}
         initialVin={selectedVin}
       />
     );
@@ -213,22 +219,23 @@ const CarAcceptanceData = () => {
     <div className="acceptance__form">
       <form>
         <p className="input acceptance__date">
-          Дата принятия: {getTodayDate()}
+          {t("carAcceptanceData.ui.acceptanceDate")}: {getTodayDate()}
         </p>
         <Select
           name="vin"
           control={control}
           options={reportsStore.vinOptions}
-          placeholder="VIN номер"
+          placeholder={t("carAcceptanceData.ui.vinPlaceholder")}
           error={errors.vin}
         />
 
         <p className="acceptance__text">
-          Марка: <span className="acceptance__text-model">{getCarModel()}</span>
+          {t("carAcceptanceData.ui.brandLabel")}:{" "}
+          <span className="acceptance__text-model">{getCarModel()}</span>
         </p>
         <Button
           type="button"
-          text="Сравнить модель"
+          text={t("carAcceptanceData.ui.compareModel")}
           className="link acceptance__comparison"
           disabled={!selectedVin}
           onClick={() => setShowComparison(true)}
@@ -236,7 +243,7 @@ const CarAcceptanceData = () => {
 
         <div className="group">
           <label className="label">
-            Фото автомобиля (экстерьер/интерьер){" "}
+            {t("carAcceptanceData.ui.carPhotosLabel")}{" "}
             <span className="label-required">*</span>
           </label>
           <Controller
@@ -264,7 +271,8 @@ const CarAcceptanceData = () => {
 
         <div className="group">
           <label className="label">
-            Фото ключа <span className="label-required">*</span>
+            {t("carAcceptanceData.ui.keyPhotosLabel")}{" "}
+            <span className="label-required">*</span>
           </label>
           <Controller
             name="keyPhotos"
@@ -291,7 +299,8 @@ const CarAcceptanceData = () => {
 
         <div className="group">
           <label className="label">
-            Фото документов <span className="label-required">*</span>
+            {t("carAcceptanceData.ui.docsPhotosLabel")}{" "}
+            <span className="label-required">*</span>
           </label>
           <Controller
             name="docsPhotos"
@@ -318,7 +327,7 @@ const CarAcceptanceData = () => {
 
         <InputField
           type="text"
-          placeholder="Где находится авто"
+          placeholder={t("carAcceptanceData.ui.placePlaceholder")}
           name="place"
           register={register}
           error={errors.place}
@@ -327,7 +336,7 @@ const CarAcceptanceData = () => {
 
         <InputField
           type="text"
-          placeholder="Комментарий"
+          placeholder={t("carAcceptanceData.ui.notesPlaceholder")}
           name="notes"
           register={register}
           error={errors.notes}
@@ -337,19 +346,19 @@ const CarAcceptanceData = () => {
         <div className="acceptance__btns">
           <Button
             type="button"
-            text="Принять авто"
+            text={t("carAcceptanceData.ui.acceptButton")}
             className="link acceptance__btn"
             onClick={handleSubmit(onAcceptCarSubmit)}
           />
           <div className="acceptance__damaged acceptance__btn">
             <Button
               type="button"
-              text="Повреждено"
+              text={t("carAcceptanceData.ui.damagedButton")}
               className="link warning"
               onClick={handleSubmit(onDamagedCarSubmit)}
             />
             <span className="acceptance__warning">
-              *Отправим запрос в тех. поддержку
+              {t("carAcceptanceData.ui.damagedWarning")}
             </span>
           </div>
         </div>

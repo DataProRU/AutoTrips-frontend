@@ -7,16 +7,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import "./Guide.css";
 import Button from "../../ui/Button/Button";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const schema = z.object({
-  consent: z.boolean().refine((val) => val === true, {
-    message: "Необходимо подтвердить ознакомление",
-  }),
-});
+const getSchema = (t: (key: string) => string) =>
+  z.object({
+    consent: z.boolean().refine((val) => val === true, {
+      message: t("guide.errors.consentRequired"),
+    }),
+  });
 
-type GuideFormData = z.infer<typeof schema>;
+type GuideFormData = z.infer<ReturnType<typeof getSchema>>;
 
 const Guide = () => {
+  const { t } = useTranslation();
   authStore.page = "";
 
   const navigate = useNavigate();
@@ -26,7 +29,7 @@ const Guide = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<GuideFormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(getSchema(t)),
   });
 
   const onSubmit = async (data: GuideFormData) => {
@@ -39,18 +42,19 @@ const Guide = () => {
     <>
       <Header />
       <form className="guide" onSubmit={handleSubmit(onSubmit)}>
-        <p className="guide__text">
-          Ваша заявка принята! Ознаĸомьтесь, пожалуйста, с видео инструĸцией по
-          использованию данного приложения
-        </p>
-        <div className="guide__video">ЗДЕСЬ БУДЕТ ВИДЕО</div>
+        <p className="guide__text">{t("guide.ui.introText")}</p>
+        <div className="guide__video">{t("guide.ui.videoPlaceholder")}</div>
         <Checkbox
           name="consent"
           register={register}
           error={errors.consent}
-          label="Я ознакомлен(а)"
+          label={t("guide.ui.consentLabel")}
         />
-        <Button type="submit" text="Войти" className="link" />
+        <Button
+          type="submit"
+          text={t("guide.ui.submitButton")}
+          className="link"
+        />
       </form>
     </>
   );

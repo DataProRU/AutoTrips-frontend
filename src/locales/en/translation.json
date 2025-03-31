@@ -1,11 +1,198 @@
 {
-    "logo": "Logo",
-    "autotransport": "Autotransport",
-    "main": {
-        "welcome": "Our car selling platform welcomes you!",
-        "login": "Log in",
-        "forgot_password": "Forgot password",
-        "register": "Sign up",
-        "contact_manager": "Contact manager"
+  "logo": "Logo",
+  "autotransport": "Autotransport",
+  "main": {
+    "welcome": "Our car selling platform welcomes you!",
+    "login": "Log in",
+    "forgot_password": "Forgot password",
+    "register": "Sign up",
+    "contact_manager": "Contact manager"
+  },
+  "regards": {
+    "title": "Thank you for your request!",
+    "subtitle": "We will respond as soon as possible during business hours"
+  },
+
+  "registerData": {
+    "ui": {
+      "fullNamePlaceholder": "Enter full name",
+      "phoneNumberPlaceholder": "Enter phone number",
+      "telegramLoginPlaceholder": "Enter Telegram login",
+      "identityPhotosLabel": "Identity photos",
+      "passwordPlaceholder": "Enter password",
+      "confirmPasswordPlaceholder": "Confirm password",
+      "consentLabel": "Consent to personal data processing",
+      "registerButton": "Register",
+      "deleteImageTitle": "Delete Image",
+      "deleteImageMessage": "Are you sure you want to delete this image?"
+    },
+    "errors": {
+      "fullNameRequired": "Full name is required",
+      "phoneNumberRequired": "Phone number is required",
+      "phoneNumberInvalid": "Phone number must be valid",
+      "telegramLoginRequired": "Telegram login is required",
+      "photosRequired": "Upload at least one photo",
+      "fileSizeLimit": "Each file must be less than 5MB",
+      "fileFormatLimit": "Only JPEG, PNG, and GIF formats are supported",
+      "passwordRequired": "Password must be at least 6 characters",
+      "passwordComplexity": "Password must contain uppercase, lowercase, number, and special character",
+      "consentRequired": "Consent to personal data processing is required",
+      "passwordsMustMatch": "Passwords must match"
     }
+  },
+  "fileUploader": {
+    "ui": {
+      "takePhoto": "Take a photo",
+      "chooseFromGallery": "Choose from gallery",
+      "viewPhotos": "View photos"
+    }
+  },
+  "authData": {
+    "ui": {
+      "loginTitle": "Log in to the application",
+      "loginPlaceholder": "Login/Phone number",
+      "passwordPlaceholder": "Password to log in to the application",
+      "loginButton": "Log in",
+      "forgotPassword": "Forgot password?"
+    },
+    "errors": {
+      "loginRequired": "Login is required",
+      "passwordRequired": "Password must contain at least 6 characters"
+    }
+  },
+  "authStore": {
+    "errors": {
+      "unexpectedError": "An unexpected error occurred",
+      "unknownError": "An unknown error occurred",
+      "invalidCredentials": "Incorrect login or password",
+      "networkError": "Network connection error",
+      "invalidToken": "Invalid token"
+    }
+  },
+  "carAcceptanceData": {
+    "ui": {
+      "acceptanceDate": "Acceptance date",
+      "vinPlaceholder": "VIN number",
+      "brandLabel": "Brand",
+      "compareModel": "Compare model",
+      "carPhotosLabel": "Car photos (exterior/interior)",
+      "keyPhotosLabel": "Key photos",
+      "docsPhotosLabel": "Document photos",
+      "placePlaceholder": "Where the car is located",
+      "notesPlaceholder": "Comment",
+      "acceptButton": "Accept car",
+      "damagedButton": "Damaged",
+      "damagedWarning": "*Will send a request to tech support",
+      "statusAccepted": "Accepted",
+      "statusDamaged": "Damaged",
+      "successTitle": "Success",
+      "successMessage": "Operation completed successfully",
+      "successDamagedMessage": "Operation completed successfully. Request sent to tech support",
+      "okButton": "OK",
+      "confirmTitle": "Confirmation",
+      "confirmAcceptMessage": "Are you sure you want to accept the car?",
+      "confirmDamagedMessage": "Are you sure you want to mark the car as damaged? This will send a request to tech support."
+    },
+    "errors": {
+      "vinRequired": "VIN number is required",
+      "photosRequired": "Upload at least one photo",
+      "fileSizeLimit": "Each file must be less than 5MB",
+      "fileFormatLimit": "Only JPEG, PNG, and GIF formats are supported",
+      "placeRequired": "Car location is required"
+    }
+  },
+  "comparisonsData": {
+    "ui": {
+      "vinPlaceholder": "VIN number",
+      "checksPlaceholder": "Acceptance/Delivery date",
+      "backButton": "Back"
+    }
+  },
+  "confirmModal": {
+    "ui": {
+      "yes": "Yes",
+      "no": "No"
+    }
+  },
+  "carPhotos": {
+    "ui": {
+      "pageTitle": "Car Photos",
+      "noAccess": "You do not have access to this page",
+      "toMain": "To main page"
+    }
+  },
+  "docsPhotos": {
+    "ui": {
+      "pageTitle": "Document Photos",
+      "noAccess": "You do not have access to this page",
+      "toMain": "To main page"
+    }
+  },
+  "keyPhotos": {
+    "ui": {
+      "pageTitle": "Key Photos",
+      "noAccess": "You do not have access to this page",
+      "toMain": "To main page"
+    }
+  },
+  "guide": {
+    "ui": {
+      "introText": "Your application has been accepted! Please review the video instructions for using this application",
+      "videoPlaceholder": "VIDEO WILL BE HERE",
+      "consentLabel": "I have reviewed",
+      "submitButton": "Log in"
+    },
+    "errors": {
+      "consentRequired": "Confirmation of review is required"
+    }
+  },
+  "userDocs": {
+    "ui": {
+      "pageTitle": "Document Photos",
+      "noAccess": "You do not have access to this page",
+      "toMain": "To main page"
+    }
+  },
+  "documents": {
+    "ui": {
+      "pageTitle": "Documents",
+      "noAccess": "You do not have access to this page",
+      "toMain": "To main page",
+      "usersListTitle": "List of users",
+      "back": "Back"
+    }
+  },
+  "select": {
+    "ui": {
+      "defaultPlaceholder": "Select a value"
+    }
+  },
+  "gallery": {
+    "ui": {
+      "deleteTitle": "Delete Photo",
+      "deleteMessage": "Are you sure you want to delete this photo?",
+      "photoAlt": "Photo {{index}}",
+      "deleteIconAlt": "Delete picture",
+      "backButton": "Go back"
+    }
+  },
+  "common": {
+    "ui": {
+      "yes": "Yes",
+      "no": "No"
+    }
+  },
+  "adminPage": {
+    "ui": {
+      "pageTitle": "Control Panel",
+      "comparisonsTitle": "Comparisons",
+      "comparisonsButton": "Comparisons",
+      "documentsLink": "Documents"
+    }
+  },
+  "auth": {
+    "ui": {
+      "pageTitle": "Authorization"
+    }
+  }
 }

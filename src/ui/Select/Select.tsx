@@ -1,12 +1,13 @@
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 import "./Select.css";
+import { useTranslation } from "react-i18next";
 
 interface CustomSelectProps {
   name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control?: any;
-  options: { value: string; label: string}[];
+  options: { value: string; label: string }[];
   placeholder?: string;
   isClearable?: boolean;
   isSearchable?: boolean;
@@ -20,13 +21,15 @@ const CustomSelect = ({
   name,
   control,
   options,
-  placeholder = "Выберите значение",
+  placeholder,
   isClearable = true,
   isSearchable = true,
   className,
   error,
   disabled = false,
 }: CustomSelectProps) => {
+  const { t } = useTranslation();
+
   return (
     <div className={`form-group ${className || ""}`}>
       <Controller
@@ -37,7 +40,7 @@ const CustomSelect = ({
           <Select
             {...field}
             options={options}
-            placeholder={placeholder}
+            placeholder={placeholder || t("select.ui.defaultPlaceholder")}
             className="react-select-container"
             classNamePrefix="react-select"
             isClearable={isClearable}

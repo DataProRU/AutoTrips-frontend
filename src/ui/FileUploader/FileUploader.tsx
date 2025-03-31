@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import "./FileUploader.css";
 import Gallery from "../Gallery/Gallery";
+import { useTranslation } from "react-i18next";
 
 interface FileUploaderProps {
   onFilesSelected: (files: FileList) => void;
@@ -16,6 +17,7 @@ const FileUploader = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
+  const { t } = useTranslation();
 
   const handleTakePhoto = () => {
     if (fileInputRef.current) {
@@ -52,14 +54,14 @@ const FileUploader = ({
           className="file-uploader__btn file-uploader__btn-first"
           onClick={handleTakePhoto}
         >
-          Сделать фото
+          {t("fileUploader.ui.takePhoto")}
         </button>
         <button
           type="button"
           className="file-uploader__btn file-uploader__btn-second"
           onClick={handleChooseFromGallery}
         >
-          Выбрать из галереи
+          {t("fileUploader.ui.chooseFromGallery")}
         </button>
         {selectedFiles.length > 0 && (
           <button
@@ -67,7 +69,7 @@ const FileUploader = ({
             className="file-uploader__btn file-uploader__btn-third"
             onClick={() => setModalOpen(true)}
           >
-            Посмотреть фото
+            {t("fileUploader.ui.viewPhotos")}
           </button>
         )}
       </div>

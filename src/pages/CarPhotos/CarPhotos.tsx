@@ -3,9 +3,11 @@ import Header from "../../components/Header/Header";
 import authStore from "../../store/AuthStore";
 import Pictures from "../../ui/Pictures/Pictures";
 import "./CarPhotos.css";
+import { useTranslation } from "react-i18next";
 
 const CarPhotos = () => {
-  authStore.page = "Фотографии авто";
+  const { t } = useTranslation();
+  authStore.page = t("carPhotos.ui.pageTitle");
   const { reportId } = useParams();
 
   if (authStore.role !== "admin") {
@@ -13,9 +15,9 @@ const CarPhotos = () => {
       <>
         <Header />
         <div className="documents">
-          <p className="error-text">У вас нет доступа к данной странице</p>
+          <p className="error-text">{t("carPhotos.ui.noAccess")}</p>
           <Link to="/" className="link">
-            На главную
+            {t("carPhotos.ui.toMain")}
           </Link>
         </div>
       </>

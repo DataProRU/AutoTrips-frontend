@@ -1,12 +1,197 @@
 {
-    "logo": "ლოგო",
-    "autotransport": "ავტოტრანსპორტი",
-    "main": {
-        "welcome": "ჩვენი ავტომობილების გაყიდვის პლატფორმა მიგირთვათ!",
-        "login": "შესვლა",
-        "forgot_password": "დამავიწყდა პაროლი",
-        "register": "რეგისტრაცია",
-        "contact_manager": "დასვით შეკითხვა მენეჯერს"
+  "logo": "ლოგო",
+  "autotransport": "ავტოტრანსპორტი",
+  "main": {
+    "welcome": "ჩვენი ავტომობილების გაყიდვის პლატფორმა მიგირთვათ!",
+    "login": "შესვლა",
+    "forgot_password": "დამავიწყდა პაროლი",
+    "register": "რეგისტრაცია",
+    "contact_manager": "დასვით შეკითხვა მენეჯერს"
+  },
+  "regards": {
+    "title": "გმადლობთ თქვენი განაცხადისთვის!",
+    "subtitle": "გიპასუხებთ უახლოეს სამუშაო დროში"
+  },
+  "registerData": {
+    "ui": {
+      "fullNamePlaceholder": "შეიყვანეთ სრული სახელი",
+      "phoneNumberPlaceholder": "შეიყვანეთ ტელეფონის ნომერი",
+      "telegramLoginPlaceholder": "შეიყვანეთ Telegram-ის ლოგინი",
+      "identityPhotosLabel": "პირადობის დამადასტურებელი ფოტოები",
+      "passwordPlaceholder": "შეიყვანეთ პაროლი",
+      "confirmPasswordPlaceholder": "დაადასტურეთ პაროლი",
+      "consentLabel": "თანხმობა პერსონალური მონაცემების დამუშავებაზე",
+      "registerButton": "რეგისტრაცია",
+      "deleteImageTitle": "სურათის წაშლა",
+      "deleteImageMessage": "დარწმუნებული ხართ, რომ გსურთ ამ სურათის წაშლა?"
+    },
+    "errors": {
+      "fullNameRequired": "სრული სახელი სავალდებულოა",
+      "phoneNumberRequired": "ტელეფონის ნომერი სავალდებულოა",
+      "phoneNumberInvalid": "ტელეფონის ნომერი უნდა იყოს სწორი",
+      "telegramLoginRequired": "Telegram-ის ლოგინი სავალდებულოა",
+      "photosRequired": "აუცილებელია მინიმუმ ერთი ფოტოს ატვირთვა",
+      "fileSizeLimit": "თითოეული ფაილი უნდა იყოს 5 მბ-ზე ნაკლები",
+      "fileFormatLimit": "მხარდაჭერილია მხოლოდ JPEG, PNG და GIF ფორმატები",
+      "passwordRequired": "პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს",
+      "passwordComplexity": "პაროლი უნდა შეიცავდეს დიდ, პატარა ასოს, ციფრს და სპეციალურ სიმბოლოს",
+      "consentRequired": "აუცილებელია თანხმობა პერსონალური მონაცემების დამუშავებაზე",
+      "passwordsMustMatch": "პაროლები უნდა ემთხვეოდეს"
     }
+  },
+  "fileUploader": {
+    "ui": {
+      "takePhoto": "გადაიღეთ ფოტო",
+      "chooseFromGallery": "აირჩიეთ გალერეიდან",
+      "viewPhotos": "ნახეთ ფოტოები"
+    }
+  },
+  "authData": {
+    "ui": {
+      "loginTitle": "შედით აპლიკაციაში",
+      "loginPlaceholder": "ლოგინი/ტელეფონის ნომერი",
+      "passwordPlaceholder": "პაროლი აპლიკაციაში შესასვლელად",
+      "loginButton": "შესვლა",
+      "forgotPassword": "დაგავიწყდათ პაროლი?"
+    },
+    "errors": {
+      "loginRequired": "ლოგინის შევსება აუცილებელია",
+      "passwordRequired": "პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს"
+    }
+  },
+  "authStore": {
+    "errors": {
+      "unexpectedError": "მოულოდნელი შეცდომა მოხდა",
+      "unknownError": "უცნობი შეცდომა მოხდა",
+      "invalidCredentials": "არასწორი ლოგინი ან პაროლი",
+      "networkError": "სერვერთან დაკავშირების შეცდომა",
+      "invalidToken": "არასწორი ტოკენი"
+    }
+  },
+  "carAcceptanceData": {
+    "ui": {
+      "acceptanceDate": "მიღების თარიღი",
+      "vinPlaceholder": "VIN ნომერი",
+      "brandLabel": "მარკა",
+      "compareModel": "მოდელის შედარება",
+      "carPhotosLabel": "ავტომობილის ფოტოები (ექსტერიერი/ინტერიერი)",
+      "keyPhotosLabel": "გასაღების ფოტო",
+      "docsPhotosLabel": "დოკუმენტების ფოტო",
+      "placePlaceholder": "სად მდებარეობს ავტომობილი",
+      "notesPlaceholder": "კომენტარი",
+      "acceptButton": "ავტომობილის მიღება",
+      "damagedButton": "დაზიანებული",
+      "damagedWarning": "*გავაგზავნით მოთხოვნას ტექ. მხარდაჭერაში",
+      "statusAccepted": "მიღებული",
+      "statusDamaged": "დაზიანებული",
+      "successTitle": "წარმატებით",
+      "successMessage": "ოპერაცია წარმატებით შესრულდა",
+      "successDamagedMessage": "ოპერაცია წარმატებით შესრულდა. მოთხოვნა გაგზავნილია ტექ. მხარდაჭერაში",
+      "okButton": "კარგი",
+      "confirmTitle": "დადასტურება",
+      "confirmAcceptMessage": "დარწმუნებული ხართ, რომ გსურთ ავტომობილის მიღება?",
+      "confirmDamagedMessage": "დარწმუნებული ხართ, რომ გსურთ ავტომობილი აღნიშნოთ როგორც დაზიანებული? ეს გაგზავნის მოთხოვნას ტექ. მხარდაჭერაში."
+    },
+    "errors": {
+      "vinRequired": "VIN ნომერი სავალდებულოა",
+      "photosRequired": "ატვირთეთ მინიმუმ ერთი ფოტო",
+      "fileSizeLimit": "თითოეული ფაილი უნდა იყოს 5 მბ-ზე ნაკლები",
+      "fileFormatLimit": "მხარდაჭერილია მხოლოდ JPEG, PNG და GIF ფორმატები",
+      "placeRequired": "ავტომობილის მდებარეობა სავალდებულოა"
+    }
+  },
+  "comparisonsData": {
+    "ui": {
+      "vinPlaceholder": "VIN ნომერი",
+      "checksPlaceholder": "მიღების/ჩაბარების თარიღი",
+      "backButton": "უკან"
+    }
+  },
+  "confirmModal": {
+    "ui": {
+      "yes": "დიახ",
+      "no": "არა"
+    }
+  },
+  "carPhotos": {
+    "ui": {
+      "pageTitle": "ავტომობილის ფოტოები",
+      "noAccess": "თქვენ არ გაქვთ ამ გვერდზე წვდომა",
+      "toMain": "მთავარ გვერდზე"
+    }
+  },
+  "docsPhotos": {
+    "ui": {
+      "pageTitle": "დოკუმენტების ფოტოები",
+      "noAccess": "თქვენ არ გაქვთ ამ გვერდზე წვდომა",
+      "toMain": "მთავარ გვერდზე"
+    }
+  },
+  "keyPhotos": {
+    "ui": {
+      "pageTitle": "გასაღების ფოტოები",
+      "noAccess": "თქვენ არ გაქვთ ამ გვერდზე წვდომა",
+      "toMain": "მთავარ გვერდზე"
+    }
+  },
+  "guide": {
+    "ui": {
+      "introText": "თქვენი განაცხადი მიღებულია! გთხოვთ, გაეცნოთ ამ აპლიკაციის გამოყენების ვიდეო ინსტრუქციას",
+      "videoPlaceholder": "აქ იქნება ვიდეო",
+      "consentLabel": "მე გავეცანი",
+      "submitButton": "შესვლა"
+    },
+    "errors": {
+      "consentRequired": "აუცილებელია გაცნობის დადასტურება"
+    }
+  },
+  "userDocs": {
+    "ui": {
+      "pageTitle": "დოკუმენტების ფოტოები",
+      "noAccess": "თქვენ არ გაქვთ ამ გვერდზე წვდომა",
+      "toMain": "მთავარ გვერდზე"
+    }
+  },
+  "documents": {
+    "ui": {
+      "pageTitle": "დოკუმენტები",
+      "noAccess": "თქვენ არ გაქვთ ამ გვერდზე წვდომა",
+      "toMain": "მთავარ გვერდზე",
+      "usersListTitle": "მომხმარებლების სია",
+      "back": "უკან"
+    }
+  },
+  "select": {
+    "ui": {
+      "defaultPlaceholder": "აირჩიეთ მნიშვნელობა"
+    }
+  },
+  "gallery": {
+    "ui": {
+      "deleteTitle": "ფოტოს წაშლა",
+      "deleteMessage": "დარწმუნებული ხართ, რომ გსურთ ამ ფოტოს წაშლა?",
+      "photoAlt": "ფოტო {{index}}",
+      "deleteIconAlt": "წაშლის სურათი",
+      "backButton": "უკან დაბრუნება"
+    }
+  },
+  "common": {
+    "ui": {
+      "yes": "დიახ",
+      "no": "არა"
+    }
+  },
+  "adminPage": {
+    "ui": {
+      "pageTitle": "მართვის პანელი",
+      "comparisonsTitle": "შედარებები",
+      "comparisonsButton": "შედარებები",
+      "documentsLink": "დოკუმენტები"
+    }
+  },
+  "auth": {
+    "ui": {
+      "pageTitle": "ავტორიზაცია"
+    }
+  }
 }
-  

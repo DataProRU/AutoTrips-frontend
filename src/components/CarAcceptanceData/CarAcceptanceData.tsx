@@ -63,7 +63,7 @@ const getSchema = (t: (key: string) => string) =>
         t("carAcceptanceData.errors.fileFormatLimit")
       ),
     place: z.string().min(1, t("carAcceptanceData.errors.placeRequired")),
-    notes: z.string().optional(),
+    notes: z.string().min(1, t("carAcceptanceData.errors.notesRequired")),
   });
 
 type CarAcceptanceFormData = z.infer<ReturnType<typeof getSchema>>;
@@ -71,7 +71,8 @@ type CarAcceptanceFormData = z.infer<ReturnType<typeof getSchema>>;
 const CarAcceptanceData = () => {
   const [uploaderKey, setUploaderKey] = useState(0);
   const [showComparison, setShowComparison] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
 
   const {
     register,
@@ -147,7 +148,7 @@ const CarAcceptanceData = () => {
       docsPhotos: data.docsPhotos,
       place: data.place,
       notes: data.notes || "",
-      status: t("carAcceptanceData.ui.statusAccepted"),
+      status: "Принят",
     };
 
     await ReportsService.addReport(submissionData);
@@ -170,7 +171,7 @@ const CarAcceptanceData = () => {
       docsPhotos: data.docsPhotos,
       place: data.place,
       notes: data.notes || "",
-      status: t("carAcceptanceData.ui.statusDamaged"),
+      status: "Повреждён",
     };
 
     await ReportsService.addReport(submissionData);
@@ -242,7 +243,7 @@ const CarAcceptanceData = () => {
         />
 
         <div className="group">
-          <label className="label">
+          <label className={`label ${currentLanguage === 'ge' ? 'small' : ''}`}>
             {t("carAcceptanceData.ui.carPhotosLabel")}{" "}
             <span className="label-required">*</span>
           </label>
@@ -347,7 +348,7 @@ const CarAcceptanceData = () => {
           <Button
             type="button"
             text={t("carAcceptanceData.ui.acceptButton")}
-            className="link acceptance__btn"
+            className={`link acceptance__btn ${currentLanguage === 'az' || currentLanguage === 'ge' ? 'tall-button' : ''}`}
             onClick={handleSubmit(onAcceptCarSubmit)}
           />
           <div className="acceptance__damaged acceptance__btn">

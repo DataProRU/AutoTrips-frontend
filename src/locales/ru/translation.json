@@ -97,7 +97,8 @@
       "photosRequired": "Загрузите хотя бы одно фото",
       "fileSizeLimit": "Каждый файл должен быть меньше 5MB",
       "fileFormatLimit": "Поддерживаются только форматы JPEG, PNG и GIF",
-      "placeRequired": "Расположение авто обязательно"
+      "placeRequired": "Расположение авто обязательно",
+      "notesRequired": "Комментарий обязателен для заполнения"
     }
   },
   "comparisonsData": {

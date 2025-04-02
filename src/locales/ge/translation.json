@@ -97,7 +97,8 @@
       "photosRequired": "ატვირთეთ მინიმუმ ერთი ფოტო",
       "fileSizeLimit": "თითოეული ფაილი უნდა იყოს 5 მბ-ზე ნაკლები",
       "fileFormatLimit": "მხარდაჭერილია მხოლოდ JPEG, PNG და GIF ფორმატები",
-      "placeRequired": "ავტომობილის მდებარეობა სავალდებულოა"
+      "placeRequired": "ავტომობილის მდებარეობა სავალდებულოა",
+      "notesRequired": "კომენტარის დამატება სავალდებულოა"
     }
   },
   "comparisonsData": {

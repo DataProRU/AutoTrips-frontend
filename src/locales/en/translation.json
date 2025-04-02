@@ -98,7 +98,8 @@
       "photosRequired": "Upload at least one photo",
       "fileSizeLimit": "Each file must be less than 5MB",
       "fileFormatLimit": "Only JPEG, PNG, and GIF formats are supported",
-      "placeRequired": "Car location is required"
+      "placeRequired": "Car location is required",
+      "notesRequired": "Comment is required"
     }
   },
   "comparisonsData": {

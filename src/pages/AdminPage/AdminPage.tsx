@@ -5,17 +5,19 @@ import "./AdminPage.css";
 import { useState } from "react";
 import ComparisonsData from "../../components/ComparisonsData/ComparisonsData";
 import Button from "../../ui/Button/Button";
+import { useTranslation } from "react-i18next";
 
 const AdminPage = () => {
-  authStore.page = "Панель управления";
+  const { t } = useTranslation();
+  authStore.page = t("adminPage.ui.pageTitle");
   const [showComparison, setShowComparison] = useState(false);
 
   if (showComparison) {
-    authStore.page = "Сравнения";
+    authStore.page = t("adminPage.ui.comparisonsTitle");
     return (
       <>
         <Header />
-        <ComparisonsData onBack={() => setShowComparison(false)} />;
+        <ComparisonsData onBack={() => setShowComparison(false)} />
       </>
     );
   }
@@ -26,12 +28,12 @@ const AdminPage = () => {
       <div className="admin">
         <Button
           type="button"
-          text="Сравнения"
+          text={t("adminPage.ui.comparisonsButton")}
           className="link acceptance__comparison"
           onClick={() => setShowComparison(true)}
         />
         <Link to="/documents" className="link">
-          Документы
+          {t("adminPage.ui.documentsLink")}
         </Link>
       </div>
     </>

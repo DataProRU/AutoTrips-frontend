@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 import AuthService from "../services/AuthService";
 import { RegisterFormData } from "../@types/RegisterFormData";
 import { jwtDecode } from "jwt-decode";
+import i18n from "i18next"; 
 
 interface JwtPayload {
   user_id: number;
@@ -24,22 +25,22 @@ class AuthStore {
   isCheckingAuth = false;
 
   private handleError(e: unknown) {
-    let message = "An unexpected error occurred.";
+    let message = i18n.t("authStore.errors.unexpectedError"); 
     console.log("Error object:", e);
     if (typeof e === "object" && e !== null && "response" in e) {
       const errorResponse = (e as { response?: { data?: { detail?: string } } })
         .response;
       if (errorResponse && errorResponse.data) {
-        message = errorResponse.data.detail || "An unknown error occurred.";
+        message = errorResponse.data.detail || i18n.t("authStore.errors.unknownError");
       }
       if (
         message.includes("No active account found with the given credentials")
       ) {
-        message = "Неправильный логин или пароль";
+        message = i18n.t("authStore.errors.invalidCredentials");
       }
     } else if (e instanceof Error) {
       if (e.message.includes("Network Error")) {
-        message = "Ошибка подключения к серверу";
+        message = i18n.t("authStore.errors.networkError");
       } else {
         message = e.message;
       }
@@ -83,7 +84,7 @@ class AuthStore {
       return decoded;
     } catch (e) {
       console.error("Ошибка декодирования JWT:", e);
-      this.setError("Невалидный токен");
+      this.setError(i18n.t("authStore.errors.invalidToken"));
       return null;
     }
   }
@@ -91,7 +92,7 @@ class AuthStore {
   async login(login: string, password: string) {
     try {
       const response = await AuthService.login(login, password);
-      const accessToken = response.data.access
+      const accessToken = response.data.access;
       localStorage.setItem("access", accessToken);
       localStorage.setItem("refresh", response.data.refresh);
       this.setAuth(true);
@@ -103,7 +104,6 @@ class AuthStore {
         this.setOnboarded(decoded.onboarded);
       }
       this.setError(null);
-      
       return response;
     } catch (e) {
       this.handleError(e);
@@ -123,7 +123,6 @@ class AuthStore {
       this.setRole(null);
       this.setUserId(null);
       this.setError(null);
-      this.setAuth(false);
       this.setApproved(false);
       this.setOnboarded(false);
     } catch (e) {
@@ -137,7 +136,7 @@ class AuthStore {
       this.isCheckingAuth = true;
       console.log("Попытка обновления токена...");
       const response = await AuthService.refresh(refreshToken);
-      const accessToken = response.data.access
+      const accessToken = response.data.access;
       localStorage.setItem("access", accessToken);
       const decoded = this.decodeToken(accessToken);
       if (decoded) {
@@ -145,7 +144,7 @@ class AuthStore {
         this.setUserId(decoded.user_id);
         this.setApproved(decoded.approved);
         this.setOnboarded(decoded.onboarded);
-        console.log(decoded.onboarded)
+        console.log(decoded.onboarded);
       }
       this.setAuth(true);
       this.setError(null);
@@ -167,7 +166,6 @@ class AuthStore {
     } catch {
       this.setOnboarded(false);
     }
-
   }
 }
 

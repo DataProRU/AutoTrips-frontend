@@ -5,6 +5,7 @@ import FullscreenSlider from "../FullscreenSlider/FullscreenSlider.tsx";
 import DeletePicture from "../../assets/swiper/delete.svg";
 import Button from "../Button/Button.tsx";
 import ConfirmModal from "../ConfirmModal/ConfirmModal.tsx";
+import { useTranslation } from "react-i18next";
 
 interface GalleryProps {
   photos: File[];
@@ -19,6 +20,7 @@ const Gallery: React.FC<GalleryProps> = ({
   onDelete,
   isDeletable = true,
 }) => {
+  const { t } = useTranslation();
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
   const [currentPhotos, setCurrentPhotos] = useState<File[]>(photos);
 
@@ -31,21 +33,22 @@ const Gallery: React.FC<GalleryProps> = ({
   }, []);
 
   const handleDeleteImage = (index: number) => {
-    if (document.querySelector('.react-confirm-alert')) {
+    if (document.querySelector(".react-confirm-alert")) {
       return;
     }
-    
+
     ConfirmModal({
-      title: "Удаление фото",
-      message: "Вы уверены, что хотите удалить это фото?",
+      title: t("gallery.ui.deleteTitle"),
+      message: t("gallery.ui.deleteMessage"),
       onConfirm: () => {
         const updatedPhotos = currentPhotos.filter((_, i) => i !== index);
         setCurrentPhotos(updatedPhotos);
         onDelete(updatedPhotos);
       },
       onCancel: () => {},
+      confirmLabel: t("common.ui.yes"), // Передаём переведённый текст для "Да"
+      cancelLabel: t("common.ui.no"),   // Передаём переведённый текст для "Нет"
     });
-
   };
 
   return (
@@ -62,7 +65,7 @@ const Gallery: React.FC<GalleryProps> = ({
             <div key={index} className="gallery-item">
               <img
                 src={URL.createObjectURL(file)}
-                alt={`Фото ${index + 1}`}
+                alt={t("gallery.ui.photoAlt", { index: index + 1 })}
                 className="gallery-img"
                 onClick={() => setSelectedPhoto(index)}
               />
@@ -72,7 +75,10 @@ const Gallery: React.FC<GalleryProps> = ({
                   className="gallery__delete"
                   onClick={() => handleDeleteImage(index)}
                 >
-                  <img src={DeletePicture} alt="Картинка удаления" />
+                  <img
+                    src={DeletePicture}
+                    alt={t("gallery.ui.deleteIconAlt")}
+                  />
                 </button>
               ) : null}
             </div>
@@ -88,7 +94,7 @@ const Gallery: React.FC<GalleryProps> = ({
 
       <Button
         type="button"
-        text="Вернуться назад"
+        text={t("gallery.ui.backButton")}
         className="link gallery__btn"
         onClick={onClose}
       />

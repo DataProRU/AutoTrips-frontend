@@ -42,7 +42,6 @@ const FullscreenSlider: React.FC<FullscreenSliderProps> = ({
     return typeof item === 'string' ? item : URL.createObjectURL(item);
   };
 
-
   return (
     <div className="fullscreen-slider">
       <Slider {...sliderSettings} className="fullscreen-slick-slider">

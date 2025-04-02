@@ -2,9 +2,11 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../../components/Header/Header";
 import authStore from "../../store/AuthStore";
 import Pictures from "../../ui/Pictures/Pictures";
+import { useTranslation } from "react-i18next";
 
 const DocsPhotos = () => {
-  authStore.page = "Фотографии документов";
+  const { t } = useTranslation();
+  authStore.page = t("docsPhotos.ui.pageTitle");
   const { reportId } = useParams();
 
   if (authStore.role !== "admin") {
@@ -12,9 +14,9 @@ const DocsPhotos = () => {
       <>
         <Header />
         <div className="documents">
-          <p className="error-text">У вас нет доступа к данной странице</p>
+          <p className="error-text">{t("docsPhotos.ui.noAccess")}</p>
           <Link to="/" className="link">
-            На главную
+            {t("docsPhotos.ui.toMain")}
           </Link>
         </div>
       </>

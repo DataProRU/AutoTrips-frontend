@@ -13,7 +13,6 @@ interface InputFieldProps {
   type: string;
   placeholder?: string;
   name: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<FormData>> | undefined;
   label?: string;

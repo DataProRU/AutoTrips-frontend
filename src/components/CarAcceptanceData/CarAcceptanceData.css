@@ -72,3 +72,11 @@
   text-align: center;
   color: var(--black);
 }
+
+.acceptance__btn.tall-button{
+  height: 70px;
+}
+
+.label.small {
+  font-size: 13px;
+}

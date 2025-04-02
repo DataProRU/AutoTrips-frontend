@@ -5,9 +5,11 @@ import "./Documents.css";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import userStore from "../../store/UserStore";
+import { useTranslation } from "react-i18next";
 
 const Documents = () => {
-  authStore.page = "Документы";
+  const { t } = useTranslation();
+  authStore.page = t("documents.ui.pageTitle");
 
   useEffect(() => {
     userStore.fetchUsers();
@@ -18,9 +20,9 @@ const Documents = () => {
       <>
         <Header />
         <div className="documents">
-          <p className="error-text">У вас нет доступа к данной странице</p>
+          <p className="error-text">{t("documents.ui.noAccess")}</p>
           <Link to="/" className="link">
-            На главную
+            {t("documents.ui.toMain")}
           </Link>
         </div>
       </>
@@ -31,12 +33,12 @@ const Documents = () => {
     <>
       <Header />
       <div className="documents">
-        <h2 className="documents__title">Список пользователей</h2>
+        <h2 className="documents__title">{t("documents.ui.usersListTitle")}</h2>
 
         <div className="documents__scroll-container">
           <div className="documents__users">
             {userStore.users.map((user) => (
-              <Link to={`/docs/${user.id}`} className="link">
+              <Link key={user.id} to={`/docs/${user.id}`} className="link">
                 {user.full_name}
               </Link>
             ))}
@@ -45,7 +47,7 @@ const Documents = () => {
 
         <div className="documents__footer">
           <Link to="/" className="link">
-            Назад
+            {t("documents.ui.back")}
           </Link>
         </div>
       </div>

@@ -46,8 +46,8 @@ const Gallery: React.FC<GalleryProps> = ({
         onDelete(updatedPhotos);
       },
       onCancel: () => {},
-      confirmLabel: t("common.ui.yes"), // Передаём переведённый текст для "Да"
-      cancelLabel: t("common.ui.no"),   // Передаём переведённый текст для "Нет"
+      confirmLabel: t("common.ui.yes"),
+      cancelLabel: t("common.ui.no"),
     });
   };
 

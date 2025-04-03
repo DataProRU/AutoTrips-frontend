@@ -138,7 +138,7 @@ const RegisterData = () => {
     ConfirmModal({
       title: t("registerData.ui.deleteImageTitle"),
       message: t("registerData.ui.deleteImageMessage"),
-      confirmLabel: t("common.ui.yes"), // Передаём переведённый текст
+      confirmLabel: t("common.ui.yes"),
       cancelLabel: t("common.ui.no"),
       onConfirm: () => {
         const deletedPreview = imagePreviews[index];

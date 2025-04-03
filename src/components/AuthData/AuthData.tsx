@@ -76,7 +76,7 @@ const AuthData = () => {
                 className="link"
               />
             </form>
-            <Link to="#" className="main__forget">
+            <Link to="https://t.me/GarageShop_bot" className="main__forget">
               {t("authData.ui.forgotPassword")}
             </Link>
           </div>

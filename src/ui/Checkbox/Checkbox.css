@@ -56,6 +56,16 @@
   display: block;
 }
 
+.checkbox-text {
+  text-decoration: underline;
+  transition: 0.3s ease;
+}
+
+.checkbox-text:hover {
+  cursor: pointer;
+  color: var(--primary);
+}
+
 .checkbox-container .checkmark:after {
   left: 5px;
   top: 1px;
@@ -75,4 +85,69 @@
 .error-checkbox {
   top: 38px;
   text-align: center;
+}
+
+.agreement-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.agreement-modal {
+  background: white;
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  outline: none;
+  padding: 0;
+  overflow: hidden;
+}
+
+.agreement-modal-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.agreement-modal-header {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.agreement-modal-heading {
+  margin: 0;
+  font-size: 1.25rem;
+  text-align: center;
+  color: #333;
+}
+
+.agreement-modal-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  max-height: calc(80vh - 120px);
+}
+
+.agreement-modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.agreement-modal-text {
+  text-align: justify;
+}
+
+.agreement-yes {
+  margin-right: 10px;
+  height: 54px;
 }

@@ -16,7 +16,7 @@ const ConfirmModal = ({
   message,
   onConfirm,
   onCancel,
-  confirmLabel = "Да", // Значение по умолчанию 
+  confirmLabel = "Да",
   cancelLabel = "Нет",  
 }: ConfirmModalProps) => {
   confirmAlert({

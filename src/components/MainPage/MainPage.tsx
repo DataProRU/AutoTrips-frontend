@@ -23,26 +23,19 @@ const MainPage: React.FC = () => {
                 className="link"
               />
 
-              <Button
-                to="/auth"
-                text={t("main.login")}
-                className="link"
-              />
+              <Button to="/auth" text={t("main.login")} className="link" />
 
-              <Link to="#" className="main__forget">
+              <Link to="https://t.me/GarageShop_bot" className="main__forget">
                 {t("main.forgot_password")}
               </Link>
             </div>
-            
-            <Button
-              type="button"
-              text={t("main.contact_manager")}
-              className="link main__contact"
-              onClick={() => {
 
-                console.log("Связаться с менеджером");
-              }}
-            />
+            <Link
+              to="https://t.me/GarageLogistic_Manager"
+              className="link main__contact"
+            >
+              {t("main.contact_manager")}
+            </Link>
           </div>
         </div>
       </div>

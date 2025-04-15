@@ -72,6 +72,7 @@
   },
   "carAcceptanceData": {
     "ui": {
+      "pageTitle": "Car Acceptance",
       "acceptanceDate": "Acceptance date",
       "vinPlaceholder": "VIN number",
       "brandLabel": "Brand",
@@ -105,6 +106,7 @@
   },
   "comparisonsData": {
     "ui": {
+      "pageTitle": "Comparison",
       "vinPlaceholder": "VIN number",
       "checksPlaceholder": "Acceptance/Delivery date",
       "backButton": "Back"

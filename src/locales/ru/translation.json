@@ -71,6 +71,7 @@
   },
   "carAcceptanceData": {
     "ui": {
+      "pageTitle": "Принятие авто",
       "acceptanceDate": "Дата принятия",
       "vinPlaceholder": "VIN номер",
       "brandLabel": "Марка",
@@ -104,6 +105,7 @@
   },
   "comparisonsData": {
     "ui": {
+      "pageTitle": "Сравнение",
       "vinPlaceholder": "VIN номер",
       "checksPlaceholder": "Дата приёма/сдачи",
       "backButton": "Назад"

@@ -1,0 +1,6 @@
+{
+  "name": "Garage Logistic",
+  "short_name": "Garage",
+  "start_url": ".",
+  "display": "standalone"
+}

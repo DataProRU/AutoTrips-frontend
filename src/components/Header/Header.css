@@ -97,3 +97,9 @@
   border-radius: 50px;
   border: 1px solid var(--secondary);
 }
+
+.logo {
+  image-rendering: -webkit-optimize-contrast;
+  backface-visibility: hidden;
+  transform: translateZ(0); /* форсируем GPU */
+}

@@ -32,6 +32,7 @@
       "phoneNumberRequired": "Phone number is required",
       "phoneNumberInvalid": "Phone number must be valid",
       "telegramLoginRequired": "Telegram login is required",
+      "telegramLoginStartsWithAt": "Do not include the @ symbol at the beginning",
       "photosRequired": "Upload at least one photo",
       "fileSizeLimit": "Each file must be less than 5MB",
       "fileFormatLimit": "Only JPEG, PNG, and GIF formats are supported",

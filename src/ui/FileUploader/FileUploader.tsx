@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import "./FileUploader.css";
 import Gallery from "../Gallery/Gallery";
 import { useTranslation } from "react-i18next";
+import heic2any from "heic2any";
 
 interface FileUploaderProps {
   onFilesSelected: (files: FileList) => void;
@@ -33,11 +34,34 @@ const FileUploader = ({
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const convertHeicToJpeg = async (file: File): Promise<File> => {
+    if (file.type === "image/heic" || file.name.toLowerCase().endsWith('.heic')) {
+        const conversionResult = await heic2any({
+            blob: file,
+            toType: 'image/jpeg',
+            quality: 0.8
+        }) as Blob;
+        
+        return new File([conversionResult], file.name.replace(/\.heic$/i, '.jpg'), {
+            type: 'image/jpeg',
+            lastModified: new Date().getTime()
+        });
+    }
+    return file;
+};
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
-      setSelectedFiles((prevFiles) => [...prevFiles, ...filesArray]);
-      onFilesSelected(e.target.files);
+      const convertedFiles = await Promise.all(filesArray.map(async (file) => {
+        return await convertHeicToJpeg(file);
+      }));
+
+      setSelectedFiles((prevFiles) => [...prevFiles, ...convertedFiles]);
+
+      const dataTransfer = new DataTransfer();
+      convertedFiles.forEach(file => dataTransfer.items.add(file));
+      onFilesSelected(dataTransfer.files);
     }
   };
 
@@ -78,7 +102,7 @@ const FileUploader = ({
         type="file"
         ref={fileInputRef}
         style={{ display: "none" }}
-        accept="image/*"
+        accept="image/*,.heic,.heif"
         multiple
         onChange={handleFileChange}
       />

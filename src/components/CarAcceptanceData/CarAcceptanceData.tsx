@@ -30,7 +30,7 @@ const getSchema = (t: (key: string) => string) =>
       .refine(
         (files) =>
           files.every((file) =>
-            ["image/jpeg", "image/png", "image/gif"].includes(file.type)
+            ["image/jpeg", "image/png", "image/gif", "image/heic", "image/heif"].includes(file.type)
           ),
         t("carAcceptanceData.errors.fileFormatLimit")
       ),
@@ -44,7 +44,7 @@ const getSchema = (t: (key: string) => string) =>
       .refine(
         (files) =>
           files.every((file) =>
-            ["image/jpeg", "image/png", "image/gif"].includes(file.type)
+            ["image/jpeg", "image/png", "image/gif", "image/heic", "image/heif"].includes(file.type)
           ),
         t("carAcceptanceData.errors.fileFormatLimit")
       ),
@@ -58,7 +58,7 @@ const getSchema = (t: (key: string) => string) =>
       .refine(
         (files) =>
           files.every((file) =>
-            ["image/jpeg", "image/png", "image/gif"].includes(file.type)
+            ["image/jpeg", "image/png", "image/gif", "image/heic", "image/heif"].includes(file.type)
           ),
         t("carAcceptanceData.errors.fileFormatLimit")
       ),

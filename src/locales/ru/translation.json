@@ -30,6 +30,7 @@
       "fullNameRequired": "ФИО обязательно для заполнения",
       "phoneNumberRequired": "Номер телефона обязателен для заполнения",
       "phoneNumberInvalid": "Номер телефона должен быть действительным",
+      "telegramLoginStartsWithAt": "Не указывайте символ @ в начале",
       "telegramLoginRequired": "Логин Telegram обязателен для заполнения",
       "photosRequired": "Загрузите хотя бы одно фото",
       "fileSizeLimit": "Каждый файл должен быть меньше 5MB",

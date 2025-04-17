@@ -23,12 +23,15 @@ const getSchema = (t: (key: string) => string) =>
         .string()
         .min(1, t("registerData.errors.phoneNumberRequired"))
         .regex(
-          /^\+?[0-9]{10,15}$/,
+          /^\+(?:[1-9]\d{0,2})(?:[\s\d]{7,20})$/,
           t("registerData.errors.phoneNumberInvalid")
         ),
       telegramLogin: z
         .string()
-        .min(1, t("registerData.errors.telegramLoginRequired")),
+        .min(1, t("registerData.errors.telegramLoginRequired"))
+        .refine((val) => !val.startsWith("@"), {
+          message: t("registerData.errors.telegramLoginStartsWithAt"),
+        }),
       identityPhotos: z
         .array(z.instanceof(File))
         .min(1, t("registerData.errors.photosRequired"))
@@ -39,7 +42,13 @@ const getSchema = (t: (key: string) => string) =>
         .refine(
           (files) =>
             files.every((file) =>
-              ["image/jpeg", "image/png", "image/gif", "image/heic", "image/heif"].includes(file.type)
+              [
+                "image/jpeg",
+                "image/png",
+                "image/gif",
+                "image/heic",
+                "image/heif",
+              ].includes(file.type)
             ),
           t("registerData.errors.fileFormatLimit")
         ),
@@ -149,8 +158,6 @@ const RegisterData = () => {
         const currentFiles = control._formValues.identityPhotos as File[];
         const updatedFiles = currentFiles.filter((_, i) => i !== index);
         setValue("identityPhotos", updatedFiles, { shouldValidate: true });
-
-
       },
       onCancel: () => {},
     });
@@ -169,7 +176,7 @@ const RegisterData = () => {
         />
 
         <InputField
-          type="text"
+          type="tel"
           placeholder={t("registerData.ui.phoneNumberPlaceholder")}
           name="phoneNumber"
           register={register}

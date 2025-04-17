@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import "./Header.css";
 import LanguageStore from "../../store/LanguageStore";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/logo.svg";
 import authStore from "../../store/AuthStore";
 
 const Header: React.FC = observer(() => {
@@ -32,11 +32,14 @@ const Header: React.FC = observer(() => {
   return (
     <header className="menu">
       <Link to="/" className="menu__logo">
-        <img src={Logo} alt="Logo" />
+        <img src={Logo} alt="Logo" className="logo"  />
       </Link>
       <h2 className="menu__header">{authStore.page}</h2>
       <div className="menu__language">
-        <button className="menu__burger menu__burger-selected" onClick={toggleMenu}>
+        <button
+          className="menu__burger menu__burger-selected"
+          onClick={toggleMenu}
+        >
           <span className="menu__language">
             {LanguageStore.selectedLanguage.toUpperCase()}
           </span>

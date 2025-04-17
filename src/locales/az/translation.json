@@ -31,6 +31,7 @@
       "phoneNumberRequired": "Telefon nömrəsi tələb olunur",
       "phoneNumberInvalid": "Telefon nömrəsi düzgün olmalıdır",
       "telegramLoginRequired": "Telegram login tələb olunur",
+      "telegramLoginStartsWithAt": "@ simvolunu əvvəlində göstərməyin",
       "photosRequired": "Ən azı bir foto yükləyin",
       "fileSizeLimit": "Hər bir fayl 5 MB-dən kiçik olmalıdır",
       "fileFormatLimit": "Yalnız JPEG, PNG və GIF formatları dəstəklənir",

@@ -31,6 +31,7 @@
       "phoneNumberRequired": "ტელეფონის ნომერი სავალდებულოა",
       "phoneNumberInvalid": "ტელეფონის ნომერი უნდა იყოს სწორი",
       "telegramLoginRequired": "Telegram-ის ლოგინი სავალდებულოა",
+      "telegramLoginStartsWithAt": "გთხოვთ, არ მიუთითოთ სიმბოლო @ დასაწყისში",
       "photosRequired": "აუცილებელია მინიმუმ ერთი ფოტოს ატვირთვა",
       "fileSizeLimit": "თითოეული ფაილი უნდა იყოს 5 მბ-ზე ნაკლები",
       "fileFormatLimit": "მხარდაჭერილია მხოლოდ JPEG, PNG და GIF ფორმატები",

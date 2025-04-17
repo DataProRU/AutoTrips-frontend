@@ -2,7 +2,7 @@
   "logo": "Logo",
   "autotransport": "Autotransport",
   "main": {
-    "welcome": "Our car selling platform welcomes you!",
+    "welcome": "Our platform for car acceptance welcomes you!",
     "login": "Log in",
     "forgot_password": "Forgot password",
     "register": "Sign up",
@@ -72,6 +72,7 @@
   },
   "carAcceptanceData": {
     "ui": {
+      "pageTitle": "Car Acceptance",
       "acceptanceDate": "Acceptance date",
       "vinPlaceholder": "VIN number",
       "brandLabel": "Brand",
@@ -105,6 +106,7 @@
   },
   "comparisonsData": {
     "ui": {
+      "pageTitle": "Comparison",
       "vinPlaceholder": "VIN number",
       "checksPlaceholder": "Acceptance/Delivery date",
       "backButton": "Back"

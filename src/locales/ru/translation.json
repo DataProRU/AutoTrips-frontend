@@ -2,7 +2,7 @@
   "logo": "Лого",
   "autotransport": "Автоперевозки",
   "main": {
-    "welcome": "Наша площадка для продажи авто Приветствует Вас!",
+    "welcome": "Наша площадка для приема авто Приветствует Вас!",
     "login": "Войти",
     "forgot_password": "Не помню пароль",
     "register": "Зарегистрироваться",
@@ -71,6 +71,7 @@
   },
   "carAcceptanceData": {
     "ui": {
+      "pageTitle": "Принятие авто",
       "acceptanceDate": "Дата принятия",
       "vinPlaceholder": "VIN номер",
       "brandLabel": "Марка",
@@ -104,6 +105,7 @@
   },
   "comparisonsData": {
     "ui": {
+      "pageTitle": "Сравнение",
       "vinPlaceholder": "VIN номер",
       "checksPlaceholder": "Дата приёма/сдачи",
       "backButton": "Назад"

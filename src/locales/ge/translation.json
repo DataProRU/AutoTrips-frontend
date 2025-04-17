@@ -2,7 +2,7 @@
   "logo": "ლოგო",
   "autotransport": "ავტოტრანსპორტი",
   "main": {
-    "welcome": "ჩვენი ავტომობილების გაყიდვის პლატფორმა მიგირთვათ!",
+    "welcome": "ჩვენი ავტომობილების მიღების პლატფორმა მოგესალმებათ!",
     "login": "შესვლა",
     "forgot_password": "დამავიწყდა პაროლი",
     "register": "რეგისტრაცია",
@@ -71,6 +71,7 @@
   },
   "carAcceptanceData": {
     "ui": {
+      "pageTitle": "ავტომობილის მიღება",
       "acceptanceDate": "მიღების თარიღი",
       "vinPlaceholder": "VIN ნომერი",
       "brandLabel": "მარკა",
@@ -104,6 +105,7 @@
   },
   "comparisonsData": {
     "ui": {
+      "pageTitle": "შედარება",
       "vinPlaceholder": "VIN ნომერი",
       "checksPlaceholder": "მიღების/ჩაბარების თარიღი",
       "backButton": "უკან"

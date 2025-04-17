@@ -2,7 +2,7 @@
   "logo": "Loqo",
   "autotransport": "Avtodaşıma",
   "main": {
-    "welcome": "Avtomobil satış platformamız sizi salamlayır!",
+    "welcome": "Avtomobil qəbul platformamız sizi salamlayır!",
     "login": "Daxil ol",
     "forgot_password": "Şifrəmi unutdum",
     "register": "Qeydiyyat",
@@ -71,6 +71,7 @@
   },
   "carAcceptanceData": {
     "ui": {
+      "pageTitle": "Avtomobilin qəbulu",
       "acceptanceDate": "Qəbul tarixi Yorkshire",
       "vinPlaceholder": "VIN nömrəsi",
       "brandLabel": "Marka",
@@ -104,6 +105,7 @@
   },
   "comparisonsData": {
     "ui": {
+      "pageTitle": "Müqayisə",
       "vinPlaceholder": "VIN nömrəsi",
       "checksPlaceholder": "Qəbul/Təhvil tarixi",
       "backButton": "Geri"

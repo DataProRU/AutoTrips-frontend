@@ -36,7 +36,7 @@ const getSchema = (t: (key: string) => string) =>
         .array(z.instanceof(File))
         .min(1, t("registerData.errors.photosRequired"))
         .refine(
-          (files) => files.every((file) => file.size <= 5 * 1024 * 1024),
+          (files) => files.every((file) => file.size <= 20 * 1024 * 1024),
           t("registerData.errors.fileSizeLimit")
         )
         .refine(

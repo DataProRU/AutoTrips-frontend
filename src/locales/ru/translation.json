@@ -33,7 +33,7 @@
       "telegramLoginStartsWithAt": "Не указывайте символ @ в начале",
       "telegramLoginRequired": "Логин Telegram обязателен для заполнения",
       "photosRequired": "Загрузите хотя бы одно фото",
-      "fileSizeLimit": "Каждый файл должен быть меньше 5MB",
+      "fileSizeLimit": "Каждый файл должен быть меньше 20MB",
       "fileFormatLimit": "Поддерживаются только форматы JPEG, PNG и GIF",
       "passwordRequired": "Мин. 6 символов",
       "passwordComplexity": "Пароль должен содержать заглавную, строчную букву, цифру и спецсимвол",

@@ -33,7 +33,7 @@
       "telegramLoginRequired": "Telegram login tələb olunur",
       "telegramLoginStartsWithAt": "@ simvolunu əvvəlində göstərməyin",
       "photosRequired": "Ən azı bir foto yükləyin",
-      "fileSizeLimit": "Hər bir fayl 5 MB-dən kiçik olmalıdır",
+      "fileSizeLimit": "Hər bir fayl 20 MB-dən kiçik olmalıdır",
       "fileFormatLimit": "Yalnız JPEG, PNG və GIF formatları dəstəklənir",
       "passwordRequired": "Parol ən azı 6 simvoldan ibarət olmalıdır",
       "passwordComplexity": "Parolda böyük, kiçik hərf, rəqəm və xüsusi simvol olmalıdır",

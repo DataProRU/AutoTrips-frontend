@@ -33,7 +33,7 @@
       "telegramLoginRequired": "Telegram-ის ლოგინი სავალდებულოა",
       "telegramLoginStartsWithAt": "გთხოვთ, არ მიუთითოთ სიმბოლო @ დასაწყისში",
       "photosRequired": "აუცილებელია მინიმუმ ერთი ფოტოს ატვირთვა",
-      "fileSizeLimit": "თითოეული ფაილი უნდა იყოს 5 მბ-ზე ნაკლები",
+      "fileSizeLimit": "თითოეული ფაილი უნდა იყოს 20 მბ-ზე ნაკლები",
       "fileFormatLimit": "მხარდაჭერილია მხოლოდ JPEG, PNG და GIF ფორმატები",
       "passwordRequired": "პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს",
       "passwordComplexity": "პაროლი უნდა შეიცავდეს დიდ, პატარა ასოს, ციფრს და სპეციალურ სიმბოლოს",

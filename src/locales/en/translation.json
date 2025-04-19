@@ -34,7 +34,7 @@
       "telegramLoginRequired": "Telegram login is required",
       "telegramLoginStartsWithAt": "Do not include the @ symbol at the beginning",
       "photosRequired": "Upload at least one photo",
-      "fileSizeLimit": "Each file must be less than 5MB",
+      "fileSizeLimit": "Each file must be less than 20MB",
       "fileFormatLimit": "Only JPEG, PNG, and GIF formats are supported",
       "passwordRequired": "Password must be at least 6 characters",
       "passwordComplexity": "Password must contain uppercase, lowercase, number, and special character",

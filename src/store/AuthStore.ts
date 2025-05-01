@@ -1,6 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import AuthService from "../services/AuthService";
-import { RegisterFormData } from "../@types/RegisterFormData";
+import { RegisterClientFormData, RegisterFormData } from "../@types/RegisterFormData";
 import { jwtDecode } from "jwt-decode";
 import i18n from "i18next"; 
 
@@ -112,6 +112,11 @@ class AuthStore {
 
   async register(data: RegisterFormData) {
     await AuthService.register(data);
+    await this.login(data.phoneNumber, data.password);
+  }
+
+  async registerClient(data: RegisterClientFormData) {
+    await AuthService.registerClient(data);
     await this.login(data.phoneNumber, data.password);
   }
 

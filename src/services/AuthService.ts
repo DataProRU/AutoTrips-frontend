@@ -1,4 +1,4 @@
-import { RegisterFormData } from "../@types/RegisterFormData";
+import { RegisterClientFormData, RegisterFormData } from "../@types/RegisterFormData";
 import { AuthResponse } from "../models/response/AuthResponse";
 import $api from "../setup/http";
 
@@ -37,6 +37,20 @@ export default class AuthService {
     );
 
     return response;
+  }
+
+  static async registerClient(data: RegisterClientFormData) {
+    const formData = {
+      "full_name": data.fullName,
+      "company": data.company,
+      "phone": data.phoneNumber,
+      "address": data.address,
+      "email": data.email,
+      "telegram": data.telegramLogin,
+      "password": data.password,
+    }
+
+    return $api.post<AuthResponse>("/accounts/register/client/", formData);
   }
 
   static async logout() {

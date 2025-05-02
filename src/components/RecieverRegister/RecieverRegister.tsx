@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import "./RegisterData.css";
+import "./RecieverRegister.css";
 import InputField from "../../ui/Input/Input";
 import Button from "../../ui/Button/Button";
 import { observer } from "mobx-react";
@@ -18,26 +18,28 @@ import { useTranslation } from "react-i18next";
 const getSchema = (t: (key: string) => string) =>
   z
     .object({
-      fullName: z.string().min(1, t("registerData.errors.fullNameRequired")),
+      fullName: z
+        .string()
+        .min(1, t("register.errors.fullNameRequired")),
       phoneNumber: z
         .string()
-        .min(1, t("registerData.errors.phoneNumberRequired"))
+        .min(1, t(".errors.phoneNumberRequired"))
         .regex(
           /^\+(?:[1-9]\d{0,2})(?:[\s\d]{7,20})$/,
-          t("registerData.errors.phoneNumberInvalid")
+          t("register.errors.phoneNumberInvalid")
         ),
       telegramLogin: z
         .string()
-        .min(1, t("registerData.errors.telegramLoginRequired"))
+        .min(1, t("register.errors.telegramLoginRequired"))
         .refine((val) => !val.startsWith("@"), {
-          message: t("registerData.errors.telegramLoginStartsWithAt"),
+          message: t("register.errors.telegramLoginStartsWithAt"),
         }),
       identityPhotos: z
         .array(z.instanceof(File))
-        .min(1, t("registerData.errors.photosRequired"))
+        .min(1, t("register.errors.photosRequired"))
         .refine(
           (files) => files.every((file) => file.size <= 20 * 1024 * 1024),
-          t("registerData.errors.fileSizeLimit")
+          t("register.errors.fileSizeLimit")
         )
         .refine(
           (files) =>
@@ -50,34 +52,35 @@ const getSchema = (t: (key: string) => string) =>
                 "image/heif",
               ].includes(file.type)
             ),
-          t("registerData.errors.fileFormatLimit")
+          t("register.errors.fileFormatLimit")
         ),
       password: z
         .string()
-        .min(6, t("registerData.errors.passwordRequired"))
+        .min(6, t("register.errors.passwordRequired"))
         .regex(
           /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&]).+$/,
-          t("registerData.errors.passwordComplexity")
+          t("register.errors.passwordComplexity")
         ),
       confirmPassword: z.string(),
       consent: z.boolean().refine((val) => val === true, {
-        message: t("registerData.errors.consentRequired"),
+        message: t("register.errors.consentRequired"),
       }),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      message: t("registerData.errors.passwordsMustMatch"),
+      message: t("register.errors.passwordsMustMatch"),
       path: ["confirmPassword"],
     });
 
 type RegisterFormData = z.infer<ReturnType<typeof getSchema>>;
 
-const RegisterData = () => {
+const RecieverRegister = () => {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
+  authStore.page = t("register.page.pageRegisterClient");
 
   useEffect(() => {
     return () => {
@@ -145,8 +148,8 @@ const RegisterData = () => {
 
   const handleDeleteImage = (index: number) => {
     ConfirmModal({
-      title: t("registerData.ui.deleteImageTitle"),
-      message: t("registerData.ui.deleteImageMessage"),
+      title: t(".ui.deleteImageTitle"),
+      message: t("register.ui.deleteImageMessage"),
       confirmLabel: t("common.ui.yes"),
       cancelLabel: t("common.ui.no"),
       onConfirm: () => {
@@ -168,7 +171,7 @@ const RegisterData = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputField
           type="text"
-          placeholder={t("registerData.ui.fullNamePlaceholder")}
+          placeholder={t("register.ui.fullNamePlaceholder")}
           name="fullName"
           register={register}
           error={errors.fullName}
@@ -177,7 +180,7 @@ const RegisterData = () => {
 
         <InputField
           type="tel"
-          placeholder={t("registerData.ui.phoneNumberPlaceholder")}
+          placeholder={t("register.ui.phoneNumberPlaceholder")}
           name="phoneNumber"
           register={register}
           error={errors.phoneNumber}
@@ -186,7 +189,7 @@ const RegisterData = () => {
 
         <InputField
           type="text"
-          placeholder={t("registerData.ui.telegramLoginPlaceholder")}
+          placeholder={t("register.ui.telegramLoginPlaceholder")}
           name="telegramLogin"
           register={register}
           error={errors.telegramLogin}
@@ -195,7 +198,7 @@ const RegisterData = () => {
 
         <div className="register__group">
           <label className="register__label">
-            {t("registerData.ui.identityPhotosLabel")}{" "}
+            {t("register.ui.identityPhotosLabel")}{" "}
             <span className="register__label-required">*</span>
           </label>
           <Controller
@@ -228,7 +231,7 @@ const RegisterData = () => {
 
         <InputField
           type={showPassword ? "text" : "password"}
-          placeholder={t("registerData.ui.passwordPlaceholder")}
+          placeholder={t("register.ui.passwordPlaceholder")}
           name="password"
           register={register}
           error={errors.password}
@@ -239,7 +242,7 @@ const RegisterData = () => {
 
         <InputField
           type={showConfirmPassword ? "text" : "password"}
-          placeholder={t("registerData.ui.confirmPasswordPlaceholder")}
+          placeholder={t("register.ui.confirmPasswordPlaceholder")}
           name="confirmPassword"
           register={register}
           error={errors.confirmPassword}
@@ -252,12 +255,12 @@ const RegisterData = () => {
           name="consent"
           register={register}
           error={errors.consent}
-          label={t("registerData.ui.consentLabel")}
+          label={t("register.ui.consentLabel")}
         />
 
         <Button
           type="submit"
-          text={t("registerData.ui.registerButton")}
+          text={t("register.ui.registerButton")}
           className="link"
         />
       </form>
@@ -265,4 +268,4 @@ const RegisterData = () => {
   );
 };
 
-export default observer(RegisterData);
+export default observer(RecieverRegister);

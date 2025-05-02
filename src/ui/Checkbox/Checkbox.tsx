@@ -87,7 +87,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
         <div className="agreement-modal-container">
           <div className="agreement-modal-header">
             <h2 className="agreement-modal-heading">
-              {t("registerData.ui.consentLabel")}
+              {t("register.ui.consentLabel")}
             </h2>
           </div>
 
@@ -95,7 +95,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
             <p
               className="agreement-modal-text"
               dangerouslySetInnerHTML={{
-                __html: t("registerData.ui.agreementText"),
+                __html: t("register.ui.agreementText"),
               }}
             />
           </div>

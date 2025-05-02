@@ -1,0 +1,12 @@
+.register {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  height: 100vh;
+}
+
+.register__heading {
+  margin-bottom: 20px;
+}

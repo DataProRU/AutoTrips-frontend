@@ -13,6 +13,7 @@ interface InputFieldProps {
   type: string;
   placeholder?: string;
   name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<FormData>> | undefined;
   label?: string;
@@ -22,6 +23,7 @@ interface InputFieldProps {
   showPasswordButton?: boolean;
   onTogglePassword?: () => void;
   disabled?: boolean;
+  required?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -37,6 +39,7 @@ const InputField: React.FC<InputFieldProps> = ({
   onTogglePassword,
   className,
   disabled = false,
+  required = true
 }) => {
   const isIdentityPhotos = name === "identityPhotos";
   const [isEmpty, setIsEmpty] = useState(true);
@@ -56,7 +59,7 @@ const InputField: React.FC<InputFieldProps> = ({
   };
 
   const formatPhoneNumber = (value: string) => {
-    let digits = value.replace(/\D/g, "");
+    const digits = value.replace(/\D/g, "");
 
     let formatted = "+";
 
@@ -105,7 +108,7 @@ const InputField: React.FC<InputFieldProps> = ({
         <span
           className={`placeholder ${!isEmpty || isFocused ? "hidden" : ""}`}
         >
-          {placeholder} <span className="required">*</span>
+          {placeholder} {required && <span className="required">*</span>}
         </span>
         {showPasswordButton && (
           <button

@@ -15,6 +15,7 @@ import CarPhotos from "./pages/CarPhotos/CarPhotos";
 import KeyPhotos from "./pages/KeyPhotos/KeyPhotos";
 import DocsPhotos from "./pages/DocsPhotos/DocsPhotos";
 import UserDocs from "./pages/UserDocs/UserDocs";
+import ClientPage from "./pages/ClientPage/ClientPage";
 
 function App() {
   const { authStore } = useContext(Context);
@@ -47,6 +48,8 @@ function App() {
     }
 
     if (authStore.role === "admin") return <AdminPage />;
+
+    if (authStore.role === "client") return <ClientPage/>;
 
     return <Main />;
   }

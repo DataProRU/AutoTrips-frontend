@@ -94,7 +94,7 @@ const Gallery: React.FC<GalleryProps> = ({
 
       <Button
         type="button"
-        text={t("gallery.ui.backButton")}
+        text={t("gallery.ui.")}
         className="link gallery__btn"
         onClick={onClose}
       />

@@ -16,6 +16,7 @@ import KeyPhotos from "./pages/KeyPhotos/KeyPhotos";
 import DocsPhotos from "./pages/DocsPhotos/DocsPhotos";
 import UserDocs from "./pages/UserDocs/UserDocs";
 import ClientPage from "./pages/ClientPage/ClientPage";
+import Clients from "./pages/Clients/Clients";
 
 function App() {
   const { authStore } = useContext(Context);
@@ -49,7 +50,7 @@ function App() {
 
     if (authStore.role === "admin") return <AdminPage />;
 
-    if (authStore.role === "client") return <ClientPage/>;
+    if (authStore.role === "client") return <ClientPage />;
 
     return <Main />;
   }
@@ -61,6 +62,8 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/register" element={<Register />} />
         <Route path="/documents" element={<Documents />} />
+        <Route path="/clients" element={<Clients />} />
+        <Route path="/clients/:userId" element={<ClientPage />} />
         <Route path="/reports/:reportId/car-photos" element={<CarPhotos />} />
         <Route path="/reports/:reportId/key-photos" element={<KeyPhotos />} />
         <Route path="/reports/:reportId/doc-photos" element={<DocsPhotos />} />

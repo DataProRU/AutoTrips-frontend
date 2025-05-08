@@ -154,7 +154,7 @@ const ComparisonsData = ({ onBack, initialVin }: ComparisonsDataProps) => {
 
       <Button
         type="button"
-        text={t("comparisonsData.ui.backButton")}
+        text={t("common.ui.back")}
         className="link comparisons__back"
         onClick={onBack}
       />

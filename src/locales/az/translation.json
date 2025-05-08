@@ -121,8 +121,7 @@
     "ui": {
       "pageTitle": "Müqayisə",
       "vinPlaceholder": "VIN nömrəsi",
-      "checksPlaceholder": "Qəbul/Təhvil tarixi",
-      "backButton": "Geri"
+      "checksPlaceholder": "Qəbul/Təhvil tarixi"
     }
   },
   "confirmModal": {
@@ -175,8 +174,7 @@
       "pageTitle": "Sənədlər",
       "noAccess": "Bu səhifəyə girişiniz yoxdur",
       "toMain": "Əsas səhifəyə",
-      "usersListTitle": "İstifadəçilərin siyahısı",
-      "back": "Geri"
+      "usersListTitle": "İstifadəçilərin siyahısı"
     }
   },
   "select": {
@@ -189,14 +187,14 @@
       "deleteTitle": "Şəkli Sil",
       "deleteMessage": "Bu şəkli silmək istədiyinizə əminsiniz?",
       "photoAlt": "Şəkil {{index}}",
-      "deleteIconAlt": "Sil şəkli",
-      "backButton": "Geri qayıt"
+      "deleteIconAlt": "Sil şəkli"
     }
   },
   "common": {
     "ui": {
       "yes": "Bəli",
-      "no": "Xeyr"
+      "no": "Xeyr",
+      "back": "Geri qayıt"
     }
   },
   "adminPage": {
@@ -204,7 +202,15 @@
       "pageTitle": "İdarəetmə Paneli",
       "comparisonsTitle": "Müqayisələr",
       "comparisonsButton": "Müqayisələr",
-      "documentsLink": "Sənədlər"
+      "documentsLink": "Sənədlər",
+      "clientsLink": "Müştərilər"
+    }
+  },
+  "clientPage": {
+    "ui": {
+      "pageTitle": "Şəxsi Kabinet",
+      "clientTitle": "Yoldakı Hazırkı Nəqliyyat Vasitələri",
+      "addVehicleBtn": "Yeni VIN Əlavə Et"
     }
   },
   "auth": {

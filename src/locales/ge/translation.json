@@ -121,8 +121,7 @@
     "ui": {
       "pageTitle": "შედარება",
       "vinPlaceholder": "VIN ნომერი",
-      "checksPlaceholder": "მიღების/ჩაბარების თარიღი",
-      "backButton": "უკან"
+      "checksPlaceholder": "მიღების/ჩაბარების თარიღი"
     }
   },
   "confirmModal": {
@@ -175,8 +174,7 @@
       "pageTitle": "დოკუმენტები",
       "noAccess": "თქვენ არ გაქვთ ამ გვერდზე წვდომა",
       "toMain": "მთავარ გვერდზე",
-      "usersListTitle": "მომხმარებლების სია",
-      "back": "უკან"
+      "usersListTitle": "მომხმარებლების სია"
     }
   },
   "select": {
@@ -189,14 +187,14 @@
       "deleteTitle": "ფოტოს წაშლა",
       "deleteMessage": "დარწმუნებული ხართ, რომ გსურთ ამ ფოტოს წაშლა?",
       "photoAlt": "ფოტო {{index}}",
-      "deleteIconAlt": "წაშლის სურათი",
-      "backButton": "უკან დაბრუნება"
+      "deleteIconAlt": "წაშლის სურათი"
     }
   },
   "common": {
     "ui": {
       "yes": "დიახ",
-      "no": "არა"
+      "no": "არა",
+      "back": "უკან დაბრუნება"
     }
   },
   "adminPage": {
@@ -204,7 +202,15 @@
       "pageTitle": "მართვის პანელი",
       "comparisonsTitle": "შედარებები",
       "comparisonsButton": "შედარებები",
-      "documentsLink": "დოკუმენტები"
+      "documentsLink": "დოკუმენტები",
+      "clientsLink": "კლიენტები"
+    }
+  },
+  "clientPage": {
+    "ui": {
+      "pageTitle": "პირადი კაბინეტი",
+      "clientTitle": "მიმდინარე ტრანსპორტირებადი ავტომობილები",
+      "addVehicleBtn": "ახალი VIN-ის დამატება"
     }
   },
   "auth": {

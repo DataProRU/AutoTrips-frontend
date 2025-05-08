@@ -1,0 +1,35 @@
+.clients .link {
+  margin-bottom: 10px;
+}
+
+.clients {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 20px);
+  padding: 93px 16px 0;
+}
+
+.clients__title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.clients__scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.clients__loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.clients__users {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

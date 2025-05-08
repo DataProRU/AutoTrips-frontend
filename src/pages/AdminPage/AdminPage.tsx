@@ -29,11 +29,14 @@ const AdminPage = () => {
         <Button
           type="button"
           text={t("adminPage.ui.comparisonsButton")}
-          className="link acceptance__comparison"
+          className="admin__link link"
           onClick={() => setShowComparison(true)}
         />
         <Link to="/documents" className="link">
           {t("adminPage.ui.documentsLink")}
+        </Link>
+        <Link to="/clients" className="admin__link link">
+          {t("adminPage.ui.clientsLink")}
         </Link>
       </div>
     </>

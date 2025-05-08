@@ -4,6 +4,7 @@ import PhotosService from "../services/PhotosService";
 
 class UserStore {
   users: User[] = [];
+  isLoading = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -15,6 +16,22 @@ class UserStore {
     runInAction(() => {
       this.users = response.data;
     });
+  }
+
+  async fetchСlients() {
+    this.isLoading = true;
+    try {
+      const response = await PhotosService.getClients();
+      runInAction(() => {
+        this.users = response.data;
+      });
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
   }
 }
 

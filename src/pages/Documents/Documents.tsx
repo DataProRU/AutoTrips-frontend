@@ -47,7 +47,7 @@ const Documents = () => {
 
         <div className="documents__footer">
           <Link to="/" className="link">
-            {t("documents.ui.back")}
+            {t("common.ui.back")}
           </Link>
         </div>
       </div>

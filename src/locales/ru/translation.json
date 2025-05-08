@@ -121,8 +121,7 @@
     "ui": {
       "pageTitle": "Сравнение",
       "vinPlaceholder": "VIN номер",
-      "checksPlaceholder": "Дата приёма/сдачи",
-      "backButton": "Назад"
+      "checksPlaceholder": "Дата приёма/сдачи"
     }
   },
   "confirmModal": {
@@ -175,8 +174,7 @@
       "pageTitle": "Документы",
       "noAccess": "У вас нет доступа к данной странице",
       "toMain": "На главную",
-      "usersListTitle": "Список пользователей",
-      "back": "Назад"
+      "usersListTitle": "Список пользователей"
     }
   },
   "select": {
@@ -189,14 +187,14 @@
       "deleteTitle": "Удаление фото",
       "deleteMessage": "Вы уверены, что хотите удалить это фото?",
       "photoAlt": "Фото {{index}}",
-      "deleteIconAlt": "Картинка удаления",
-      "backButton": "Вернуться назад"
+      "deleteIconAlt": "Картинка удаления"
     }
   },
   "common": {
     "ui": {
       "yes": "Да",
-      "no": "Нет"
+      "no": "Нет",
+      "back": "Вернуться назад"
     }
   },
   "adminPage": {
@@ -204,7 +202,15 @@
       "pageTitle": "Панель управления",
       "comparisonsTitle": "Сравнения",
       "comparisonsButton": "Сравнения",
-      "documentsLink": "Документы"
+      "documentsLink": "Документы",
+      "clientsLink": "Клиенты"
+    }
+  },
+  "clientPage": {
+    "ui": {
+      "pageTitle": "Личный кабинет",
+      "clientTitle": "Текущие ТС в пути",
+      "addVehicleBtn": "Добавить новый VIN"
     }
   },
   "auth": {

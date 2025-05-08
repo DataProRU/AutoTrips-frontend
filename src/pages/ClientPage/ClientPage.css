@@ -1,0 +1,46 @@
+.client {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 20px);
+  padding: 93px 16px 0;
+}
+
+.client__title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.client__loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.client__scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.client__vehicle {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border: 1px solid var(--black);
+  border-radius: 8px;
+  color: var(--black);
+  text-align: left;
+  font-size: 14px;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.client__vehicles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

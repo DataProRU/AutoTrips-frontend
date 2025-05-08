@@ -1,4 +1,3 @@
-
 import $api from "../setup/http";
 
 export default class PhotosService {
@@ -6,8 +5,12 @@ export default class PhotosService {
     return $api.get(`/accounts/users/`);
   }
 
+  static getClients() {
+    return $api.get(`/accounts/users/clients/`);
+  }
+
   static getPhotos(reportId: string, type: string) {
-    if (type == 'docs') {
+    if (type == "docs") {
       return $api.get(`/accounts/users/${reportId}/documents/`);
     }
     return $api.get(`/autotrips/reports/${reportId}/${type}/`);

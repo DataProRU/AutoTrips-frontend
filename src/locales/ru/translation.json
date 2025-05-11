@@ -100,11 +100,7 @@
       "damagedWarning": "*Отправим запрос в тех. поддержку",
       "statusAccepted": "Принят",
       "statusDamaged": "Повреждён",
-      "successTitle": "Успешно",
-      "successMessage": "Операция выполнена успешно",
       "successDamagedMessage": "Операция выполнена успешно. Запрос отправлен в тех поддержку",
-      "okButton": "ОК",
-      "confirmTitle": "Подтверждение",
       "confirmAcceptMessage": "Вы уверены, что хотите принять автомобиль?",
       "confirmDamagedMessage": "Вы уверены, что хотите отметить автомобиль как повреждённый? Это отправит запрос в тех. поддержку."
     },
@@ -194,7 +190,12 @@
     "ui": {
       "yes": "Да",
       "no": "Нет",
-      "back": "Вернуться назад"
+      "back": "Вернуться назад",
+      "change": "Изменить",
+      "confirmTitle": "Подтверждение",
+      "successTitle": "Успешно",
+      "successMessage": "Операция выполнена успешно",
+      "okButton": "ОК"
     }
   },
   "adminPage": {
@@ -216,6 +217,34 @@
   "auth": {
     "ui": {
       "pageTitle": "Авторизация"
+    }
+  },
+  "editVehicleModal": {
+    "ui": {
+      "pageTitle": "Изменение ТС клиента",
+      "client": "Карточка клиента",
+      "model": "Марка",
+      "brand": "Модель",
+      "type": "Тип ТС",
+      "vin": "VIN номер",
+      "container": "Номер ĸонтейнера / Номер ĸоносамента",
+      "date": "Предполагаемая дата прибытия",
+      "transporter": "Перевозчиĸ",
+      "recipient": "Получатель",
+      "comment": "Комментарий",
+      "editConfirmModal": "Вы уверены, что хотите изменить данные?"
+    },
+    "errors": {
+      "clientRequired": "Клиент обязателен",
+      "modelRequired": "Модель обязательна",
+      "brandRequired": "Марка обязательна",
+      "typeRequired": "Тип ТС обязателен",
+      "vinRequired": "VIN обязателен",
+      "containerRequired": "Номер контейнера обязателен",
+      "dateRequired": "Дата прибытия обязательна",
+      "transporterRequired": "Перевозчик обязателен",
+      "recipientRequired": "Получатель обязателен",
+      "invalidVin": "Неверный формат VIN"
     }
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FieldError,
   Merge,
@@ -24,6 +24,7 @@ interface InputFieldProps {
   onTogglePassword?: () => void;
   disabled?: boolean;
   required?: boolean;
+  defaultValue?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -39,13 +40,18 @@ const InputField: React.FC<InputFieldProps> = ({
   onTogglePassword,
   className,
   disabled = false,
-  required = true
+  required = true,
+  defaultValue = "",
 }) => {
   const isIdentityPhotos = name === "identityPhotos";
   const [isEmpty, setIsEmpty] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(defaultValue);
 
+  useEffect(() => {
+    setIsEmpty(!defaultValue);
+    setValue(defaultValue);
+  }, [defaultValue]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;

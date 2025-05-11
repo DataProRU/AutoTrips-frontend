@@ -1,10 +1,10 @@
-export interface AxiosError {
+interface ApiErrorData {
+  [key: string]: string[];
+}
+
+export interface AxiosError<T = ApiErrorData> {
   response?: {
     status?: number;
-    data?: {
-      phone?: string[];
-      telegram?: string[];
-      email?: string[];
-    };
+    data?: T;
   };
 }

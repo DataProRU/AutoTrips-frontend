@@ -100,11 +100,7 @@
       "damagedWarning": "*Texniki dəstəyə sorğu göndəriləcək",
       "statusAccepted": "Qəbul edilmiş",
       "statusDamaged": "Zədələnmiş",
-      "successTitle": "Uğurlu",
-      "successMessage": "Əməliyyat uğurla başa çatdı",
       "successDamagedMessage": "Əməliyyat uğurla başa çatdı. Sorğu texniki dəstəyə göndərildi",
-      "okButton": "OK",
-      "confirmTitle": "Təsdiq",
       "confirmAcceptMessage": "Avtomobili qəbul etmək istədiyinizə əminsiniz?",
       "confirmDamagedMessage": "Avtomobili zədələnmiş kimi qeyd etmək istədiyinizə əminsiniz? Bu, texniki dəstəyə sorğu göndərəcək."
     },
@@ -194,7 +190,12 @@
     "ui": {
       "yes": "Bəli",
       "no": "Xeyr",
-      "back": "Geri qayıt"
+      "back": "Geri qayıt",
+      "change": "Dəyiş",
+      "confirmTitle": "Təsdiq",
+      "successTitle": "Uğurlu",
+      "successMessage": "Əməliyyat uğurla başa çatdı",
+      "okButton": "OK"
     }
   },
   "adminPage": {
@@ -216,6 +217,34 @@
   "auth": {
     "ui": {
       "pageTitle": "Avtorizasiya"
+    }
+  },
+  "editVehicleModal": {
+    "ui": {
+      "pageTitle": "Müştəri Nəqliyyat Vasitəsinin Redaktəsi",
+      "client": "Müştəri Kartı",
+      "model": "Marka",
+      "brand": "Model",
+      "type": "Nəqliyyat Növü",
+      "vin": "VIN Nömrəsi",
+      "container": "Konteyner Nömrəsi / Yükləmə Sənədi Nömrəsi",
+      "date": "Təxmini Gəliş Tarixi",
+      "transporter": "Daşıyıcı",
+      "recipient": "Alıcı",
+      "comment": "Şərh",
+      "editConfirmModal": "Məlumatları dəyişdirmək istədiyinizə əminsiniz?"
+    },
+    "errors": {
+      "clientRequired": "Müştəri tələb olunur",
+      "modelRequired": "Model tələb olunur",
+      "brandRequired": "Marka tələb olunur",
+      "typeRequired": "Nəqliyyat növü tələb olunur",
+      "vinRequired": "VIN tələb olunur",
+      "containerRequired": "Konteyner nömrəsi tələb olunur",
+      "dateRequired": "Gəliş tarixi tələb olunur",
+      "transporterRequired": "Daşıyıcı tələb olunur",
+      "recipientRequired": "Alıcı tələb olunur",
+      "invalidVin": "VIN formatı yalnışdır."
     }
   }
 }

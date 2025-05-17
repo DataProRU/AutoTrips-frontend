@@ -8,7 +8,7 @@ interface CustomSelectProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control?: any;
   options: { value: string; label: string }[];
-  placeholder?: string;
+  placeholder?: string | React.ReactNode;
   isClearable?: boolean;
   isSearchable?: boolean;
   className?: string;
@@ -48,12 +48,14 @@ const CustomSelect = ({
             onChange={(selectedOption) =>
               field.onChange(selectedOption?.value || "")
             }
-            value={options.find((option) => option.value === field.value) || null}
+            value={
+              options.find((option) => option.value === field.value) || null
+            }
             isDisabled={disabled}
           />
         )}
       />
-      {error && <span className="error">{error.message}</span>}
+      {error && <span className="error select-error">{error.message}</span>}
     </div>
   );
 };

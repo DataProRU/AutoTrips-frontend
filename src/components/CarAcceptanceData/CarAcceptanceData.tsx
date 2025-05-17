@@ -30,7 +30,13 @@ const getSchema = (t: (key: string) => string) =>
       .refine(
         (files) =>
           files.every((file) =>
-            ["image/jpeg", "image/png", "image/gif", "image/heic", "image/heif"].includes(file.type)
+            [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/heic",
+              "image/heif",
+            ].includes(file.type)
           ),
         t("carAcceptanceData.errors.fileFormatLimit")
       ),
@@ -44,7 +50,13 @@ const getSchema = (t: (key: string) => string) =>
       .refine(
         (files) =>
           files.every((file) =>
-            ["image/jpeg", "image/png", "image/gif", "image/heic", "image/heif"].includes(file.type)
+            [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/heic",
+              "image/heif",
+            ].includes(file.type)
           ),
         t("carAcceptanceData.errors.fileFormatLimit")
       ),
@@ -58,7 +70,13 @@ const getSchema = (t: (key: string) => string) =>
       .refine(
         (files) =>
           files.every((file) =>
-            ["image/jpeg", "image/png", "image/gif", "image/heic", "image/heif"].includes(file.type)
+            [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/heic",
+              "image/heif",
+            ].includes(file.type)
           ),
         t("carAcceptanceData.errors.fileFormatLimit")
       ),
@@ -154,10 +172,10 @@ const CarAcceptanceData = () => {
     await ReportsService.addReport(submissionData);
 
     MessageBox({
-      title: t("carAcceptanceData.ui.successTitle"),
-      message: t("carAcceptanceData.ui.successMessage"),
+      title: t("common.ui.successTitle"),
+      message: t("common.ui.successMessage"),
       onClose: () => {},
-      buttonText: t("carAcceptanceData.ui.okButton"),
+      buttonText: t("common.ui.okButton"),
     });
     resetForm();
   };
@@ -177,28 +195,28 @@ const CarAcceptanceData = () => {
     await ReportsService.addReport(submissionData);
 
     MessageBox({
-      title: t("carAcceptanceData.ui.successTitle"),
+      title: t("common.ui.successTitle"),
       message: t("carAcceptanceData.ui.successDamagedMessage"),
       onClose: () => {},
-      buttonText: t("carAcceptanceData.ui.okButton"),
+      buttonText: t("common.ui.okButton"),
     });
     resetForm();
   };
 
   const onAcceptCarSubmit = (data: CarAcceptanceFormData) => {
     ConfirmModal({
-      title: t("carAcceptanceData.ui.confirmTitle"),
+      title: t("common.ui.confirmTitle"),
       message: t("carAcceptanceData.ui.confirmAcceptMessage"),
       onConfirm: () => handleAcceptCar(data),
       onCancel: () => console.log("Принятие отменено"),
-      confirmLabel: t("common.ui.yes"), 
+      confirmLabel: t("common.ui.yes"),
       cancelLabel: t("common.ui.no"),
     });
   };
 
   const onDamagedCarSubmit = (data: CarAcceptanceFormData) => {
     ConfirmModal({
-      title: t("carAcceptanceData.ui.confirmTitle"),
+      title: t("common.ui.confirmTitle"),
       message: t("carAcceptanceData.ui.confirmDamagedMessage"),
       onConfirm: () => handleDamagedCar(data),
       onCancel: () => console.log("Отмена действия"),
@@ -243,7 +261,7 @@ const CarAcceptanceData = () => {
         />
 
         <div className="group">
-          <label className={`label ${currentLanguage === 'ge' ? 'small' : ''}`}>
+          <label className={`label ${currentLanguage === "ge" ? "small" : ""}`}>
             {t("carAcceptanceData.ui.carPhotosLabel")}{" "}
             <span className="label-required">*</span>
           </label>
@@ -348,7 +366,11 @@ const CarAcceptanceData = () => {
           <Button
             type="button"
             text={t("carAcceptanceData.ui.acceptButton")}
-            className={`link acceptance__btn ${currentLanguage === 'az' || currentLanguage === 'ge' ? 'tall-button' : ''}`}
+            className={`link acceptance__btn ${
+              currentLanguage === "az" || currentLanguage === "ge"
+                ? "tall-button"
+                : ""
+            }`}
             onClick={handleSubmit(onAcceptCarSubmit)}
           />
           <div className="acceptance__damaged acceptance__btn">

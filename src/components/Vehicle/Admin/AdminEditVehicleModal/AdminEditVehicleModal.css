@@ -1,0 +1,37 @@
+.vehicle-overlay {
+  padding-top: 0;
+}
+
+.vehicle__title {
+  padding: 10px 0;
+  text-align: center;
+}
+
+.vehicle {
+  padding-top: 0px;
+  height: 100vh;
+}
+
+.vehicle-group {
+  display: flex;
+  gap: 10px;
+}
+
+.vehicle__change {
+  margin-bottom: 20px !important;
+}
+
+.vehicle__input {
+  z-index: 0;
+}
+
+.vehicle__red {
+  color: red;
+}
+
+.vehicle__loader {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}

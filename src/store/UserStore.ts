@@ -33,6 +33,13 @@ class UserStore {
       });
     }
   }
+
+  get usersOptions() {
+    return this.users.map((user) => ({
+      value: user.id.toString(),
+      label: user.full_name,
+    }));
+  }
 }
 
 const userStore = new UserStore();

@@ -6,7 +6,7 @@ interface ButtonProps {
   text: string;
   type?: "button" | "submit";
   to?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   className?: string;
   disabled?: boolean;
 }

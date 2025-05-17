@@ -10,3 +10,13 @@ export interface User {
   is_onboarded: boolean;
   documents: Photo[];
 }
+
+export interface Client {
+  id: number;
+  full_name: string;
+  email: string;
+  telegram: string;
+  phone: string;
+  company: string | null;
+  address: string | null;
+}

@@ -1,7 +1,7 @@
 import {
   Vehicle,
   VehicleType,
-  VehicleUpdate,
+  VehicleResponce,
 } from "../models/response/Vehicle";
 import $api from "../setup/http";
 
@@ -19,7 +19,11 @@ export default class VehicleService {
     return $api.get<VehicleType[]>("/autotrips/vehicles-types/");
   }
 
-  static updateVehicle(id: number, updatedRecord: VehicleUpdate) {
+  static addVehicles(data: VehicleResponce[]) {
+    return $api.post<Vehicle[]>("/autotrips/vehicles/", data);
+  }
+
+  static updateVehicle(id: number, updatedRecord: VehicleResponce) {
     return $api.patch<Vehicle>(`/autotrips/vehicles/${id}/`, updatedRecord);
   }
 }

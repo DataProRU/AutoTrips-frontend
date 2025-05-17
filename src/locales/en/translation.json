@@ -42,6 +42,8 @@
       "fullNameRequired": "Full name is required",
       "phoneNumberRequired": "Phone number is required",
       "phoneNumberInvalid": "Phone number must be valid",
+      "phoneNumberExists": "User with this phone number exists",
+      "telegramExists": "User with this phone number exists",
       "telegramLoginRequired": "Telegram login is required",
       "telegramLoginStartsWithAt": "Do not include the @ symbol at the beginning",
       "photosRequired": "Upload at least one photo",
@@ -52,7 +54,8 @@
       "consentRequired": "Consent to personal data processing is required",
       "passwordsMustMatch": "Passwords must match",
       "emailInvalid": "Email must be valid",
-      "addressRequired": "Address is required"
+      "addressRequired": "Address is required",
+      "emailExists": "User with this email already exists"
     }
   },
   "fileUploader": {
@@ -196,7 +199,8 @@
       "confirmTitle": "Confirmation",
       "successTitle": "Success",
       "successMessage": "Operation completed successfully",
-      "okButton": "OK"
+      "okButton": "OK",
+      "saveAll": "Save All"
     }
   },
   "adminPage": {
@@ -220,9 +224,10 @@
       "pageTitle": "Authorization"
     }
   },
-  "editVehicleModal": {
+  "vehicleModal": {
     "ui": {
-      "pageTitle": "Edit Client Vehicle",
+      "editPageTitle": "Edit Client Vehicle",
+      "addPageTitle": "Add New Vehicles",
       "client": "Client Card",
       "model": "Brand",
       "brand": "Model",

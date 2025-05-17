@@ -41,6 +41,8 @@
       "fullNameRequired": "Tam ad tələb olunur",
       "phoneNumberRequired": "Telefon nömrəsi tələb olunur",
       "phoneNumberInvalid": "Telefon nömrəsi düzgün olmalıdır",
+      "phoneNumberExists": "Bu telefon nömrəsi ilə istifadəçi mövcuddur",
+      "telegramExists": "Bu telefon nömrəsi ilə istifadəçi mövcuddur",
       "telegramLoginRequired": "Telegram login tələb olunur",
       "telegramLoginStartsWithAt": "@ simvolunu əvvəlində göstərməyin",
       "photosRequired": "Ən azı bir foto yükləyin",
@@ -51,7 +53,8 @@
       "consentRequired": "Şəxsi məlumatların işlənməsinə razılıq tələb olunur",
       "passwordsMustMatch": "Parollar uyğun olmalıdır",
       "emailInvalid": "Email düzgün olmalıdır",
-      "addressRequired": "Ünvan tələb olunur"
+      "addressRequired": "Ünvan tələb olunur",
+      "emailExists": "Bu e-poçt ilə istifadəçi artıq mövcuddur"
     }
   },
   "fileUploader": {
@@ -195,7 +198,8 @@
       "confirmTitle": "Təsdiq",
       "successTitle": "Uğurlu",
       "successMessage": "Əməliyyat uğurla başa çatdı",
-      "okButton": "OK"
+      "okButton": "OK",
+      "saveAll": "Hamısını Yadda Saxla"
     }
   },
   "adminPage": {
@@ -219,9 +223,10 @@
       "pageTitle": "Avtorizasiya"
     }
   },
-  "editVehicleModal": {
+  "vehicleModal": {
     "ui": {
-      "pageTitle": "Müştəri Nəqliyyat Vasitəsinin Redaktəsi",
+      "editPageTitle": "Müştəri Nəqliyyat Vasitəsinin Redaktəsi",
+      "addPageTitle": "Yeni Nəqliyyat Vasitəsinin Əlavə Edilməsi",
       "client": "Müştəri Kartı",
       "model": "Marka",
       "brand": "Model",

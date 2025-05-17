@@ -41,6 +41,8 @@
       "fullNameRequired": "ФИО обязательно для заполнения",
       "phoneNumberRequired": "Номер телефона обязателен для заполнения",
       "phoneNumberInvalid": "Номер телефона должен быть действительным",
+      "phoneNumberExists": "Пользователь с данным номером телефона существует",
+      "telegramExists": "Пользователь с данным номером телефона существует",
       "telegramLoginStartsWithAt": "Не указывайте символ @ в начале",
       "telegramLoginRequired": "Логин Telegram обязателен для заполнения",
       "photosRequired": "Загрузите хотя бы одно фото",
@@ -51,7 +53,8 @@
       "consentRequired": "Необходимо согласие на обработку персональных данных",
       "passwordsMustMatch": "Пароли должны совпадать",
       "emailInvalid": "Почта должна быть корректная",
-      "addressRequired": "Адрес обязателен для заполнения"
+      "addressRequired": "Адрес обязателен для заполнения",
+      "emailExists": "Пользователь с данной почтой существует"
     }
   },
   "fileUploader": {
@@ -195,7 +198,8 @@
       "confirmTitle": "Подтверждение",
       "successTitle": "Успешно",
       "successMessage": "Операция выполнена успешно",
-      "okButton": "ОК"
+      "okButton": "ОК",
+      "saveAll": "Сохранить все"
     }
   },
   "adminPage": {
@@ -219,9 +223,10 @@
       "pageTitle": "Авторизация"
     }
   },
-  "editVehicleModal": {
+  "vehicleModal": {
     "ui": {
-      "pageTitle": "Изменение ТС клиента",
+      "editPageTitle": "Изменение ТС клиента",
+      "addPageTitle": "Добавление новых ТС",
       "client": "Карточка клиента",
       "model": "Марка",
       "brand": "Модель",
@@ -244,7 +249,8 @@
       "dateRequired": "Дата прибытия обязательна",
       "transporterRequired": "Перевозчик обязателен",
       "recipientRequired": "Получатель обязателен",
-      "invalidVin": "Неверный формат VIN"
+      "invalidVin": "Неверный формат VIN или такой VIN существует",
+      "duplicateVin": "VIN должен быть уникальным для каждого транспортного средства"
     }
   }
 }

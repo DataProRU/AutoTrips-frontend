@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import {
   Vehicle,
   VehicleType,
-  VehicleUpdate,
+  VehicleResponce,
 } from "../models/response/Vehicle";
 import VehicleService from "../services/VehicleService";
 
@@ -62,7 +62,11 @@ class VehicleStore {
     });
   }
 
-  async updateVehicle(id: number, updatedRecord: VehicleUpdate) {
+  async addVehicles(data: VehicleResponce[]) {
+    await VehicleService.addVehicles(data);
+  }
+
+  async updateVehicle(id: number, updatedRecord: VehicleResponce) {
     const response = await VehicleService.updateVehicle(id, updatedRecord);
     this.vehicles = this.vehicles.map((item) =>
       item.id === response.data.id ? { ...item, ...response.data } : item

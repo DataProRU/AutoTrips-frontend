@@ -24,7 +24,7 @@ interface InputFieldProps {
   onTogglePassword?: () => void;
   disabled?: boolean;
   required?: boolean;
-  defaultValue?: string;
+  value?: string;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -41,32 +41,30 @@ const InputField: React.FC<InputFieldProps> = ({
   className,
   disabled = false,
   required = true,
-  defaultValue = "",
+  value = "",
 }) => {
   const isIdentityPhotos = name === "identityPhotos";
   const [isEmpty, setIsEmpty] = useState(true);
   const [isFocused, setIsFocused] = useState(false);
-  const [value, setValue] = useState(defaultValue);
+  const [internalValue, setInternalValue] = useState(value);
 
   useEffect(() => {
-    setIsEmpty(!defaultValue);
-    setValue(defaultValue);
-  }, [defaultValue]);
+    setInternalValue(value);
+    setIsEmpty(!value);
+  }, [value]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = e.target.value;
     if (type === "tel") {
       inputValue = formatPhoneNumber(inputValue);
-      setValue(inputValue);
-      e.target.value = inputValue;
     }
+    setInternalValue(inputValue);
     setIsEmpty(inputValue === "");
     onChange?.(e);
   };
 
   const formatPhoneNumber = (value: string) => {
     const digits = value.replace(/\D/g, "");
-
     let formatted = "+";
 
     if (digits.length > 0) formatted += digits.substring(0, 3);
@@ -82,32 +80,18 @@ const InputField: React.FC<InputFieldProps> = ({
     <div className={`group ${isIdentityPhotos ? "group-photos" : ""}`}>
       {label && <label>{label}</label>}
       <div className="input-container">
-        {type == "tel" ? (
-          <input
-            type="text"
-            placeholder=""
-            {...register(name)}
-            multiple={multiple}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            onInput={handleInput}
-            className={className}
-            disabled={disabled}
-            value={type === "tel" ? value : undefined}
-          />
-        ) : (
-          <input
-            type={type}
-            placeholder=""
-            {...register(name)}
-            multiple={multiple}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            onInput={handleInput}
-            className={className}
-            disabled={disabled}
-          />
-        )}
+        <input
+          type={type === "tel" ? "text" : type}
+          placeholder=""
+          {...register(name)}
+          value={internalValue}
+          multiple={multiple}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onInput={handleInput}
+          className={className}
+          disabled={disabled}
+        />
 
         {error && <div className={`error`}>{error.message}</div>}
 

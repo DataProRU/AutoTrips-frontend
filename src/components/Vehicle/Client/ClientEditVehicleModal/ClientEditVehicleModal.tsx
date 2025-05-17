@@ -1,54 +1,53 @@
 import { observer } from "mobx-react";
-import "./EditVehicleModal.css";
 import Modal from "react-modal";
-import Select from "../../../ui/Select/Select";
+import Select from "../../../../ui/Select/Select";
 import { Controller, useForm } from "react-hook-form";
-import userStore from "../../../store/UserStore";
 import { useEffect, useState } from "react";
-import InputField from "../../../ui/Input/Input";
+import InputField from "../../../../ui/Input/Input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslation } from "react-i18next";
-import vehicleStore from "../../../store/VehicleStore";
-import DatePicker from "../../../ui/DatePicker/Datepicker";
-import Button from "../../../ui/Button/Button";
-import { VehicleUpdate } from "../../../models/response/Vehicle";
+import vehicleStore from "../../../../store/VehicleStore";
+import DatePicker from "../../../../ui/DatePicker/Datepicker";
+import Button from "../../../../ui/Button/Button";
+import { VehicleResponce } from "../../../../models/response/Vehicle";
 import dayjs from "dayjs";
-import Loader from "../../../ui/Loader/Loader";
-import { AxiosError } from "../../../models/response/AxiosError";
-import ConfirmModal from "../../../ui/ConfirmModal/ConfirmModal";
-import MessageBox from "../../../ui/MessageBox/MessageBox";
+import Loader from "../../../../ui/Loader/Loader";
+import { AxiosError } from "../../../../models/response/AxiosError";
+import ConfirmModal from "../../../../ui/ConfirmModal/ConfirmModal";
+import MessageBox from "../../../../ui/MessageBox/MessageBox";
+import authStore from "../../../../store/AuthStore";
 
 interface EditVehicleModalProps {
   onClose: () => void;
   vehicleId: number | null;
+  onSuccess?: () => void;
 }
 
 const getSchema = (t: (key: string) => string) =>
   z.object({
-    client: z.string().min(1, t("editVehicleModal.errors.clientRequired")),
-    model: z.string().min(1, t("editVehicleModal.errors.modelRequired")),
-    brand: z.string().min(1, t("editVehicleModal.errors.brandRequired")),
-    type: z.string().min(1, t("editVehicleModal.errors.typeRequired")),
-    vin: z.string().min(1, t("editVehicleModal.errors.vinRequired")),
-    container: z
-      .string()
-      .min(1, t("editVehicleModal.errors.containerRequired")),
+    model: z.string().min(1, t("vehicleModal.errors.modelRequired")),
+    brand: z.string().min(1, t("vehicleModal.errors.brandRequired")),
+    type: z.string().min(1, t("vehicleModal.errors.typeRequired")),
+    vin: z.string().min(1, t("vehicleModal.errors.vinRequired")),
+    container: z.string().min(1, t("vehicleModal.errors.containerRequired")),
     date: z.date({
-      required_error: t("editVehicleModal.errors.dateRequired"),
+      required_error: t("vehicleModal.errors.dateRequired"),
     }),
     transporter: z
       .string()
-      .min(1, t("editVehicleModal.errors.transporterRequired")),
-    recipient: z
-      .string()
-      .min(1, t("editVehicleModal.errors.recipientRequired")),
+      .min(1, t("vehicleModal.errors.transporterRequired")),
+    recipient: z.string().min(1, t("vehicleModal.errors.recipientRequired")),
     comment: z.string().optional(),
   });
 
 type EditVehicleFormData = z.infer<ReturnType<typeof getSchema>>;
 
-const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
+const ClientEditVehicleModal = ({
+  onClose,
+  vehicleId,
+  onSuccess,
+}: EditVehicleModalProps) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -67,25 +66,15 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
     const loadData = async () => {
       setIsLoading(true);
       try {
-        await Promise.all([
-          userStore.fetchСlients(),
-          vehicleStore.fetchVehicleTypes(),
-        ]);
+        await Promise.all([vehicleStore.fetchVehicleTypes()]);
 
         if (vehicleId) {
           await vehicleStore.fetchVehicle(vehicleId);
           if (vehicleStore.currentRecord) {
             reset({
-              client:
-                userStore.usersOptions.find(
-                  (u) => u.label === vehicleStore.currentRecord?.client_name
-                )?.value || "",
               brand: vehicleStore.currentRecord.brand,
               model: vehicleStore.currentRecord.model,
-              type:
-                vehicleStore.vehicleTypesOptions.find(
-                  (v) => v.label === vehicleStore.currentRecord?.v_type_name
-                )?.value || "",
+              type: vehicleStore.currentRecord.v_type.id.toString(),
               vin: vehicleStore.currentRecord.vin,
               container: vehicleStore.currentRecord.container_number,
               date: new Date(vehicleStore.currentRecord.arrival_date),
@@ -103,7 +92,8 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
           if (errors?.vin) {
             setError("vin", {
               type: "manual",
-              message: errors.vin[0],
+              message:
+                getVehicleError(errors.vin.error_type) ?? errors.vin.message,
             });
           }
         }
@@ -115,10 +105,19 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
     loadData();
   }, [vehicleId, reset]);
 
+  const getVehicleError = (type: string) => {
+    switch (type) {
+      case "vin_exists":
+        return t("vehicleModal.errors.invalidVin");
+      default:
+        return null;
+    }
+  };
+
   const onChangeSubmit = (data: EditVehicleFormData) => {
     ConfirmModal({
       title: t("common.ui.confirmTitle"),
-      message: t("editVehicleModal.ui.editConfirmModal"),
+      message: t("vehicleModal.ui.editConfirmModal"),
       onConfirm: () => onSubmit(data),
       onCancel: () => console.log("Изменение отменено"),
       confirmLabel: t("common.ui.yes"),
@@ -130,11 +129,11 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
     if (!vehicleId) return;
 
     try {
-      const updatedVehicle: VehicleUpdate = {
-        client_id: parseInt(data.client),
+      const updatedVehicle: VehicleResponce = {
+        client: Number(authStore.userId),
         brand: data.brand,
         model: data.model,
-        v_type_id: parseInt(data.type),
+        v_type: parseInt(data.type),
         vin: data.vin,
         container_number: data.container,
         arrival_date: dayjs(data.date).format("YYYY-MM-DD"),
@@ -147,7 +146,10 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
       MessageBox({
         title: t("common.ui.successTitle"),
         message: t("common.ui.successMessage"),
-        onClose: () => {},
+        onClose: () => {
+          onClose();
+          if (onSuccess) onSuccess();
+        },
         buttonText: t("common.ui.okButton"),
       });
       onClose();
@@ -160,7 +162,8 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
         if (errors?.vin) {
           setError("vin", {
             type: "manual",
-            message: t("editVehicleModal.errors.invalidVin"),
+            message:
+              getVehicleError(errors.vin.error_type) ?? errors.vin.message,
           });
         }
       }
@@ -172,50 +175,38 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
       <Modal
         isOpen={true}
         onRequestClose={onClose}
-        className="modal-content edit-vehicle"
-        overlayClassName="modal-overlay edit-vehicle-overlay"
+        className="modal-content vehicle"
+        overlayClassName="modal-overlay vehicle-overlay"
         ariaHideApp={false}
       >
         {isLoading ? (
-          <div className="edit-vehicle__loader">
+          <div className="vehicle__loader">
             <Loader />
           </div>
         ) : (
           <>
-            <h2 className="edit-vehicle__title">
-              {t("editVehicleModal.ui.pageTitle")}
+            <h2 className="vehicle__title">
+              {t("vehicleModal.ui.editPageTitle")}
             </h2>
             <form onSubmit={handleSubmit(onChangeSubmit)}>
-              <Select
-                name="client"
-                control={control}
-                options={userStore.usersOptions}
-                placeholder={
-                  <>
-                    {t("editVehicleModal.ui.client")}{" "}
-                    <span className="edit-vehicle__red">*</span>
-                  </>
-                }
-                error={errors.client}
-              />
-              <div className="edit-vehicle-group">
+              <div className="vehicle-group">
                 <InputField
                   type="text"
-                  placeholder={t("editVehicleModal.ui.brand")}
+                  placeholder={t("vehicleModal.ui.brand")}
                   name="brand"
                   register={register}
                   error={errors.brand}
-                  className="input edit-vehicle__input"
-                  defaultValue={vehicleStore.currentRecord?.brand || ""}
+                  className="input vehicle__input"
+                  value={vehicleStore.currentRecord?.brand || ""}
                 />
                 <InputField
                   type="text"
-                  placeholder={t("editVehicleModal.ui.model")}
+                  placeholder={t("vehicleModal.ui.model")}
                   name="model"
                   register={register}
                   error={errors.model}
-                  className="input edit-vehicle__input"
-                  defaultValue={vehicleStore.currentRecord?.model || ""}
+                  className="input vehicle__input"
+                  value={vehicleStore.currentRecord?.model || ""}
                 />
               </div>
               <Select
@@ -225,30 +216,28 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
                 error={errors.type}
                 placeholder={
                   <>
-                    {t("editVehicleModal.ui.type")}{" "}
-                    <span className="edit-vehicle__red">*</span>
+                    {t("vehicleModal.ui.type")}{" "}
+                    <span className="vehicle__red">*</span>
                   </>
                 }
               />
               <InputField
                 type="text"
-                placeholder={t("editVehicleModal.ui.vin")}
+                placeholder={t("vehicleModal.ui.vin")}
                 name="vin"
                 register={register}
                 error={errors.vin}
-                className="input edit-vehicle__input"
-                defaultValue={vehicleStore.currentRecord?.vin || ""}
+                className="input vehicle__input"
+                value={vehicleStore.currentRecord?.vin || ""}
               />
               <InputField
                 type="text"
-                placeholder={t("editVehicleModal.ui.container")}
+                placeholder={t("vehicleModal.ui.container")}
                 name="container"
                 register={register}
                 error={errors.container}
-                className="input edit-vehicle__input"
-                defaultValue={
-                  vehicleStore.currentRecord?.container_number || ""
-                }
+                className="input vehicle__input"
+                value={vehicleStore.currentRecord?.container_number || ""}
               />
 
               <Controller
@@ -258,7 +247,7 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
                   <DatePicker
                     selected={field.value}
                     onChange={(date: Date) => field.onChange(date)}
-                    placeholderText={t("editVehicleModal.ui.date")}
+                    placeholderText={t("vehicleModal.ui.date")}
                     value={
                       field.value ? field.value.toLocaleDateString("ru-RU") : ""
                     }
@@ -271,39 +260,39 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
 
               <InputField
                 type="text"
-                placeholder={t("editVehicleModal.ui.transporter")}
+                placeholder={t("vehicleModal.ui.transporter")}
                 name="transporter"
                 register={register}
                 error={errors.container}
-                className="input edit-vehicle__input"
-                defaultValue={vehicleStore.currentRecord?.transporter || ""}
+                className="input vehicle__input"
+                value={vehicleStore.currentRecord?.transporter || ""}
               />
 
               <InputField
                 type="text"
-                placeholder={t("editVehicleModal.ui.recipient")}
+                placeholder={t("vehicleModal.ui.recipient")}
                 name="recipient"
                 register={register}
                 error={errors.container}
-                className="input edit-vehicle__input"
-                defaultValue={vehicleStore.currentRecord?.recipient || ""}
+                className="input vehicle__input"
+                value={vehicleStore.currentRecord?.recipient || ""}
               />
 
               <InputField
                 type="text"
-                placeholder={t("editVehicleModal.ui.comment")}
+                placeholder={t("vehicleModal.ui.comment")}
                 name="comment"
                 register={register}
                 error={errors.comment}
-                className="input edit-vehicle__input"
+                className="input vehicle__input"
                 required={false}
-                defaultValue={vehicleStore.currentRecord?.comment || ""}
+                value={vehicleStore.currentRecord?.comment || ""}
               />
 
               <Button
                 type="submit"
                 text={t("common.ui.change")}
-                className="link edit-vehicle__change"
+                className="link vehicle__change"
               />
 
               <Button
@@ -320,4 +309,4 @@ const EditVehicleModal = ({ onClose, vehicleId }: EditVehicleModalProps) => {
   );
 };
 
-export default observer(EditVehicleModal);
+export default observer(ClientEditVehicleModal);

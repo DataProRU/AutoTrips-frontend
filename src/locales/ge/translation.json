@@ -41,6 +41,8 @@
       "fullNameRequired": "სრული სახელი სავალდებულოა",
       "phoneNumberRequired": "ტელეფონის ნომერი სავალდებულოა",
       "phoneNumberInvalid": "ტელეფონის ნომერი უნდა იყოს სწორი",
+      "phoneNumberExists": "მომხმარებელი ამ ტელეფონის ნომრით უკვე არსებობს",
+      "telegramExists": "მომხმარებელი ამ ტელეფონის ნომრით უკვე არსებობს",
       "telegramLoginRequired": "Telegram-ის ლოგინი სავალდებულოა",
       "telegramLoginStartsWithAt": "გთხოვთ, არ მიუთითოთ სიმბოლო @ დასაწყისში",
       "photosRequired": "აუცილებელია მინიმუმ ერთი ფოტოს ატვირთვა",
@@ -51,7 +53,8 @@
       "consentRequired": "აუცილებელია თანხმობა პერსონალური მონაცემების დამუშავებაზე",
       "passwordsMustMatch": "პაროლები უნდა ემთხვეოდეს",
       "emailInvalid": "ელ.ფოსტა სწორი უნდა იყოს",
-      "addressRequired": "მისამართის მითითება სავალდებულოა"
+      "addressRequired": "მისამართის მითითება სავალდებულოა",
+      "emailExists": "მომხმარებელი ამ ელ.ფოსტით უკვე არსებობს"
     }
   },
   "fileUploader": {
@@ -195,7 +198,8 @@
       "confirmTitle": "დადასტურება",
       "successTitle": "წარმატებით",
       "successMessage": "ოპერაცია წარმატებით შესრულდა",
-      "okButton": "კარგი"
+      "okButton": "კარგი",
+      "saveAll": "ყველას შენახვა"
     }
   },
   "adminPage": {
@@ -219,9 +223,10 @@
       "pageTitle": "ავტორიზაცია"
     }
   },
-  "editVehicleModal": {
+  "vehicleModal": {
     "ui": {
-      "pageTitle": "კლიენტის ტრანსპორტის რედაქტირება",
+      "editPageTitle": "კლიენტის ტრანსპორტის რედაქტირება",
+      "addPageTitle": "ახალი ტრანსპორტის დამატება",
       "client": "კლიენტის ბარათი",
       "model": "მარკა",
       "brand": "მოდელი",

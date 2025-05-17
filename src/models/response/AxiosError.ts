@@ -1,5 +1,10 @@
+interface Error {
+  error_type: string;
+  message: string;
+}
+
 interface ApiErrorData {
-  [key: string]: string[];
+  [key: string]: Error;
 }
 
 export interface AxiosError<T = ApiErrorData> {

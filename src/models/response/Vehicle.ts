@@ -15,7 +15,7 @@ export interface Vehicle {
   creation_time: string;
 }
 
-export interface VehicleUpdate {
+export interface VehicleResponce {
   client_id: number;
   brand: string;
   model: string;

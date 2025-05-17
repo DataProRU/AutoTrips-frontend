@@ -195,7 +195,8 @@
       "confirmTitle": "Подтверждение",
       "successTitle": "Успешно",
       "successMessage": "Операция выполнена успешно",
-      "okButton": "ОК"
+      "okButton": "ОК",
+      "saveAll": "Сохранить все"
     }
   },
   "adminPage": {
@@ -219,9 +220,10 @@
       "pageTitle": "Авторизация"
     }
   },
-  "editVehicleModal": {
+  "vehicleModal": {
     "ui": {
-      "pageTitle": "Изменение ТС клиента",
+      "editPageTitle": "Изменение ТС клиента",
+      "addPageTitle": "Добавление новых ТС",
       "client": "Карточка клиента",
       "model": "Марка",
       "brand": "Модель",
@@ -244,7 +246,8 @@
       "dateRequired": "Дата прибытия обязательна",
       "transporterRequired": "Перевозчик обязателен",
       "recipientRequired": "Получатель обязателен",
-      "invalidVin": "Неверный формат VIN"
+      "invalidVin": "Неверный формат VIN или такой VIN существует",
+      "duplicateVin": "VIN должен быть уникальным для каждого транспортного средства"
     }
   }
 }

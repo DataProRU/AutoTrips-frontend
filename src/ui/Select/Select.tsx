@@ -55,7 +55,7 @@ const CustomSelect = ({
           />
         )}
       />
-      {error && <span className="error">{error.message}</span>}
+      {error && <span className="error select-error">{error.message}</span>}
     </div>
   );
 };

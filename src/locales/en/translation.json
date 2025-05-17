@@ -196,7 +196,8 @@
       "confirmTitle": "Confirmation",
       "successTitle": "Success",
       "successMessage": "Operation completed successfully",
-      "okButton": "OK"
+      "okButton": "OK",
+      "saveAll": "Save All"
     }
   },
   "adminPage": {
@@ -220,9 +221,10 @@
       "pageTitle": "Authorization"
     }
   },
-  "editVehicleModal": {
+  "vehicleModal": {
     "ui": {
-      "pageTitle": "Edit Client Vehicle",
+      "editPageTitle": "Edit Client Vehicle",
+      "addPageTitle": "Add New Vehicles",
       "client": "Client Card",
       "model": "Brand",
       "brand": "Model",

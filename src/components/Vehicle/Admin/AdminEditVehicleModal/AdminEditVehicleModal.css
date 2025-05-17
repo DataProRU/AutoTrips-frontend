@@ -1,35 +1,35 @@
-.edit-vehicle-overlay {
+.vehicle-overlay {
   padding-top: 0;
 }
 
-.edit-vehicle__title {
+.vehicle__title {
   padding: 10px 0;
   text-align: center;
 }
 
-.edit-vehicle {
+.vehicle {
   padding-top: 0px;
   height: 100vh;
 }
 
-.edit-vehicle-group {
+.vehicle-group {
   display: flex;
   gap: 10px;
 }
 
-.edit-vehicle__change {
+.vehicle__change {
   margin-bottom: 20px !important;
 }
 
-.edit-vehicle__input {
+.vehicle__input {
   z-index: 0;
 }
 
-.edit-vehicle__red {
+.vehicle__red {
   color: red;
 }
 
-.edit-vehicle__loader {
+.vehicle__loader {
   display: flex;
   height: 100vh;
   justify-content: center;

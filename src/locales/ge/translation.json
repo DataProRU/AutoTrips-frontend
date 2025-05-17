@@ -195,7 +195,8 @@
       "confirmTitle": "დადასტურება",
       "successTitle": "წარმატებით",
       "successMessage": "ოპერაცია წარმატებით შესრულდა",
-      "okButton": "კარგი"
+      "okButton": "კარგი",
+      "saveAll": "ყველას შენახვა"
     }
   },
   "adminPage": {
@@ -219,9 +220,10 @@
       "pageTitle": "ავტორიზაცია"
     }
   },
-  "editVehicleModal": {
+  "vehicleModal": {
     "ui": {
-      "pageTitle": "კლიენტის ტრანსპორტის რედაქტირება",
+      "editPageTitle": "კლიენტის ტრანსპორტის რედაქტირება",
+      "addPageTitle": "ახალი ტრანსპორტის დამატება",
       "client": "კლიენტის ბარათი",
       "model": "მარკა",
       "brand": "მოდელი",

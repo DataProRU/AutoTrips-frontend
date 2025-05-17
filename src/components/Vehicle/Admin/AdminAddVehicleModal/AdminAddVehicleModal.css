@@ -1,0 +1,25 @@
+.react-tabs__tab-list {
+  border-bottom: none !important;
+}
+
+.react-tabs__tab--selected {
+  border-radius: 5px !important;
+  border-bottom: 1px solid #aaa !important;
+}
+
+.react-tabs__tab {
+  margin-right: 5px;
+  border: 1px solid #aaa;
+}
+
+.react-tabs__tab-add-button {
+  padding: 6px 12px;
+  background-color: var(--primary);
+  color: var(--white);
+  border: 1px solid #aaa;
+  border-radius: 5px;
+}
+
+.react-tabs__tab-remove-button {
+  margin-bottom: 19px !important;
+}

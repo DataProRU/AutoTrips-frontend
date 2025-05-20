@@ -46,8 +46,9 @@
       "telegramLoginStartsWithAt": "Не указывайте символ @ в начале",
       "telegramLoginRequired": "Логин Telegram обязателен для заполнения",
       "photosRequired": "Загрузите хотя бы одно фото",
-      "fileSizeLimit": "Каждый файл должен быть меньше 20MB",
-      "fileFormatLimit": "Поддерживаются только форматы JPEG, PNG и GIF",
+      "fileSizeLimit": "Каждый файл должен быть меньше 10MB",
+      "fileFormatLimit": "Поддерживаются только форматы JPEG, PNG, HEIF, HEIC и GIF",
+      "photosMaxLimit": "Макс 10 фотографий документов",
       "passwordRequired": "Мин. 6 символов",
       "passwordComplexity": "Пароль должен содержать заглавную, строчную букву, цифру и спецсимвол",
       "consentRequired": "Необходимо согласие на обработку персональных данных",
@@ -110,10 +111,13 @@
     "errors": {
       "vinRequired": "VIN номер обязателен",
       "photosRequired": "Загрузите хотя бы одно фото",
-      "fileSizeLimit": "Каждый файл должен быть меньше 5MB",
+      "fileSizeLimit": "Каждый файл должен быть меньше 10MB",
       "fileFormatLimit": "Поддерживаются только форматы JPEG, PNG и GIF",
       "placeRequired": "Расположение авто обязательно",
-      "notesRequired": "Комментарий обязателен для заполнения"
+      "notesRequired": "Комментарий обязателен для заполнения",
+      "carPhotosMaxLimit": "Максильмально 30 фотографий автомобиля",
+      "keyPhotosMaxLimit": "Максильмально 3 фотографии ключей",
+      "docsPhotosMaxLimit": "Максильмально 10 фотографий документов"
     }
   },
   "comparisonsData": {

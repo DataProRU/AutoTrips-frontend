@@ -47,8 +47,9 @@
       "telegramLoginRequired": "Telegram login is required",
       "telegramLoginStartsWithAt": "Do not include the @ symbol at the beginning",
       "photosRequired": "Upload at least one photo",
-      "fileSizeLimit": "Each file must be less than 20MB",
-      "fileFormatLimit": "Only JPEG, PNG, and GIF formats are supported",
+      "fileSizeLimit": "Each file must be less than 10MB",
+      "fileFormatLimit": "Only JPEG, PNG, HEIF, HEIC and GIF formats are supported",
+      "photosMaxLimit": "Maximum 10 document photos",
       "passwordRequired": "Password must be at least 6 characters",
       "passwordComplexity": "Password must contain uppercase, lowercase, number, and special character",
       "consentRequired": "Consent to personal data processing is required",
@@ -111,10 +112,13 @@
     "errors": {
       "vinRequired": "VIN number is required",
       "photosRequired": "Upload at least one photo",
-      "fileSizeLimit": "Each file must be less than 5MB",
+      "fileSizeLimit": "Each file must be less than 10MB",
       "fileFormatLimit": "Only JPEG, PNG, and GIF formats are supported",
       "placeRequired": "Car location is required",
-      "notesRequired": "Comment is required"
+      "notesRequired": "Comment is required",
+      "carPhotosMaxLimit": "Maximum 30 car photos",
+      "keyPhotosMaxLimit": "Maximum 3 key photos",
+      "docsPhotosMaxLimit": "Maximum 10 document photos"
     }
   },
   "comparisonsData": {

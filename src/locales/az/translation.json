@@ -46,8 +46,9 @@
       "telegramLoginRequired": "Telegram login tələb olunur",
       "telegramLoginStartsWithAt": "@ simvolunu əvvəlində göstərməyin",
       "photosRequired": "Ən azı bir foto yükləyin",
-      "fileSizeLimit": "Hər bir fayl 20 MB-dən kiçik olmalıdır",
-      "fileFormatLimit": "Yalnız JPEG, PNG və GIF formatları dəstəklənir",
+      "fileSizeLimit": "Hər bir fayl 10 MB-dən kiçik olmalıdır",
+      "fileFormatLimit": "Yalnız JPEG, PNG, HEIF, HEIC və GIF formatları dəstəklənir",
+      "photosMaxLimit": "Maksimum 10 sənəd fotoşəkili",
       "passwordRequired": "Parol ən azı 6 simvoldan ibarət olmalıdır",
       "passwordComplexity": "Parolda böyük, kiçik hərf, rəqəm və xüsusi simvol olmalıdır",
       "consentRequired": "Şəxsi məlumatların işlənməsinə razılıq tələb olunur",
@@ -110,10 +111,13 @@
     "errors": {
       "vinRequired": "VIN nömrəsi tələb olunur",
       "photosRequired": "Ən azı bir şəkil yükləyin",
-      "fileSizeLimit": "Hər bir fayl 5 MB-dən kiçik olmalıdır",
+      "fileSizeLimit": "Hər bir fayl 10 MB-dən kiçik olmalıdır",
       "fileFormatLimit": "Yalnız JPEG, PNG və GIF formatları dəstəklənir",
       "placeRequired": "Avtomobilin yeri tələb olunur",
-      "notesRequired": "Şərh qeyd etmək vacibdir"
+      "notesRequired": "Şərh qeyd etmək vacibdir",
+      "carPhotosMaxLimit": "Maksimum 30 avtomobil fotoşəkili",
+      "keyPhotosMaxLimit": "Maksimum 3 açar fotoşəkili",
+      "docsPhotosMaxLimit": "Maksimum 10 sənəd fotoşəkili"
     }
   },
   "comparisonsData": {

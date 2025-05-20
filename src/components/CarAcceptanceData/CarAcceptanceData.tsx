@@ -16,6 +16,8 @@ import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
 import MessageBox from "../../ui/MessageBox/MessageBox";
 import ComparisonsData from "../ComparisonsData/ComparisonsData";
 import { useTranslation } from "react-i18next";
+import Loader from "../../ui/Loader/Loader";
+import ProgressBar from "../../ui/ProgressBar/ProgressBar";
 
 const getSchema = (t: (key: string) => string) =>
   z.object({
@@ -23,8 +25,9 @@ const getSchema = (t: (key: string) => string) =>
     carPhotos: z
       .array(z.instanceof(File))
       .min(1, t("carAcceptanceData.errors.photosRequired"))
+      .max(30, t("carAcceptanceData.errors.carPhotosMaxLimit"))
       .refine(
-        (files) => files.every((file) => file.size <= 20 * 1024 * 1024),
+        (files) => files.every((file) => file.size <= 10 * 1024 * 1024),
         t("carAcceptanceData.errors.fileSizeLimit")
       )
       .refine(
@@ -43,8 +46,9 @@ const getSchema = (t: (key: string) => string) =>
     keyPhotos: z
       .array(z.instanceof(File))
       .min(1, t("carAcceptanceData.errors.photosRequired"))
+      .max(3, t("carAcceptanceData.errors.keyPhotosMaxLimit"))
       .refine(
-        (files) => files.every((file) => file.size <= 20 * 1024 * 1024),
+        (files) => files.every((file) => file.size <= 10 * 1024 * 1024),
         t("carAcceptanceData.errors.fileSizeLimit")
       )
       .refine(
@@ -63,8 +67,9 @@ const getSchema = (t: (key: string) => string) =>
     docsPhotos: z
       .array(z.instanceof(File))
       .min(1, t("carAcceptanceData.errors.photosRequired"))
+      .max(10, t("carAcceptanceData.errors.docsPhotosMaxLimit"))
       .refine(
-        (files) => files.every((file) => file.size <= 20 * 1024 * 1024),
+        (files) => files.every((file) => file.size <= 10 * 1024 * 1024),
         t("carAcceptanceData.errors.fileSizeLimit")
       )
       .refine(
@@ -89,6 +94,8 @@ type CarAcceptanceFormData = z.infer<ReturnType<typeof getSchema>>;
 const CarAcceptanceData = () => {
   const [uploaderKey, setUploaderKey] = useState(0);
   const [showComparison, setShowComparison] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPending, setIsPending] = useState(false);
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
@@ -111,7 +118,18 @@ const CarAcceptanceData = () => {
   });
 
   useEffect(() => {
-    reportsStore.fetchCars();
+    const loadData = async () => {
+      setIsLoading(true);
+      try {
+        await reportsStore.fetchCars();
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
   }, []);
 
   const selectedVin = watch("vin");
@@ -158,6 +176,7 @@ const CarAcceptanceData = () => {
   };
 
   const handleAcceptCar = async (data: CarAcceptanceFormData) => {
+    setIsPending(true);
     const submissionData: AcceptanceData = {
       vin: data.vin,
       model: getCarModel(),
@@ -170,6 +189,7 @@ const CarAcceptanceData = () => {
     };
 
     await ReportsService.addReport(submissionData);
+    setIsPending(false);
 
     MessageBox({
       title: t("common.ui.successTitle"),
@@ -220,7 +240,7 @@ const CarAcceptanceData = () => {
       message: t("carAcceptanceData.ui.confirmDamagedMessage"),
       onConfirm: () => handleDamagedCar(data),
       onCancel: () => console.log("Отмена действия"),
-      confirmLabel: t("common.ui.yes"), // Передаём переведённый текст
+      confirmLabel: t("common.ui.yes"),
       cancelLabel: t("common.ui.no"),
     });
   };
@@ -236,156 +256,153 @@ const CarAcceptanceData = () => {
 
   return (
     <div className="acceptance__form">
-      <form>
-        <p className="input acceptance__date">
-          {t("carAcceptanceData.ui.acceptanceDate")}: {getTodayDate()}
-        </p>
-        <Select
-          name="vin"
-          control={control}
-          options={reportsStore.vinOptions}
-          placeholder={t("carAcceptanceData.ui.vinPlaceholder")}
-          error={errors.vin}
-        />
-
-        <p className="acceptance__text">
-          {t("carAcceptanceData.ui.brandLabel")}:{" "}
-          <span className="acceptance__text-model">{getCarModel()}</span>
-        </p>
-        <Button
-          type="button"
-          text={t("carAcceptanceData.ui.compareModel")}
-          className="link acceptance__comparison"
-          disabled={!selectedVin}
-          onClick={() => setShowComparison(true)}
-        />
-
-        <div className="group">
-          <label className={`label ${currentLanguage === "ge" ? "small" : ""}`}>
-            {t("carAcceptanceData.ui.carPhotosLabel")}{" "}
-            <span className="label-required">*</span>
-          </label>
-          <Controller
-            name="carPhotos"
-            control={control}
-            render={({ field }) => (
-              <FileUploader
-                key={`carPhotos-${uploaderKey}`}
-                onFilesSelected={(files) => {
-                  handleFileChange(files, "carPhotos");
-                  field.onChange(control._formValues.carPhotos);
-                }}
-                onDelete={(updatedFiles) =>
-                  handleDeleteFiles(updatedFiles, "carPhotos")
-                }
-              />
-            )}
-          />
-          {errors.carPhotos && (
-            <span className="error error-photos">
-              {errors.carPhotos.message}
-            </span>
-          )}
+      {isLoading ? (
+        <div className="loader">
+          <Loader />
         </div>
-
-        <div className="group">
-          <label className="label">
-            {t("carAcceptanceData.ui.keyPhotosLabel")}{" "}
-            <span className="label-required">*</span>
-          </label>
-          <Controller
-            name="keyPhotos"
+      ) : (
+        <form>
+          {isPending && <ProgressBar />}
+          <p className="input acceptance__date">
+            {t("carAcceptanceData.ui.acceptanceDate")}: {getTodayDate()}
+          </p>
+          <Select
+            name="vin"
             control={control}
-            render={({ field }) => (
-              <FileUploader
-                key={`keyPhotos-${uploaderKey}`}
-                onFilesSelected={(files) => {
-                  handleFileChange(files, "keyPhotos");
-                  field.onChange(control._formValues.keyPhotos);
-                }}
-                onDelete={(updatedFiles) =>
-                  handleDeleteFiles(updatedFiles, "keyPhotos")
-                }
-              />
-            )}
+            options={reportsStore.vinOptions}
+            placeholder={t("carAcceptanceData.ui.vinPlaceholder")}
+            error={errors.vin}
           />
-          {errors.keyPhotos && (
-            <span className="error error-photos">
-              {errors.keyPhotos.message}
-            </span>
-          )}
-        </div>
 
-        <div className="group">
-          <label className="label">
-            {t("carAcceptanceData.ui.docsPhotosLabel")}{" "}
-            <span className="label-required">*</span>
-          </label>
-          <Controller
-            name="docsPhotos"
-            control={control}
-            render={({ field }) => (
-              <FileUploader
-                key={`docsPhotos-${uploaderKey}`}
-                onFilesSelected={(files) => {
-                  handleFileChange(files, "docsPhotos");
-                  field.onChange(control._formValues.docsPhotos);
-                }}
-                onDelete={(updatedFiles) =>
-                  handleDeleteFiles(updatedFiles, "docsPhotos")
-                }
-              />
-            )}
-          />
-          {errors.docsPhotos && (
-            <span className="error error-photos">
-              {errors.docsPhotos.message}
-            </span>
-          )}
-        </div>
-
-        <InputField
-          type="text"
-          placeholder={t("carAcceptanceData.ui.placePlaceholder")}
-          name="place"
-          register={register}
-          error={errors.place}
-          className="input"
-        />
-
-        <InputField
-          type="text"
-          placeholder={t("carAcceptanceData.ui.notesPlaceholder")}
-          name="notes"
-          register={register}
-          error={errors.notes}
-          className="input acceptance__notes"
-        />
-
-        <div className="acceptance__btns">
+          <p className="acceptance__text">
+            {t("carAcceptanceData.ui.brandLabel")}:{" "}
+            <span className="acceptance__text-model">{getCarModel()}</span>
+          </p>
           <Button
             type="button"
-            text={t("carAcceptanceData.ui.acceptButton")}
-            className={`link acceptance__btn ${
-              currentLanguage === "az" || currentLanguage === "ge"
-                ? "tall-button"
-                : ""
-            }`}
-            onClick={handleSubmit(onAcceptCarSubmit)}
+            text={t("carAcceptanceData.ui.compareModel")}
+            className="link acceptance__comparison"
+            disabled={!selectedVin}
+            onClick={() => setShowComparison(true)}
           />
-          <div className="acceptance__damaged acceptance__btn">
+
+          <div className="acceptance__group">
+            <label
+              className={`label ${currentLanguage === "ge" ? "small" : ""}`}
+            >
+              {t("carAcceptanceData.ui.carPhotosLabel")}{" "}
+              <span className="label-required">*</span>
+            </label>
+            <Controller
+              name="carPhotos"
+              control={control}
+              render={({ field }) => (
+                <FileUploader
+                  key={`carPhotos-${uploaderKey}`}
+                  onFilesSelected={(files) => {
+                    handleFileChange(files, "carPhotos");
+                    field.onChange(control._formValues.carPhotos);
+                  }}
+                  onDelete={(updatedFiles) =>
+                    handleDeleteFiles(updatedFiles, "carPhotos")
+                  }
+                  error={errors.carPhotos}
+                />
+              )}
+            />
+          </div>
+
+          <div className="acceptance__group">
+            <label className="label">
+              {t("carAcceptanceData.ui.keyPhotosLabel")}{" "}
+              <span className="label-required">*</span>
+            </label>
+            <Controller
+              name="keyPhotos"
+              control={control}
+              render={({ field }) => (
+                <FileUploader
+                  key={`keyPhotos-${uploaderKey}`}
+                  onFilesSelected={(files) => {
+                    handleFileChange(files, "keyPhotos");
+                    field.onChange(control._formValues.keyPhotos);
+                  }}
+                  onDelete={(updatedFiles) =>
+                    handleDeleteFiles(updatedFiles, "keyPhotos")
+                  }
+                  error={errors.keyPhotos}
+                />
+              )}
+            />
+          </div>
+
+          <div className="acceptance__group">
+            <label className="label">
+              {t("carAcceptanceData.ui.docsPhotosLabel")}{" "}
+              <span className="label-required">*</span>
+            </label>
+            <Controller
+              name="docsPhotos"
+              control={control}
+              render={({ field }) => (
+                <FileUploader
+                  key={`docsPhotos-${uploaderKey}`}
+                  onFilesSelected={(files) => {
+                    handleFileChange(files, "docsPhotos");
+                    field.onChange(control._formValues.docsPhotos);
+                  }}
+                  onDelete={(updatedFiles) =>
+                    handleDeleteFiles(updatedFiles, "docsPhotos")
+                  }
+                  error={errors.docsPhotos}
+                />
+              )}
+            />
+          </div>
+
+          <InputField
+            type="text"
+            placeholder={t("carAcceptanceData.ui.placePlaceholder")}
+            name="place"
+            register={register}
+            error={errors.place}
+            className="input"
+          />
+
+          <InputField
+            type="text"
+            placeholder={t("carAcceptanceData.ui.notesPlaceholder")}
+            name="notes"
+            register={register}
+            error={errors.notes}
+            className="input acceptance__notes"
+          />
+
+          <div className="acceptance__btns">
             <Button
               type="button"
-              text={t("carAcceptanceData.ui.damagedButton")}
-              className="link warning"
-              onClick={handleSubmit(onDamagedCarSubmit)}
+              text={t("carAcceptanceData.ui.acceptButton")}
+              className={`link acceptance__btn ${
+                currentLanguage === "az" || currentLanguage === "ge"
+                  ? "tall-button"
+                  : ""
+              }`}
+              onClick={handleSubmit(onAcceptCarSubmit)}
             />
-            <span className="acceptance__warning">
-              {t("carAcceptanceData.ui.damagedWarning")}
-            </span>
+            <div className="acceptance__damaged acceptance__btn">
+              <Button
+                type="button"
+                text={t("carAcceptanceData.ui.damagedButton")}
+                className="link warning"
+                onClick={handleSubmit(onDamagedCarSubmit)}
+              />
+              <span className="acceptance__warning">
+                {t("carAcceptanceData.ui.damagedWarning")}
+              </span>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      )}
     </div>
   );
 };

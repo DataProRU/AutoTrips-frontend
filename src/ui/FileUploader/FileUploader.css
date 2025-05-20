@@ -1,3 +1,7 @@
+.file-uploader {
+  position: relative;
+}
+
 .file-uploader__btn {
   flex-grow: 1;
   margin-bottom: 22px;
@@ -10,7 +14,6 @@
   font-size: 14px;
   text-align: center;
   color: var(--white);
-
 }
 
 .file-uploader__btn-first {

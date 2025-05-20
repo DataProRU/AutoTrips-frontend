@@ -273,7 +273,7 @@ const ClientAddVehicleModal = observer(
         ariaHideApp={false}
       >
         {isLoading ? (
-          <div className="vehicle__loader">
+          <div className="loader">
             <Loader />
           </div>
         ) : (

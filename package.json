@@ -21,6 +21,7 @@
     "normalize.css": "^8.0.1",
     "react": "^19.0.0",
     "react-confirm-alert": "^3.0.6",
+    "react-datepicker": "^8.3.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "react-i18next": "^15.4.1",
@@ -31,6 +32,7 @@
     "react-select": "^5.10.1",
     "react-slick": "^0.30.3",
     "react-spinners": "^0.17.0",
+    "react-tabs": "^6.1.0",
     "react-zoom-pan-pinch": "^3.7.0",
     "slick-carousel": "^1.8.1",
     "zod": "^3.24.2"

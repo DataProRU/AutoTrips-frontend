@@ -1,9 +1,11 @@
+import { Client } from "./User";
+
 export interface Vehicle {
   id: number;
-  client_name: string;
+  client: Client;
   brand: string;
   model: string;
-  v_type_name: string;
+  v_type: VehicleType;
   vin: string;
   container_number: string;
   arrival_date: string;
@@ -13,4 +15,22 @@ export interface Vehicle {
   status: string;
   status_changed: string;
   creation_time: string;
+}
+
+export interface VehicleResponce {
+  client: number;
+  brand: string;
+  model: string;
+  v_type: number;
+  vin: string;
+  container_number: string;
+  arrival_date: string;
+  transporter: string;
+  recipient: string;
+  comment: string | null;
+}
+
+export interface VehicleType {
+  id: number;
+  v_type: string;
 }

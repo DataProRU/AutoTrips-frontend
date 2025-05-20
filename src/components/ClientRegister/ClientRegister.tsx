@@ -71,6 +71,20 @@ const ClientRegister = () => {
     resolver: zodResolver(getSchema(t)),
   });
 
+  const getClientError = (type: string) => {
+    console.log("Error type:", type);
+    switch (type) {
+      case "phone_exists":
+        return t("register.errors.phoneNumberExists");
+      case "telegram_exists":
+        return t("register.errors.telegramExists");
+      case "email_exists":
+        return t("register.errors.emailExists");
+      default:
+        return null;
+    }
+  };
+
   const onSubmit = async (data: RegisterFormData) => {
     try {
       const payload = {
@@ -78,7 +92,7 @@ const ClientRegister = () => {
         company: data.company || "",
         email: data.email || "",
       };
-      
+
       await authStore.registerClient(payload);
       navigate("/");
     } catch (error) {
@@ -88,19 +102,24 @@ const ClientRegister = () => {
         if (errors?.phone) {
           setError("phoneNumber", {
             type: "manual",
-            message: errors.phone[0],
+            message:
+              getClientError(errors.telegram.error_type) ??
+              errors.telegram.message,
           });
         }
         if (errors?.telegram) {
           setError("telegramLogin", {
             type: "manual",
-            message: errors.telegram[0],
+            message:
+              getClientError(errors.telegram.error_type) ??
+              errors.telegram.message,
           });
         }
         if (errors?.email) {
           setError("email", {
             type: "manual",
-            message: errors.email[0],
+            message:
+              getClientError(errors.email.error_type) ?? errors.email.message,
           });
         }
       }

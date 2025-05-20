@@ -41,6 +41,8 @@
       "fullNameRequired": "ФИО обязательно для заполнения",
       "phoneNumberRequired": "Номер телефона обязателен для заполнения",
       "phoneNumberInvalid": "Номер телефона должен быть действительным",
+      "phoneNumberExists": "Пользователь с данным номером телефона существует",
+      "telegramExists": "Пользователь с данным номером телефона существует",
       "telegramLoginStartsWithAt": "Не указывайте символ @ в начале",
       "telegramLoginRequired": "Логин Telegram обязателен для заполнения",
       "photosRequired": "Загрузите хотя бы одно фото",
@@ -51,7 +53,8 @@
       "consentRequired": "Необходимо согласие на обработку персональных данных",
       "passwordsMustMatch": "Пароли должны совпадать",
       "emailInvalid": "Почта должна быть корректная",
-      "addressRequired": "Адрес обязателен для заполнения"
+      "addressRequired": "Адрес обязателен для заполнения",
+      "emailExists": "Пользователь с данной почтой существует"
     }
   },
   "fileUploader": {
@@ -100,11 +103,7 @@
       "damagedWarning": "*Отправим запрос в тех. поддержку",
       "statusAccepted": "Принят",
       "statusDamaged": "Повреждён",
-      "successTitle": "Успешно",
-      "successMessage": "Операция выполнена успешно",
       "successDamagedMessage": "Операция выполнена успешно. Запрос отправлен в тех поддержку",
-      "okButton": "ОК",
-      "confirmTitle": "Подтверждение",
       "confirmAcceptMessage": "Вы уверены, что хотите принять автомобиль?",
       "confirmDamagedMessage": "Вы уверены, что хотите отметить автомобиль как повреждённый? Это отправит запрос в тех. поддержку."
     },
@@ -194,7 +193,13 @@
     "ui": {
       "yes": "Да",
       "no": "Нет",
-      "back": "Вернуться назад"
+      "back": "Вернуться назад",
+      "change": "Изменить",
+      "confirmTitle": "Подтверждение",
+      "successTitle": "Успешно",
+      "successMessage": "Операция выполнена успешно",
+      "okButton": "ОК",
+      "saveAll": "Сохранить все"
     }
   },
   "adminPage": {
@@ -216,6 +221,36 @@
   "auth": {
     "ui": {
       "pageTitle": "Авторизация"
+    }
+  },
+  "vehicleModal": {
+    "ui": {
+      "editPageTitle": "Изменение ТС клиента",
+      "addPageTitle": "Добавление новых ТС",
+      "client": "Карточка клиента",
+      "model": "Марка",
+      "brand": "Модель",
+      "type": "Тип ТС",
+      "vin": "VIN номер",
+      "container": "Номер ĸонтейнера / Номер ĸоносамента",
+      "date": "Предполагаемая дата прибытия",
+      "transporter": "Перевозчиĸ",
+      "recipient": "Получатель",
+      "comment": "Комментарий",
+      "editConfirmModal": "Вы уверены, что хотите изменить данные?"
+    },
+    "errors": {
+      "clientRequired": "Клиент обязателен",
+      "modelRequired": "Модель обязательна",
+      "brandRequired": "Марка обязательна",
+      "typeRequired": "Тип ТС обязателен",
+      "vinRequired": "VIN обязателен",
+      "containerRequired": "Номер контейнера обязателен",
+      "dateRequired": "Дата прибытия обязательна",
+      "transporterRequired": "Перевозчик обязателен",
+      "recipientRequired": "Получатель обязателен",
+      "invalidVin": "Неверный формат VIN или такой VIN существует",
+      "duplicateVin": "VIN должен быть уникальным для каждого транспортного средства"
     }
   }
 }

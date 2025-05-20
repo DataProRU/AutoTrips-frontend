@@ -42,6 +42,8 @@
       "fullNameRequired": "Full name is required",
       "phoneNumberRequired": "Phone number is required",
       "phoneNumberInvalid": "Phone number must be valid",
+      "phoneNumberExists": "User with this phone number exists",
+      "telegramExists": "User with this phone number exists",
       "telegramLoginRequired": "Telegram login is required",
       "telegramLoginStartsWithAt": "Do not include the @ symbol at the beginning",
       "photosRequired": "Upload at least one photo",
@@ -52,7 +54,8 @@
       "consentRequired": "Consent to personal data processing is required",
       "passwordsMustMatch": "Passwords must match",
       "emailInvalid": "Email must be valid",
-      "addressRequired": "Address is required"
+      "addressRequired": "Address is required",
+      "emailExists": "User with this email already exists"
     }
   },
   "fileUploader": {
@@ -101,11 +104,7 @@
       "damagedWarning": "*Will send a request to tech support",
       "statusAccepted": "Accepted",
       "statusDamaged": "Damaged",
-      "successTitle": "Success",
-      "successMessage": "Operation completed successfully",
       "successDamagedMessage": "Operation completed successfully. Request sent to tech support",
-      "okButton": "OK",
-      "confirmTitle": "Confirmation",
       "confirmAcceptMessage": "Are you sure you want to accept the car?",
       "confirmDamagedMessage": "Are you sure you want to mark the car as damaged? This will send a request to tech support."
     },
@@ -195,7 +194,13 @@
     "ui": {
       "yes": "Yes",
       "no": "No",
-      "back": "Go back"
+      "back": "Go back",
+      "change": "Change",
+      "confirmTitle": "Confirmation",
+      "successTitle": "Success",
+      "successMessage": "Operation completed successfully",
+      "okButton": "OK",
+      "saveAll": "Save All"
     }
   },
   "adminPage": {
@@ -217,6 +222,35 @@
   "auth": {
     "ui": {
       "pageTitle": "Authorization"
+    }
+  },
+  "vehicleModal": {
+    "ui": {
+      "editPageTitle": "Edit Client Vehicle",
+      "addPageTitle": "Add New Vehicles",
+      "client": "Client Card",
+      "model": "Brand",
+      "brand": "Model",
+      "type": "Vehicle Type",
+      "vin": "VIN Number",
+      "container": "Container Number / Bill of Lading Number",
+      "date": "Estimated Arrival Date",
+      "transporter": "Transporter",
+      "recipient": "Recipient",
+      "comment": "Comment",
+      "editConfirmModal": "Are you sure you want to change the data?"
+    },
+    "errors": {
+      "clientRequired": "Client is required",
+      "modelRequired": "Model is required",
+      "brandRequired": "Brand is required",
+      "typeRequired": "Vehicle type is required",
+      "vinRequired": "VIN is required",
+      "containerRequired": "Container number is required",
+      "dateRequired": "Arrival date is required",
+      "transporterRequired": "Transporter is required",
+      "recipientRequired": "Recipient is required",
+      "invalidVin": "Invalid VIN"
     }
   }
 }

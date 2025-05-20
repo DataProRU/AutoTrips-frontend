@@ -18,9 +18,7 @@ import { useTranslation } from "react-i18next";
 const getSchema = (t: (key: string) => string) =>
   z
     .object({
-      fullName: z
-        .string()
-        .min(1, t("register.errors.fullNameRequired")),
+      fullName: z.string().min(1, t("register.errors.fullNameRequired")),
       phoneNumber: z
         .string()
         .min(1, t(".errors.phoneNumberRequired"))
@@ -102,6 +100,18 @@ const RecieverRegister = () => {
     },
   });
 
+  const getReceiverError = (type: string) => {
+    console.log("Error type:", type);
+    switch (type) {
+      case "phone_exists":
+        return t("register.errors.phoneNumberExists");
+      case "telegram_exists":
+        return t("register.errors.telegramExists");
+      default:
+        return null;
+    }
+  };
+
   const onSubmit = async (data: RegisterFormData) => {
     try {
       const dataTransfer = new DataTransfer();
@@ -122,13 +132,16 @@ const RecieverRegister = () => {
         if (errors?.phone) {
           setError("phoneNumber", {
             type: "manual",
-            message: errors.phone[0],
+            message:
+              getReceiverError(errors.phone.error_type) ?? errors.phone.message,
           });
         }
         if (errors?.telegram) {
           setError("telegramLogin", {
             type: "manual",
-            message: errors.telegram[0],
+            message:
+              getReceiverError(errors.telegram.error_type) ??
+              errors.telegram.message,
           });
         }
       }

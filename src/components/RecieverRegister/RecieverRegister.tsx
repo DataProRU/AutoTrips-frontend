@@ -14,6 +14,7 @@ import FileUploader from "../../ui/FileUploader/FileUploader";
 import ConfirmModal from "../../ui/ConfirmModal/ConfirmModal";
 import ImageSlider from "../../ui/ImageSlider/ImageSlider";
 import { useTranslation } from "react-i18next";
+import ProgressBar from "../../ui/ProgressBar/ProgressBar";
 
 const getSchema = (t: (key: string) => string) =>
   z
@@ -21,7 +22,7 @@ const getSchema = (t: (key: string) => string) =>
       fullName: z.string().min(1, t("register.errors.fullNameRequired")),
       phoneNumber: z
         .string()
-        .min(1, t(".errors.phoneNumberRequired"))
+        .min(1, t("register.errors.phoneNumberRequired"))
         .regex(
           /^\+(?:[1-9]\d{0,2})(?:[\s\d]{7,20})$/,
           t("register.errors.phoneNumberInvalid")
@@ -35,8 +36,9 @@ const getSchema = (t: (key: string) => string) =>
       identityPhotos: z
         .array(z.instanceof(File))
         .min(1, t("register.errors.photosRequired"))
+        .max(10, t("register.errors.photosMaxLimit"))
         .refine(
-          (files) => files.every((file) => file.size <= 20 * 1024 * 1024),
+          (files) => files.every((file) => file.size <= 10 * 1024 * 1024),
           t("register.errors.fileSizeLimit")
         )
         .refine(
@@ -76,6 +78,7 @@ const RecieverRegister = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
   authStore.page = t("register.page.pageRegisterClient");
@@ -113,6 +116,7 @@ const RecieverRegister = () => {
   };
 
   const onSubmit = async (data: RegisterFormData) => {
+    setIsLoading(true);
     try {
       const dataTransfer = new DataTransfer();
       data.identityPhotos.forEach((file) => dataTransfer.items.add(file));
@@ -145,6 +149,8 @@ const RecieverRegister = () => {
           });
         }
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -161,7 +167,7 @@ const RecieverRegister = () => {
 
   const handleDeleteImage = (index: number) => {
     ConfirmModal({
-      title: t(".ui.deleteImageTitle"),
+      title: t("register.ui.deleteImageTitle"),
       message: t("register.ui.deleteImageMessage"),
       confirmLabel: t("common.ui.yes"),
       cancelLabel: t("common.ui.no"),
@@ -181,6 +187,7 @@ const RecieverRegister = () => {
 
   return (
     <div className="register__form">
+      {isLoading && <ProgressBar />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputField
           type="text"
@@ -225,14 +232,10 @@ const RecieverRegister = () => {
                 }}
                 onDelete={() => {}}
                 isDeletable={false}
+                error={errors.identityPhotos}
               />
             )}
           />
-          {errors.identityPhotos && (
-            <span className="error error-photos">
-              {errors.identityPhotos.message}
-            </span>
-          )}
         </div>
 
         <ImageSlider

@@ -236,6 +236,7 @@
       "brand": "Model",
       "type": "Nəqliyyat Növü",
       "vin": "VIN Nömrəsi",
+      "price": "Qiymət",
       "container": "Konteyner Nömrəsi / Yükləmə Sənədi Nömrəsi",
       "date": "Təxmini Gəliş Tarixi",
       "transporter": "Daşıyıcı",
@@ -253,7 +254,9 @@
       "dateRequired": "Gəliş tarixi tələb olunur",
       "transporterRequired": "Daşıyıcı tələb olunur",
       "recipientRequired": "Alıcı tələb olunur",
-      "invalidVin": "VIN formatı yalnışdır."
+      "invalidVin": "VIN formatı yalnışdır.",
+      "priceRequired": "Qiymət tələb olunur",
+      "priceInvalid": "Yanlış qiymət formatı"
     }
   }
 }

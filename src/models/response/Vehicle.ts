@@ -7,6 +7,7 @@ export interface Vehicle {
   model: string;
   v_type: VehicleType;
   vin: string;
+  price: number,
   container_number: string;
   arrival_date: string;
   transporter: string;
@@ -23,6 +24,7 @@ export interface VehicleResponce {
   model: string;
   v_type: number;
   vin: string;
+  price: number;
   container_number: string;
   arrival_date: string;
   transporter: string;

@@ -237,6 +237,7 @@
       "brand": "Model",
       "type": "Vehicle Type",
       "vin": "VIN Number",
+      "price": "Price",
       "container": "Container Number / Bill of Lading Number",
       "date": "Estimated Arrival Date",
       "transporter": "Transporter",
@@ -254,7 +255,9 @@
       "dateRequired": "Arrival date is required",
       "transporterRequired": "Transporter is required",
       "recipientRequired": "Recipient is required",
-      "invalidVin": "Invalid VIN"
+      "invalidVin": "Invalid VIN",
+      "priceRequired": "Price is required",
+      "priceInvalid": "Invalid price format"
     }
   }
 }

@@ -1,6 +1,7 @@
 @import "normalize.css";
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
+@import "react-phone-number-input/style.css";
 
 @font-face {
   font-family: 'PTSans';
@@ -49,4 +50,13 @@ button {
   border: none;
   cursor: pointer;
   outline: none;
+}
+
+.PhoneInputInput{
+  border: none;
+  outline: none;
+}
+
+.phone-number{
+  margin-bottom: 20px;
 }

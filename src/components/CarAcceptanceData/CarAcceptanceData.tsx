@@ -113,6 +113,7 @@ const CarAcceptanceData = () => {
       carPhotos: [],
       keyPhotos: [],
       docsPhotos: [],
+      place: "",
       notes: "",
     },
   });
@@ -134,15 +135,13 @@ const CarAcceptanceData = () => {
 
   const selectedVin = watch("vin");
 
+  useEffect(() => {
+    setValue("place", "", { shouldValidate: false, shouldDirty: false });
+    setValue("notes", "", { shouldValidate: false, shouldDirty: false });
+  }, [selectedVin, setValue]);
+
   const resetForm = () => {
-    reset({
-      carPhotos: [],
-      keyPhotos: [],
-      docsPhotos: [],
-      notes: "",
-      place: "",
-      vin: "",
-    });
+    reset();
     setUploaderKey((prev) => prev + 1);
   };
 
@@ -275,7 +274,7 @@ const CarAcceptanceData = () => {
           />
 
           <p className="acceptance__text">
-            {t("carAcceptanceData.ui.brandLabel")}:{" "}
+            {t("carAcceptanceData.ui.brandLabel")}: {""}
             <span className="acceptance__text-model">{getCarModel()}</span>
           </p>
           <Button
@@ -290,7 +289,7 @@ const CarAcceptanceData = () => {
             <label
               className={`label ${currentLanguage === "ge" ? "small" : ""}`}
             >
-              {t("carAcceptanceData.ui.carPhotosLabel")}{" "}
+              {t("carAcceptanceData.ui.carPhotosLabel")} {""}
               <span className="label-required">*</span>
             </label>
             <Controller
@@ -314,7 +313,7 @@ const CarAcceptanceData = () => {
 
           <div className="acceptance__group">
             <label className="label">
-              {t("carAcceptanceData.ui.keyPhotosLabel")}{" "}
+              {t("carAcceptanceData.ui.keyPhotosLabel")} {""}
               <span className="label-required">*</span>
             </label>
             <Controller
@@ -338,7 +337,7 @@ const CarAcceptanceData = () => {
 
           <div className="acceptance__group">
             <label className="label">
-              {t("carAcceptanceData.ui.docsPhotosLabel")}{" "}
+              {t("carAcceptanceData.ui.docsPhotosLabel")} {""}
               <span className="label-required">*</span>
             </label>
             <Controller
@@ -367,6 +366,7 @@ const CarAcceptanceData = () => {
             register={register}
             error={errors.place}
             className="input"
+            value={control._formValues.place || ""}
           />
 
           <InputField
@@ -376,6 +376,7 @@ const CarAcceptanceData = () => {
             register={register}
             error={errors.notes}
             className="input acceptance__notes"
+            value={control._formValues.notes || ""}
           />
 
           <div className="acceptance__btns">

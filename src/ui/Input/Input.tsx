@@ -60,6 +60,7 @@ const InputField: React.FC<InputFieldProps> = ({
     }
     setInternalValue(inputValue);
     setIsEmpty(inputValue === "");
+
     onChange?.(e);
   };
 

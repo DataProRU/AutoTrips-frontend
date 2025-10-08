@@ -83,7 +83,6 @@ const RecieverRegister = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
-  authStore.page = t('register.page.pageRegisterClient');
 
   useEffect(() => {
     return () => {
@@ -189,6 +188,7 @@ const RecieverRegister = () => {
 
   return (
     <div className="register__form">
+      <h2 className="register__title">Приемщик</h2>
       {isLoading && <ProgressBar />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputField

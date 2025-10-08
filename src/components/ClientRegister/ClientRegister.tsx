@@ -14,6 +14,7 @@ import { AxiosError } from '../../models/response/AxiosError';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import PhoneInput from 'react-phone-number-input';
 import ru from 'react-phone-number-input/locale/ru';
+import ProgressBar from '../../ui/ProgressBar/ProgressBar';
 
 const getSchema = (t: (key: string) => string) =>
   z
@@ -60,8 +61,8 @@ type RegisterFormData = z.infer<ReturnType<typeof getSchema>>;
 
 const ClientRegister = () => {
   const { t } = useTranslation();
-  authStore.page = t('register.page.pageRegisterReciever');
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -90,6 +91,7 @@ const ClientRegister = () => {
   };
 
   const onSubmit = async (data: RegisterFormData) => {
+    setIsLoading(true);
     try {
       const payload = {
         ...data,
@@ -107,8 +109,8 @@ const ClientRegister = () => {
           setError('phoneNumber', {
             type: 'manual',
             message:
-              getClientError(errors.telegram.error_type) ??
-              errors.telegram.message,
+              getClientError(errors.phone.error_type) ??
+              errors.phone.message,
           });
         }
         if (errors?.telegram) {
@@ -127,12 +129,16 @@ const ClientRegister = () => {
           });
         }
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
       <div className="register__form">
+        <h2 className="register__title">Клиент</h2>
+        {isLoading && <ProgressBar />}
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputField
             type="text"

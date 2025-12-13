@@ -91,6 +91,8 @@
   "carAcceptanceData": {
     "ui": {
       "pageTitle": "Car Acceptance",
+      "newAcceptance": "New Acceptance",
+      "existingAcceptance": "Existing Acceptance",
       "acceptanceDate": "Acceptance date",
       "vinPlaceholder": "VIN number",
       "brandLabel": "Brand",

@@ -18,6 +18,7 @@ import ComparisonsData from "../ComparisonsData/ComparisonsData";
 import { useTranslation } from "react-i18next";
 import Loader from "../../ui/Loader/Loader";
 import ProgressBar from "../../ui/ProgressBar/ProgressBar";
+import ExistingAcceptance from "./ExistingAcceptance";
 
 const getSchema = (t: (key: string) => string) =>
   z.object({
@@ -96,6 +97,7 @@ const CarAcceptanceData = () => {
   const [showComparison, setShowComparison] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isPending, setIsPending] = useState(false);
+  const [activeTab, setActiveTab] = useState<"new" | "existing">("new");
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
@@ -260,151 +262,178 @@ const CarAcceptanceData = () => {
           <Loader />
         </div>
       ) : (
-        <form>
-          {isPending && <ProgressBar />}
-          <p className="acceptance__date_borderless">
-            {t("carAcceptanceData.ui.acceptanceDate")}: {getTodayDate()}
-          </p>
-          <Select
-            name="vin"
-            control={control}
-            options={reportsStore.vinOptions}
-            placeholder={t("carAcceptanceData.ui.vinPlaceholder")}
-            error={errors.vin}
-          />
-
-          <p className="acceptance__text">
-            {t("carAcceptanceData.ui.brandLabel")}: {""}
-            <span className="acceptance__text-model">{getCarModel()}</span>
-          </p>
-          <Button
-            type="button"
-            text={t("carAcceptanceData.ui.compareModel")}
-            className="link acceptance__comparison"
-            disabled={!selectedVin}
-            onClick={() => setShowComparison(true)}
-          />
-
-          <div className="acceptance__group">
-            <label
-              className={`label ${currentLanguage === "ge" ? "small" : ""}`}
-            >
-              {t("carAcceptanceData.ui.carPhotosLabel")} {""}
-              <span className="label-required">*</span>
-            </label>
-            <Controller
-              name="carPhotos"
-              control={control}
-              render={({ field }) => (
-                <FileUploader
-                  key={`carPhotos-${uploaderKey}`}
-                  onFilesSelected={(files) => {
-                    handleFileChange(files, "carPhotos");
-                    field.onChange(control._formValues.carPhotos);
-                  }}
-                  onDelete={(updatedFiles) =>
-                    handleDeleteFiles(updatedFiles, "carPhotos")
-                  }
-                  error={errors.carPhotos}
-                />
-              )}
-            />
-          </div>
-
-          <div className="acceptance__group">
-            <label className="label">
-              {t("carAcceptanceData.ui.keyPhotosLabel")} {""}
-              <span className="label-required">*</span>
-            </label>
-            <Controller
-              name="keyPhotos"
-              control={control}
-              render={({ field }) => (
-                <FileUploader
-                  key={`keyPhotos-${uploaderKey}`}
-                  onFilesSelected={(files) => {
-                    handleFileChange(files, "keyPhotos");
-                    field.onChange(control._formValues.keyPhotos);
-                  }}
-                  onDelete={(updatedFiles) =>
-                    handleDeleteFiles(updatedFiles, "keyPhotos")
-                  }
-                  error={errors.keyPhotos}
-                />
-              )}
-            />
-          </div>
-
-          <div className="acceptance__group">
-            <label className="label">
-              {t("carAcceptanceData.ui.docsPhotosLabel")} {""}
-              <span className="label-required">*</span>
-            </label>
-            <Controller
-              name="docsPhotos"
-              control={control}
-              render={({ field }) => (
-                <FileUploader
-                  key={`docsPhotos-${uploaderKey}`}
-                  onFilesSelected={(files) => {
-                    handleFileChange(files, "docsPhotos");
-                    field.onChange(control._formValues.docsPhotos);
-                  }}
-                  onDelete={(updatedFiles) =>
-                    handleDeleteFiles(updatedFiles, "docsPhotos")
-                  }
-                  error={errors.docsPhotos}
-                />
-              )}
-            />
-          </div>
-
-          <InputField
-            type="text"
-            placeholder={t("carAcceptanceData.ui.placePlaceholder")}
-            name="place"
-            register={register}
-            error={errors.place}
-            className="input"
-            value={control._formValues.place || ""}
-            required={false}
-          />
-
-          <InputField
-            type="text"
-            placeholder={t("carAcceptanceData.ui.notesPlaceholder")}
-            name="notes"
-            register={register}
-            error={errors.notes}
-            className="input acceptance__notes"
-            value={control._formValues.notes || ""}
-            required={false}
-          />
-
-          <div className="acceptance__btns">
-            <Button
+        <>
+          <div className="acceptance__tabs">
+            <button
               type="button"
-              text={t("carAcceptanceData.ui.acceptButton")}
-              className={`link acceptance__btn ${
-                currentLanguage === "az" || currentLanguage === "ge"
-                  ? "tall-button"
-                  : ""
+              className={`acceptance__tab ${
+                activeTab === "new" ? "acceptance__tab--active" : ""
               }`}
-              onClick={handleSubmit(onAcceptCarSubmit)}
-            />
-            <div className="acceptance__damaged acceptance__btn">
+              onClick={() => setActiveTab("new")}
+            >
+              {t("carAcceptanceData.ui.newAcceptance")}
+            </button>
+            <button
+              type="button"
+              className={`acceptance__tab ${
+                activeTab === "existing" ? "acceptance__tab--active" : ""
+              }`}
+              onClick={() => setActiveTab("existing")}
+            >
+              {t("carAcceptanceData.ui.existingAcceptance")}
+            </button>
+          </div>
+
+          {activeTab === "new" ? (
+            <form>
+              {isPending && <ProgressBar />}
+              <p className="acceptance__date_borderless">
+                {t("carAcceptanceData.ui.acceptanceDate")}: {getTodayDate()}
+              </p>
+              <Select
+                name="vin"
+                control={control}
+                options={reportsStore.vinOptions}
+                placeholder={t("carAcceptanceData.ui.vinPlaceholder")}
+                error={errors.vin}
+              />
+
+              <p className="acceptance__text">
+                {t("carAcceptanceData.ui.brandLabel")}: {""}
+                <span className="acceptance__text-model">{getCarModel()}</span>
+              </p>
               <Button
                 type="button"
-                text={t("carAcceptanceData.ui.damagedButton")}
-                className="link warning"
-                onClick={handleSubmit(onDamagedCarSubmit)}
+                text={t("carAcceptanceData.ui.compareModel")}
+                className="link acceptance__comparison"
+                disabled={!selectedVin}
+                onClick={() => setShowComparison(true)}
               />
-              <span className="acceptance__warning">
-                {t("carAcceptanceData.ui.damagedWarning")}
-              </span>
-            </div>
-          </div>
-        </form>
+              
+              <div className="acceptance__group">
+                <label
+                  className={`label ${currentLanguage === "ge" ? "small" : ""}`}
+                >
+                  {t("carAcceptanceData.ui.carPhotosLabel")} {""}
+                  <span className="label-required">*</span>
+                </label>
+                <Controller
+                  name="carPhotos"
+                  control={control}
+                  render={({ field }) => (
+                    <FileUploader
+                      key={`carPhotos-${uploaderKey}`}
+                      onFilesSelected={(files) => {
+                        handleFileChange(files, "carPhotos");
+                        field.onChange(control._formValues.carPhotos);
+                      }}
+                      onDelete={(updatedFiles) =>
+                        handleDeleteFiles(updatedFiles, "carPhotos")
+                      }
+                      error={errors.carPhotos}
+                    />
+                  )}
+                />
+              </div>
+
+              <div className="acceptance__group">
+                <label className="label">
+                  {t("carAcceptanceData.ui.keyPhotosLabel")} {""}
+                  <span className="label-required">*</span>
+                </label>
+                <Controller
+                  name="keyPhotos"
+                  control={control}
+                  render={({ field }) => (
+                    <FileUploader
+                      key={`keyPhotos-${uploaderKey}`}
+                      onFilesSelected={(files) => {
+                        handleFileChange(files, "keyPhotos");
+                        field.onChange(control._formValues.keyPhotos);
+                      }}
+                      onDelete={(updatedFiles) =>
+                        handleDeleteFiles(updatedFiles, "keyPhotos")
+                      }
+                      error={errors.keyPhotos}
+                    />
+                  )}
+                />
+              </div>
+
+              <div className="acceptance__group">
+                <label className="label">
+                  {t("carAcceptanceData.ui.docsPhotosLabel")} {""}
+                  <span className="label-required">*</span>
+                </label>
+                <Controller
+                  name="docsPhotos"
+                  control={control}
+                  render={({ field }) => (
+                    <FileUploader
+                      key={`docsPhotos-${uploaderKey}`}
+                      onFilesSelected={(files) => {
+                        handleFileChange(files, "docsPhotos");
+                        field.onChange(control._formValues.docsPhotos);
+                      }}
+                      onDelete={(updatedFiles) =>
+                        handleDeleteFiles(updatedFiles, "docsPhotos")
+                      }
+                      error={errors.docsPhotos}
+                    />
+                  )}
+                />
+              </div>
+
+              <InputField
+                type="text"
+                placeholder={t("carAcceptanceData.ui.placePlaceholder")}
+                name="place"
+                register={register}
+                error={errors.place}
+                className="input"
+                value={control._formValues.place || ""}
+                required={false}
+              />
+
+              <InputField
+                type="text"
+                placeholder={t("carAcceptanceData.ui.notesPlaceholder")}
+                name="notes"
+                register={register}
+                error={errors.notes}
+                className="input acceptance__notes"
+                value={control._formValues.notes || ""}
+                required={false}
+              />
+
+              <div className="acceptance__btns">
+                <Button
+                  type="button"
+                  text={t("carAcceptanceData.ui.acceptButton")}
+                  className={`link acceptance__btn ${
+                    currentLanguage === "az" || currentLanguage === "ge"
+                      ? "tall-button"
+                      : ""
+                  }`}
+                  onClick={handleSubmit(onAcceptCarSubmit)}
+                />
+                <div className="acceptance__damaged acceptance__btn">
+                  <Button
+                    type="button"
+                    text={t("carAcceptanceData.ui.damagedButton")}
+                    className="link warning"
+                    onClick={handleSubmit(onDamagedCarSubmit)}
+                  />
+                  <span className="acceptance__warning">
+                    {t("carAcceptanceData.ui.damagedWarning")}
+                  </span>
+                </div>
+              </div>
+            </form>
+          ) : (
+            <ExistingAcceptance />
+          )}
+        </>
       )}
     </div>
   );

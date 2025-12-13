@@ -236,6 +236,7 @@
       "client": "Client Card",
       "model": "Brand",
       "brand": "Model",
+      "yearBrandModel": "Year Brand Model",
       "type": "Vehicle Type",
       "vin": "VIN Number",
       "price": "Price",
@@ -249,6 +250,7 @@
     },
     "errors": {
       "clientRequired": "Client is required",
+      "yearBrandModelRequired": "Year Brand Model is required",
       "modelRequired": "Model is required",
       "brandRequired": "Brand is required",
       "typeRequired": "Vehicle type is required",

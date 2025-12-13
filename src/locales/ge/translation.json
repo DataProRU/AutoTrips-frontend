@@ -235,6 +235,7 @@
       "client": "კლიენტის ბარათი",
       "model": "მარკა",
       "brand": "მოდელი",
+      "yearBrandModel": "წელი მარკა მოდელი",
       "type": "ტრანსპორტის ტიპი",
       "vin": "VIN ნომერი",
       "price": "ფასი",
@@ -248,6 +249,7 @@
     },
     "errors": {
       "clientRequired": "კლიენტი აუცილებელია",
+      "yearBrandModelRequired": "წელი მარკა მოდელი აუცილებელია",
       "modelRequired": "მოდელი აუცილებელია",
       "brandRequired": "ბრენდი აუცილებელია",
       "typeRequired": "ტრანსპორტის ტიპი აუცილებელია",

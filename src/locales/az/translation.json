@@ -235,6 +235,7 @@
       "client": "Müştəri Kartı",
       "model": "Marka",
       "brand": "Model",
+      "yearBrandModel": "İl Marka Model",
       "type": "Nəqliyyat Növü",
       "vin": "VIN Nömrəsi",
       "price": "Qiymət",
@@ -248,6 +249,7 @@
     },
     "errors": {
       "clientRequired": "Müştəri tələb olunur",
+      "yearBrandModelRequired": "İl Marka Model tələb olunur",
       "modelRequired": "Model tələb olunur",
       "brandRequired": "Marka tələb olunur",
       "typeRequired": "Nəqliyyat növü tələb olunur",

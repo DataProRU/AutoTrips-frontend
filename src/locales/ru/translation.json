@@ -236,6 +236,7 @@
       "client": "Карточка клиента",
       "model": "Марка",
       "brand": "Модель",
+      "yearBrandModel": "Год Марка Модель",
       "type": "Тип ТС",
       "vin": "VIN номер",
       "price": "Цена",
@@ -249,6 +250,7 @@
     },
     "errors": {
       "clientRequired": "Клиент обязателен",
+      "yearBrandModelRequired": "Год Марка Модель обязательно",
       "modelRequired": "Модель обязательна",
       "brandRequired": "Марка обязательна",
       "typeRequired": "Тип ТС обязателен",

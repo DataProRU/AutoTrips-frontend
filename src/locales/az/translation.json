@@ -90,6 +90,8 @@
   "carAcceptanceData": {
     "ui": {
       "pageTitle": "Avtomobilin qəbulu",
+      "newAcceptance": "Yeni qəbul",
+      "existingAcceptance": "Mövcud qəbul",
       "acceptanceDate": "Qəbul tarixi Yorkshire",
       "vinPlaceholder": "VIN nömrəsi",
       "brandLabel": "Marka",

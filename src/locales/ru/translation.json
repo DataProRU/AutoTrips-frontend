@@ -22,7 +22,7 @@
       "clientBtn": "Клиент"
     },
     "ui": {
-      "fullNamePlaceholder": "Введите ФИО",
+      "fullNamePlaceholder": "Имя Фамилия",
       "phoneNumberPlaceholder": "Введите номер телефона",
       "telegramLoginPlaceholder": "Введите логин Telegram",
       "identityPhotosLabel": "Фотографии документа",

@@ -85,8 +85,8 @@ const getSchema = (t: (key: string) => string) =>
           ),
         t("carAcceptanceData.errors.fileFormatLimit")
       ),
-    place: z.string().min(1, t("carAcceptanceData.errors.placeRequired")),
-    notes: z.string().min(1, t("carAcceptanceData.errors.notesRequired")),
+    place: z.string().optional(),
+    notes: z.string().optional(),
   });
 
 type CarAcceptanceFormData = z.infer<ReturnType<typeof getSchema>>;
@@ -262,7 +262,7 @@ const CarAcceptanceData = () => {
       ) : (
         <form>
           {isPending && <ProgressBar />}
-          <p className="input acceptance__date">
+          <p className="acceptance__date_borderless">
             {t("carAcceptanceData.ui.acceptanceDate")}: {getTodayDate()}
           </p>
           <Select
@@ -367,6 +367,7 @@ const CarAcceptanceData = () => {
             error={errors.place}
             className="input"
             value={control._formValues.place || ""}
+            required={false}
           />
 
           <InputField
@@ -377,6 +378,7 @@ const CarAcceptanceData = () => {
             error={errors.notes}
             className="input acceptance__notes"
             value={control._formValues.notes || ""}
+            required={false}
           />
 
           <div className="acceptance__btns">

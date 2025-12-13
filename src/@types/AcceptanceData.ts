@@ -4,8 +4,7 @@ export type AcceptanceData = {
     carPhotos?: File[] | FileList;
     keyPhotos?: File[] | FileList;
     docsPhotos?: File[] | FileList;
-    place: string;
-    notes: string;
+    place?: string;
+    notes?: string;
     status: string;
 };
-  

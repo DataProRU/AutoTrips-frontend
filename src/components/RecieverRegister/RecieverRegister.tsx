@@ -37,7 +37,6 @@ const getSchema = (t: (key: string) => string) =>
         }),
       identityPhotos: z
         .array(z.instanceof(File))
-        .min(1, t('register.errors.photosRequired'))
         .max(10, t('register.errors.photosMaxLimit'))
         .refine(
           (files) => files.every((file) => file.size <= 10 * 1024 * 1024),
@@ -230,8 +229,7 @@ const RecieverRegister = () => {
 
         <div className="register__group">
           <label className="register__label">
-            {t('register.ui.identityPhotosLabel')}{' '}
-            <span className="register__label-required">*</span>
+            {t('register.ui.identityPhotosLabel')}
           </label>
           <Controller
             name="identityPhotos"

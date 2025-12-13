@@ -203,7 +203,8 @@
       "successTitle": "Uğurlu",
       "successMessage": "Əməliyyat uğurla başa çatdı",
       "okButton": "OK",
-      "saveAll": "Hamısını Yadda Saxla"
+      "saveAll": "Hamısını Yadda Saxla",
+      "logout": "Çıxış"
     }
   },
   "adminPage": {
@@ -239,8 +240,9 @@
       "price": "Qiymət",
       "container": "Konteyner Nömrəsi / Yükləmə Sənədi Nömrəsi",
       "date": "Təxmini Gəliş Tarixi",
-      "transporter": "Daşıyıcı",
-      "recipient": "Alıcı",
+      "transporter": "Dəniz xətti",
+      "recipient": "Avtomobil alıcısı",
+      "documents": "Sənədlər",
       "comment": "Şərh",
       "editConfirmModal": "Məlumatları dəyişdirmək istədiyinizə əminsiniz?"
     },
@@ -252,8 +254,8 @@
       "vinRequired": "VIN tələb olunur",
       "containerRequired": "Konteyner nömrəsi tələb olunur",
       "dateRequired": "Gəliş tarixi tələb olunur",
-      "transporterRequired": "Daşıyıcı tələb olunur",
-      "recipientRequired": "Alıcı tələb olunur",
+      "transporterRequired": "Dəniz xətti tələb olunur",
+      "recipientRequired": "Avtomobil alıcısı tələb olunur",
       "invalidVin": "VIN formatı yalnışdır.",
       "priceRequired": "Qiymət tələb olunur",
       "priceInvalid": "Yanlış qiymət formatı"

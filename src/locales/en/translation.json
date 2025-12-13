@@ -204,7 +204,8 @@
       "successTitle": "Success",
       "successMessage": "Operation completed successfully",
       "okButton": "OK",
-      "saveAll": "Save All"
+      "saveAll": "Save All",
+      "logout": "Log out"
     }
   },
   "adminPage": {
@@ -240,8 +241,9 @@
       "price": "Price",
       "container": "Container Number / Bill of Lading Number",
       "date": "Estimated Arrival Date",
-      "transporter": "Transporter",
-      "recipient": "Recipient",
+      "transporter": "Sea Line",
+      "recipient": "Car Recipient",
+      "documents": "Documents",
       "comment": "Comment",
       "editConfirmModal": "Are you sure you want to change the data?"
     },
@@ -253,8 +255,8 @@
       "vinRequired": "VIN is required",
       "containerRequired": "Container number is required",
       "dateRequired": "Arrival date is required",
-      "transporterRequired": "Transporter is required",
-      "recipientRequired": "Recipient is required",
+      "transporterRequired": "Sea Line is required",
+      "recipientRequired": "Car Recipient is required",
       "invalidVin": "Invalid VIN",
       "priceRequired": "Price is required",
       "priceInvalid": "Invalid price format"

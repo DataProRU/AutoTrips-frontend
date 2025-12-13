@@ -204,7 +204,8 @@
       "successTitle": "Успешно",
       "successMessage": "Операция выполнена успешно",
       "okButton": "ОК",
-      "saveAll": "Сохранить все"
+      "saveAll": "Сохранить все",
+      "logout": "Выйти"
     }
   },
   "adminPage": {
@@ -240,8 +241,9 @@
       "price": "Цена",
       "container": "Номер ĸонтейнера / Номер ĸоносамента",
       "date": "Предполагаемая дата прибытия",
-      "transporter": "Перевозчиĸ",
-      "recipient": "Получатель",
+      "transporter": "Морская линия",
+      "recipient": "Получатель авто",
+      "documents": "Документы",
       "comment": "Комментарий",
       "editConfirmModal": "Вы уверены, что хотите изменить данные?"
     },
@@ -253,11 +255,11 @@
       "vinRequired": "VIN обязателен",
       "containerRequired": "Номер контейнера обязателен",
       "dateRequired": "Дата прибытия обязательна",
-      "transporterRequired": "Перевозчик обязателен",
-      "recipientRequired": "Получатель обязателен",
+      "transporterRequired": "Морская линия обязательна",
+      "recipientRequired": "Получатель авто обязателен",
       "invalidVin": "Неверный формат VIN или такой VIN существует",
       "duplicateVin": "VIN должен быть уникальным для каждого транспортного средства",
-      "priceRequired":"Цена обязательна",
+      "priceRequired": "Цена обязательна",
       "priceInvalid": "Цена введена неверно"
     }
   }

@@ -3,8 +3,7 @@ import { Client } from "./User";
 export interface Vehicle {
   id: number;
   client: Client;
-  brand: string;
-  model: string;
+  year_brand_model: string;
   v_type: VehicleType;
   vin: string;
   price: number,
@@ -20,8 +19,7 @@ export interface Vehicle {
 
 export interface VehicleResponce {
   client: number;
-  brand: string;
-  model: string;
+  year_brand_model: string;
   v_type: number;
   vin: string;
   price: number;
@@ -31,6 +29,11 @@ export interface VehicleResponce {
   recipient: string;
   comment: string | null;
 }
+
+export type VehicleRequest = Omit<VehicleResponce, "arrival_date" | "v_type"> & {
+  arrival_date?: string;
+  v_type?: number;
+};
 
 export interface VehicleType {
   id: number;

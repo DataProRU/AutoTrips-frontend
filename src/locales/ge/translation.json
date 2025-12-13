@@ -203,7 +203,8 @@
       "successTitle": "წარმატებით",
       "successMessage": "ოპერაცია წარმატებით შესრულდა",
       "okButton": "კარგი",
-      "saveAll": "ყველას შენახვა"
+      "saveAll": "ყველას შენახვა",
+      "logout": "გასვლა"
     }
   },
   "adminPage": {
@@ -239,8 +240,9 @@
       "price": "ფასი",
       "container": "კონტეინერის ნომერი / ტრანსპორტირების ნომერი",
       "date": "მოსალოდნელი ჩამოსვლის თარიღი",
-      "transporter": "გადამზიდავი",
-      "recipient": "მიმღები",
+      "transporter": "საზღვაო ხაზი",
+      "recipient": "მანქანის მიმღები",
+      "documents": "დოკუმენტები",
       "comment": "კომენტარი",
       "editConfirmModal": "დარწმუნებული ხარ, რომ გსურს მონაცემების შეცვლა?"
     },
@@ -252,8 +254,8 @@
       "vinRequired": "VIN აუცილებელია",
       "containerRequired": "კონტეინერის ნომერი აუცილებელია",
       "dateRequired": "ჩამოსვლის თარიღი აუცილებელია",
-      "transporterRequired": "გადამზიდავი აუცილებელია",
-      "recipientRequired": "მიმღები აუცილებელია",
+      "transporterRequired": "საზღვაო ხაზი აუცილებელია",
+      "recipientRequired": "მანქანის მიმღები აუცილებელია",
       "invalidVin": "VIN ფორმატი არასწორია",
       "priceRequired": "ფასი აუცილებელია",
       "priceInvalid": "ფასი არასწორია"

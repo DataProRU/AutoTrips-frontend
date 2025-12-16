@@ -59,9 +59,11 @@ const ClientPage = () => {
                     className="client__vehicle"
                     onClick={() => handleEditehicleClick(vehicle.id)}
                   >
-                    {i + 1}. {vehicle.brand} {vehicle.model} {vehicle.vin}{" "}
-                    {vehicle.container_number}{" "}
-                    {dayjs(vehicle.arrival_date).format("DD.MM.YYYY")}
+                    {i + 1}. {vehicle.year_brand_model} {vehicle.vin}{" "}
+                    {vehicle.container_number}
+                    {vehicle.arrival_date
+                      ? dayjs(vehicle.arrival_date).format("DD.MM.YYYY")
+                      : ""}
                   </button>
                 ))
               ) : (

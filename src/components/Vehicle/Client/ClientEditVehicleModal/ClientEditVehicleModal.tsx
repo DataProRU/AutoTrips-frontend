@@ -17,7 +17,8 @@ import { AxiosError } from "../../../../models/response/AxiosError";
 import ConfirmModal from "../../../../ui/ConfirmModal/ConfirmModal";
 import MessageBox from "../../../../ui/MessageBox/MessageBox";
 import authStore from "../../../../store/AuthStore";
-import FileUploader from "../../../../ui/FileUploader/FileUploader";
+import ProgressBar from "../../../../ui/ProgressBar/ProgressBar";
+import ImageSlider from "../../../../ui/ImageSlider/ImageSlider";
 
 interface EditVehicleModalProps {
   onClose: () => void;
@@ -42,7 +43,7 @@ const getSchema = (t: (key: string) => string) =>
     date: z.date().optional().nullable(),
     transporter: z.string().optional(),
     recipient: z.string().optional(),
-    documents: z
+    document_photos: z
       .array(z.instanceof(File))
       .optional()
       .refine(
@@ -67,7 +68,7 @@ const getSchema = (t: (key: string) => string) =>
           ),
         t("carAcceptanceData.errors.fileFormatLimit")
       ),
-    comment: z.string().optional(),
+    comment: z.string().min(1, t("vehicleModal.errors.commentRequired")),
   });
 
 type EditVehicleFormData = z.infer<ReturnType<typeof getSchema>>;
@@ -79,6 +80,9 @@ const ClientEditVehicleModal = ({
 }: EditVehicleModalProps) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
+  const [isPending, setIsPending] = useState(false);
+  const [existingPhotos, setExistingPhotos] = useState<Array<{ id: number; image: string }>>([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const {
     register,
@@ -87,7 +91,6 @@ const ClientEditVehicleModal = ({
     formState: { errors },
     reset,
     setError,
-    setValue,
   } = useForm<EditVehicleFormData>({
     resolver: zodResolver(getSchema(t)),
   });
@@ -101,6 +104,12 @@ const ClientEditVehicleModal = ({
         if (vehicleId) {
           await vehicleStore.fetchVehicle(vehicleId);
           if (vehicleStore.currentRecord) {
+            const photos =
+              vehicleStore.currentRecord.document_photos?.map(
+                (photo) => ({ id: photo.id, image: photo.image })
+              ) || [];
+            setExistingPhotos(photos);
+
             reset({
               year_brand_model: vehicleStore.currentRecord.year_brand_model,
               type: vehicleStore.currentRecord.v_type?.id?.toString() || "",
@@ -114,7 +123,7 @@ const ClientEditVehicleModal = ({
                 : null,
               transporter: vehicleStore.currentRecord.transporter || "",
               recipient: vehicleStore.currentRecord.recipient || "",
-              documents: [],
+              document_photos: [],
               comment: vehicleStore.currentRecord.comment || "",
             });
           }
@@ -136,7 +145,6 @@ const ClientEditVehicleModal = ({
         setIsLoading(false);
       }
     };
-
     loadData();
   }, [vehicleId, reset]);
 
@@ -149,26 +157,6 @@ const ClientEditVehicleModal = ({
     }
   };
 
-  const handleFileChange = (
-    files: FileList,
-    fieldName: "documents",
-    field: { onChange: (value: File[]) => void }
-  ) => {
-    const fileArray = Array.from(files);
-    const currentFiles = control._formValues[fieldName] || [];
-    const updatedFiles = [...currentFiles, ...fileArray];
-    setValue(fieldName, updatedFiles, { shouldValidate: true });
-    field.onChange(updatedFiles);
-  };
-
-  const handleDeleteFiles = (
-    updatedFiles: File[],
-    fieldName: "documents",
-    field: { onChange: (value: File[]) => void }
-  ) => {
-    setValue(fieldName, updatedFiles, { shouldValidate: true });
-    field.onChange(updatedFiles);
-  };
 
   const onChangeSubmit = (data: EditVehicleFormData) => {
     ConfirmModal({
@@ -184,6 +172,7 @@ const ClientEditVehicleModal = ({
   const onSubmit = async (data: EditVehicleFormData) => {
     if (!vehicleId) return;
 
+    setIsPending(true);
     try {
       const updatedVehicle: VehicleRequest = {
         client: Number(authStore.userId),
@@ -205,6 +194,7 @@ const ClientEditVehicleModal = ({
       }
 
       await vehicleStore.updateVehicle(vehicleId, updatedVehicle);
+      setIsPending(false);
       MessageBox({
         title: t("common.ui.successTitle"),
         message: t("common.ui.successMessage"),
@@ -216,6 +206,7 @@ const ClientEditVehicleModal = ({
       });
       onClose();
     } catch (error) {
+      setIsPending(false);
       console.error("Error updating vehicle:", error);
       const axiosError = error as AxiosError;
       if (axiosError.response?.status === 400) {
@@ -258,6 +249,7 @@ const ClientEditVehicleModal = ({
             <h2 className="vehicle__title">
               {t("vehicleModal.ui.editPageTitle")}
             </h2>
+            {isPending && <ProgressBar />}
             <form onSubmit={handleSubmit(onChangeSubmit)}>
               <InputField
                 type="text"
@@ -346,25 +338,17 @@ const ClientEditVehicleModal = ({
               />
 
               <div>
-                <label className="label">
-                  {t("vehicleModal.ui.documents")}
-                </label>
-                <Controller
-                  name="documents"
-                  control={control}
-                  render={({ field }) => (
-                    <FileUploader
-                      key={`documents-${vehicleId}`}
-                      onFilesSelected={(files) => {
-                        handleFileChange(files, "documents", field);
-                      }}
-                      onDelete={(updatedFiles) =>
-                        handleDeleteFiles(updatedFiles, "documents", field)
-                      }
-                      error={errors.documents}
+                {existingPhotos.length > 0 && (
+                  <div style={{ marginTop: "20px" }}>
+                    <ImageSlider
+                      imagePreviews={existingPhotos.map((photo) => photo.image)}
+                      currentSlide={currentSlide}
+                      onSlideChange={setCurrentSlide}
+                      onDeleteImage={() => {}}
+                      isDeletable={false}
                     />
-                  )}
-                />
+                  </div>
+                )}
               </div>
 
               <InputField

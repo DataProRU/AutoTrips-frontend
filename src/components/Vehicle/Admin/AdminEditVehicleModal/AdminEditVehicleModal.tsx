@@ -18,7 +18,8 @@ import Loader from "../../../../ui/Loader/Loader";
 import { AxiosError } from "../../../../models/response/AxiosError";
 import ConfirmModal from "../../../../ui/ConfirmModal/ConfirmModal";
 import MessageBox from "../../../../ui/MessageBox/MessageBox";
-import FileUploader from "../../../../ui/FileUploader/FileUploader";
+import ProgressBar from "../../../../ui/ProgressBar/ProgressBar";
+import ImageSlider from "../../../../ui/ImageSlider/ImageSlider";
 
 interface EditVehicleModalProps {
   onClose: () => void;
@@ -44,7 +45,7 @@ const getSchema = (t: (key: string) => string) =>
     date: z.date().optional().nullable(),
     transporter: z.string().optional(),
     recipient: z.string().optional(),
-    documents: z
+    document_photos: z
       .array(z.instanceof(File))
       .optional()
       .refine(
@@ -81,6 +82,9 @@ const AdminEditVehicleModal = ({
 }: EditVehicleModalProps) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
+  const [isPending, setIsPending] = useState(false);
+  const [existingPhotos, setExistingPhotos] = useState<Array<{ id: number; image: string }>>([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const {
     register,
@@ -89,7 +93,6 @@ const AdminEditVehicleModal = ({
     formState: { errors },
     reset,
     setError,
-    setValue,
   } = useForm<EditVehicleFormData>({
     resolver: zodResolver(getSchema(t)),
   });
@@ -106,6 +109,12 @@ const AdminEditVehicleModal = ({
         if (vehicleId) {
           await vehicleStore.fetchVehicle(vehicleId);
           if (vehicleStore.currentRecord) {
+            const photos =
+              vehicleStore.currentRecord.document_photos?.map(
+                (photo) => ({ id: photo.id, image: photo.image })
+              ) || [];
+            setExistingPhotos(photos);
+
             reset({
               client: vehicleStore.currentRecord.client.id.toString(),
               year_brand_model: vehicleStore.currentRecord.year_brand_model,
@@ -164,30 +173,11 @@ const AdminEditVehicleModal = ({
     }
   };
 
-  const handleFileChange = (
-    files: FileList,
-    fieldName: "documents",
-    field: { onChange: (value: File[]) => void }
-  ) => {
-    const fileArray = Array.from(files);
-    const currentFiles = control._formValues[fieldName] || [];
-    const updatedFiles = [...currentFiles, ...fileArray];
-    setValue(fieldName, updatedFiles, { shouldValidate: true });
-    field.onChange(updatedFiles);
-  };
-
-  const handleDeleteFiles = (
-    updatedFiles: File[],
-    fieldName: "documents",
-    field: { onChange: (value: File[]) => void }
-  ) => {
-    setValue(fieldName, updatedFiles, { shouldValidate: true });
-    field.onChange(updatedFiles);
-  };
 
   const onSubmit = async (data: EditVehicleFormData) => {
     if (!vehicleId) return;
 
+    setIsPending(true);
     try {
       const updatedVehicle: VehicleRequest = {
         client: parseInt(data.client),
@@ -209,6 +199,7 @@ const AdminEditVehicleModal = ({
       }
 
       await vehicleStore.updateVehicle(vehicleId, updatedVehicle);
+      setIsPending(false);
       MessageBox({
         title: t("common.ui.successTitle"),
         message: t("common.ui.successMessage"),
@@ -220,6 +211,7 @@ const AdminEditVehicleModal = ({
       });
       onClose();
     } catch (error) {
+      setIsPending(false);
       console.error("Error updating vehicle:", error);
       const axiosError = error as AxiosError;
       if (axiosError.response?.status === 400) {
@@ -261,6 +253,7 @@ const AdminEditVehicleModal = ({
             <h2 className="vehicle__title">
               {t("vehicleModal.ui.editPageTitle")}
             </h2>
+            {isPending && <ProgressBar />}
             <form onSubmit={handleSubmit(onChangeSubmit)}>
               <Select
                 name="client"
@@ -363,25 +356,18 @@ const AdminEditVehicleModal = ({
               />
 
               <div>
-                <label className="label">
-                  {t("vehicleModal.ui.documents")}
-                </label>
-                <Controller
-                  name="documents"
-                  control={control}
-                  render={({ field }) => (
-                    <FileUploader
-                      key={`documents-${vehicleId}`}
-                      onFilesSelected={(files) => {
-                        handleFileChange(files, "documents", field);
-                      }}
-                      onDelete={(updatedFiles) =>
-                        handleDeleteFiles(updatedFiles, "documents", field)
-                      }
-                      error={errors.documents}
+  
+                {existingPhotos.length > 0 && (
+                  <div style={{ marginTop: "20px" }}>
+                    <ImageSlider
+                      imagePreviews={existingPhotos.map((photo) => photo.image)}
+                      currentSlide={currentSlide}
+                      onSlideChange={setCurrentSlide}
+                      onDeleteImage={() => {}}
+                      isDeletable={false}
                     />
-                  )}
-                />
+                  </div>
+                )}
               </div>
 
               <InputField

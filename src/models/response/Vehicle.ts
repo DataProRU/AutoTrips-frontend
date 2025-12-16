@@ -1,4 +1,5 @@
 import { Client } from "./User";
+import { Photo } from "./Photo";
 
 export interface Vehicle {
   id: number;
@@ -15,6 +16,7 @@ export interface Vehicle {
   status: string;
   status_changed: string;
   creation_time: string;
+  document_photos?: Photo[];
 }
 
 export interface VehicleResponce {
@@ -33,6 +35,8 @@ export interface VehicleResponce {
 export type VehicleRequest = Omit<VehicleResponce, "arrival_date" | "v_type"> & {
   arrival_date?: string;
   v_type?: number;
+  document_photos?: File[];
+  remove_document_photo_ids?: number[];
 };
 
 export interface VehicleType {

@@ -39,7 +39,7 @@
       "agreementText": "By this document, you confirm your consent to the processing of personal data by LLC \"Garage Shop\": collection, systematization, accumulation, storage, clarification (updating, modification), use, transfer solely for the purpose of selling software in your name, as described below, blocking, depersonalization, destruction.<br /><br />LLC \"Garage Shop\" guarantees the confidentiality of the information received. The processing of personal data is carried out for the effective execution of orders, contracts and other obligations accepted by LLC \"Garage Shop\" as mandatory.<br /><br />If it is necessary to provide your personal data to the software copyright holder, distributor or reseller for the purpose of registering the software in your name, you consent to the transfer of your personal data. LLC \"Garage Shop\" guarantees that the copyright holder, distributor or reseller of the software protects personal data under conditions similar to those set forth in the Personal Data Privacy Policy.<br /><br />This consent applies to the following personal data: last name, first name and patronymic, email address, delivery address, contact phone number, payment details.<br /><br />The term of consent is unlimited. You may withdraw this consent at any time by sending a written notice to garageshop.ge@gmail.com with the subject \"Withdrawal of consent to the processing of personal data\".<br /><br />I guarantee that the information provided by me is complete, accurate and reliable, and that the provision of information does not violate the current legislation of the Russian Federation, the legal rights and interests of third parties. All provided information is filled out by me personally.<br /><br />This consent is valid for the entire period of storage of personal data, unless otherwise provided by the legislation of the Republic of Georgia."
     },
     "errors": {
-      "fullNameRequired": "Full name is required",
+      "fullNameRequired": "Name and Surname are required",
       "phoneNumberRequired": "Phone number is required",
       "phoneNumberInvalid": "Phone number must be valid",
       "phoneNumberExists": "User with this phone number exists",
@@ -205,7 +205,8 @@
       "successMessage": "Operation completed successfully",
       "okButton": "OK",
       "saveAll": "Save All",
-      "logout": "Log out"
+      "logout": "Log out",
+      "delete": "Delete"
     }
   },
   "adminPage": {
@@ -260,8 +261,10 @@
       "transporterRequired": "Sea Line is required",
       "recipientRequired": "Car Recipient is required",
       "invalidVin": "Invalid VIN",
+      "duplicateVin": "VIN must be unique for each vehicle",
       "priceRequired": "Price is required",
-      "priceInvalid": "Invalid price format"
+      "priceInvalid": "Invalid price format",
+      "commentRequired": "Comment is required"
     }
   }
 }

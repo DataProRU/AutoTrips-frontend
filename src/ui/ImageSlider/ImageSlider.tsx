@@ -29,12 +29,12 @@ const ImageSlider = ({
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: (
-      <button className="arrow next">
+      <button type="button" className="arrow next">
         <img src={Swipe} alt="Следующий слайд" />
       </button>
     ),
     prevArrow: (
-      <button className="arrow prev">
+      <button type="button" className="arrow prev">
         <img src={Swipe} alt="Предыдущий слайд" />
       </button>
     ),

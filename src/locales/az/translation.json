@@ -38,7 +38,7 @@
       "agreementText": "Bu sənədlə, siz \"Garage Shop\" MMC tərəfindən şəxsi məlumatlarınızın emalına razılığınızı təsdiq edirsiniz: toplama, sistemləşdirmə, yığma, saxlama, dəqiqləşdirmə (yeniləmə, dəyişiklik), istifadə, yalnız aşağıda təsvir edildiyi kimi proqram təminatının satışı məqsədilə ötürülməsi, bloklanması, şəxsiyyətsizləşdirilməsi, məhv edilməsi.<br /><br />\"Garage Shop\" MMC alınan məlumatların məxfilikini zəmanət verir. Şəxsi məlumatların emalı \"Garage Shop\" MMC tərəfindən məcburi qəbul edilmiş sifarişlərin, müqavilələrin və digər öhdəliklərin effektiv şəkildə yerinə yetirilməsi məqsədi ilə həyata keçirilir.<br /><br />Proqram təminatının sizin adınıza qeydiyyatı məqsədilə şəxsi məlumatlarınızın proqram təminatının müəllif hüquqları sahibinə, distribyutoruna və ya satıcısına təqdim edilməsi zərurəti yarandıqda, siz şəxsi məlumatlarınızın ötürülməsinə razılıq verirsiniz. \"Garage Shop\" MMC zəmanət verir ki, proqram təminatının müəllif hüquqları sahibi, distribyutor və ya satıcısı şəxsi məlumatları Şəxsi Məlumatların Məxfilik Siyasətində müəyyən edilmiş şərtlərə bənzər şərtlər altında qoruyur.<br /><br />Bu razılıq aşağıdakı şəxsi məlumatlarınıza şamil edilir: soyadı, adı və atasının adı, elektron poçt ünvanı, sifarişin çatdırılma ünvanı, əlaqə telefon nömrəsi, ödəniş detalları.<br /><br />Razılığın müddəti məhdudiyyətsizdir. Siz istənilən vaxt bu razılığı ləğv edə bilərsiniz, \"Şəxsi məlumatların emalına razılığın ləğvi\" qeydi ilə garageshop.ge@gmail.com elektron poçt ünvanına yazılı bildiriş göndərməklə.<br /><br />Təqdim etdiyim məlumatların tam, dəqiq və etibarlı olduğunu, həmçinin məlumatların təqdim edilməsi zamanı Rusiya Federasiyasının mövcud qanunvericiliyinin, üçüncü şəxslərin qanuni hüquq və maraqlarının pozulmadığını zəmanət verirəm. Bütün təqdim olunan məlumatlar mənim tərəfimdən şəxsən doldurulub.<br /><br />Bu razılıq şəxsi məlumatların saxlanmasının bütün dövrü ərzində qüvvədədir, əks halda Gürcüstan Respublikasının qanunvericiliyi ilə nəzərdə tutulmayıb."
     },
     "errors": {
-      "fullNameRequired": "Tam ad tələb olunur",
+      "fullNameRequired": "Ad və Soyad tələb olunur",
       "phoneNumberRequired": "Telefon nömrəsi tələb olunur",
       "phoneNumberInvalid": "Telefon nömrəsi düzgün olmalıdır",
       "phoneNumberExists": "Bu telefon nömrəsi ilə istifadəçi mövcuddur",
@@ -204,7 +204,8 @@
       "successMessage": "Əməliyyat uğurla başa çatdı",
       "okButton": "OK",
       "saveAll": "Hamısını Yadda Saxla",
-      "logout": "Çıxış"
+      "logout": "Çıxış",
+      "delete": "Sil"
     }
   },
   "adminPage": {
@@ -260,7 +261,8 @@
       "recipientRequired": "Avtomobil alıcısı tələb olunur",
       "invalidVin": "VIN formatı yalnışdır.",
       "priceRequired": "Qiymət tələb olunur",
-      "priceInvalid": "Yanlış qiymət formatı"
+      "priceInvalid": "Yanlış qiymət formatı",
+      "commentRequired": "Şərh tələb olunur"
     }
   }
 }

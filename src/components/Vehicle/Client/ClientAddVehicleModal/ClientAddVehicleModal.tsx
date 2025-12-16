@@ -19,6 +19,8 @@ import { AxiosError } from "../../../../models/response/AxiosError";
 import { Vehicle, VehicleRequest } from "../../../../models/response/Vehicle";
 import ConfirmModal from "../../../../ui/ConfirmModal/ConfirmModal";
 import FileUploader from "../../../../ui/FileUploader/FileUploader";
+import ProgressBar from "../../../../ui/ProgressBar/ProgressBar";
+import ImageSlider from "../../../../ui/ImageSlider/ImageSlider";
 
 interface AddVehicleModalProps {
   onClose: () => void;
@@ -51,26 +53,28 @@ const ClientAddVehicleModal = observer(
           date: z.date().optional().nullable(),
           transporter: z.string().optional(),
           recipient: z.string().optional(),
-          documents: z
+          document_photos: z
             .array(z.instanceof(File))
             .optional()
             .refine(
-              (files) => !files || files.every((file) => file.size <= 10 * 1024 * 1024),
+              (files) =>
+                !files || files.every((file) => file.size <= 10 * 1024 * 1024),
               t("carAcceptanceData.errors.fileSizeLimit")
             )
             .refine(
               (files) =>
                 !files ||
-                files.every((file) =>
-                  [
-                    "image/jpeg",
-                    "image/png",
-                    "image/gif",
-                    "image/heic",
-                    "image/heif",
-                  ].includes(file.type) ||
-                  file.name.toLowerCase().endsWith(".heic") ||
-                  file.name.toLowerCase().endsWith(".heif")
+                files.every(
+                  (file) =>
+                    [
+                      "image/jpeg",
+                      "image/png",
+                      "image/gif",
+                      "image/heic",
+                      "image/heif",
+                    ].includes(file.type) ||
+                    file.name.toLowerCase().endsWith(".heic") ||
+                    file.name.toLowerCase().endsWith(".heif")
                 ),
               t("carAcceptanceData.errors.fileFormatLimit")
             ),
@@ -85,6 +89,13 @@ const ClientAddVehicleModal = observer(
     const [tabIndex, setTabIndex] = useState(0);
     const [vehiclesCount, setVehiclesCount] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
+    const [isPending, setIsPending] = useState(false);
+    const [imagePreviews, setImagePreviews] = useState<{
+      [key: number]: string[];
+    }>({});
+    const [currentSlides, setCurrentSlides] = useState<{
+      [key: number]: number;
+    }>({});
     const schema = useMemo(
       () =>
         z.object({
@@ -92,6 +103,14 @@ const ClientAddVehicleModal = observer(
         }),
       [t]
     );
+
+    useEffect(() => {
+      return () => {
+        Object.values(imagePreviews).forEach((previews) => {
+          previews.forEach((preview) => URL.revokeObjectURL(preview));
+        });
+      };
+    }, [imagePreviews]);
 
     useEffect(() => {
       const loadData = async () => {
@@ -130,7 +149,7 @@ const ClientAddVehicleModal = observer(
           date: undefined,
           transporter: "",
           recipient: "",
-          documents: [],
+          document_photos: [],
           comment: "",
         }),
       },
@@ -164,7 +183,7 @@ const ClientAddVehicleModal = observer(
         container: sourceVehicle?.container,
         transporter: sourceVehicle?.transporter,
         recipient: "",
-        documents: [],
+        document_photos: [],
         comment: "",
       };
 
@@ -247,28 +266,97 @@ const ClientAddVehicleModal = observer(
 
     const handleFileChange = (
       files: FileList,
-      fieldName: "documents",
+      fieldName: "document_photos",
       field: { onChange: (value: File[]) => void },
       index: number
     ) => {
       const fileArray = Array.from(files);
-      const currentFiles = control._formValues.vehicles[index]?.[fieldName] || [];
+      const newPreviews = fileArray.map((file) => URL.createObjectURL(file));
+      const currentFiles =
+        control._formValues.vehicles[index]?.[fieldName] || [];
       const updatedFiles = [...currentFiles, ...fileArray];
-      setValue(`vehicles.${index}.${fieldName}`, updatedFiles, { shouldValidate: true });
+      setImagePreviews((prev) => ({
+        ...prev,
+        [index]: [...(prev[index] || []), ...newPreviews],
+      }));
+      setValue(`vehicles.${index}.${fieldName}`, updatedFiles, {
+        shouldValidate: true,
+      });
       field.onChange(updatedFiles);
     };
 
     const handleDeleteFiles = (
       updatedFiles: File[],
-      fieldName: "documents",
+      fieldName: "document_photos",
       field: { onChange: (value: File[]) => void },
       index: number
     ) => {
-      setValue(`vehicles.${index}.${fieldName}`, updatedFiles, { shouldValidate: true });
+      const currentFiles =
+        control._formValues.vehicles[index]?.[fieldName] || [];
+      const deletedIndices: number[] = [];
+      currentFiles.forEach((file: File, fileIndex: number) => {
+        if (!updatedFiles.includes(file)) {
+          deletedIndices.push(fileIndex);
+        }
+      });
+
+      deletedIndices.reverse().forEach((fileIndex) => {
+        const deletedPreview = imagePreviews[index]?.[fileIndex];
+        if (deletedPreview) {
+          URL.revokeObjectURL(deletedPreview);
+        }
+      });
+
+      const updatedPreviews = (imagePreviews[index] || []).filter(
+        (_: string, fileIndex: number) => !deletedIndices.includes(fileIndex)
+      );
+      setImagePreviews((prev) => ({
+        ...prev,
+        [index]: updatedPreviews,
+      }));
+
+      setValue(`vehicles.${index}.${fieldName}`, updatedFiles, {
+        shouldValidate: true,
+      });
       field.onChange(updatedFiles);
     };
 
+    const handleDeleteImage = (index: number, imageIndex: number) => {
+      ConfirmModal({
+        title: t("register.ui.deleteImageTitle") || "Удалить фото",
+        message:
+          t("register.ui.deleteImageMessage") ||
+          "Вы уверены, что хотите удалить это фото?",
+        confirmLabel: t("common.ui.yes"),
+        cancelLabel: t("common.ui.no"),
+        onConfirm: () => {
+          const deletedPreview = imagePreviews[index]?.[imageIndex];
+          if (deletedPreview) {
+            URL.revokeObjectURL(deletedPreview);
+          }
+          const updatedPreviews = (imagePreviews[index] || []).filter(
+            (_, i) => i !== imageIndex
+          );
+          setImagePreviews((prev) => ({
+            ...prev,
+            [index]: updatedPreviews,
+          }));
+
+          const currentFiles =
+            control._formValues.vehicles[index]?.document_photos || [];
+          const updatedFiles = currentFiles.filter(
+            (_: File, i: number) => i !== imageIndex
+          );
+          setValue(`vehicles.${index}.document_photos`, updatedFiles, {
+            shouldValidate: true,
+          });
+        },
+        onCancel: () => {},
+      });
+    };
+
     const onValidSubmit = async (data: { vehicles: VehiclesFormData }) => {
+      setIsPending(true);
       try {
         const transformedData = data.vehicles.map((vehicle): VehicleRequest => {
           const baseData: VehicleRequest = {
@@ -280,6 +368,7 @@ const ClientAddVehicleModal = observer(
             transporter: vehicle.transporter || "",
             recipient: vehicle.recipient || "",
             comment: vehicle.comment || "",
+            document_photos: vehicle.document_photos || [],
           };
 
           if (vehicle.type) {
@@ -293,6 +382,7 @@ const ClientAddVehicleModal = observer(
           return baseData;
         });
         await vehicleStore.addVehicles(transformedData);
+        setIsPending(false);
         MessageBox({
           title: t("common.ui.successTitle"),
           message: t("common.ui.successMessage"),
@@ -304,6 +394,7 @@ const ClientAddVehicleModal = observer(
         });
         onClose();
       } catch (error) {
+        setIsPending(false);
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 400) {
           const errors = axiosError.response.data;
@@ -351,7 +442,7 @@ const ClientAddVehicleModal = observer(
             <h2 className="vehicle__title">
               {t("vehicleModal.ui.addPageTitle")}
             </h2>
-
+            {isPending && <ProgressBar />}
             <form onSubmit={handleSubmit(onValidSubmit)}>
               <Tabs
                 selectedIndex={tabIndex}
@@ -375,7 +466,7 @@ const ClientAddVehicleModal = observer(
                     {vehiclesCount > 1 && (
                       <Button
                         type="button"
-                        text="Удалить"
+                        text={t("common.ui.delete")}
                         className="link warning react-tabs__tab-remove-button"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -494,21 +585,49 @@ const ClientAddVehicleModal = observer(
                         {t("vehicleModal.ui.documents")}
                       </label>
                       <Controller
-                        name={`vehicles.${i}.documents`}
+                        name={`vehicles.${i}.document_photos`}
                         control={control}
                         render={({ field }) => (
                           <FileUploader
-                            key={`documents-${i}`}
+                            key={`document_photos-${i}`}
                             onFilesSelected={(files) => {
-                              handleFileChange(files, "documents", field, i);
+                              handleFileChange(
+                                files,
+                                "document_photos",
+                                field,
+                                i
+                              );
                             }}
                             onDelete={(updatedFiles) =>
-                              handleDeleteFiles(updatedFiles, "documents", field, i)
+                              handleDeleteFiles(
+                                updatedFiles,
+                                "document_photos",
+                                field,
+                                i
+                              )
                             }
-                            error={errors.vehicles?.[i]?.documents}
+                            error={errors.vehicles?.[i]?.document_photos}
                           />
                         )}
                       />
+                      {imagePreviews[i] && imagePreviews[i].length > 0 && (
+                        <div style={{ marginTop: "20px" }}>
+                          <ImageSlider
+                            imagePreviews={imagePreviews[i]}
+                            currentSlide={currentSlides[i] || 0}
+                            onSlideChange={(slide) =>
+                              setCurrentSlides((prev) => ({
+                                ...prev,
+                                [i]: slide,
+                              }))
+                            }
+                            onDeleteImage={(imageIndex) =>
+                              handleDeleteImage(i, imageIndex)
+                            }
+                            isDeletable={true}
+                          />
+                        </div>
+                      )}
                     </div>
 
                     <InputField

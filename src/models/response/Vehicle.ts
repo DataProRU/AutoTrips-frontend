@@ -1,10 +1,10 @@
 import { Client } from "./User";
+import { Photo } from "./Photo";
 
 export interface Vehicle {
   id: number;
   client: Client;
-  brand: string;
-  model: string;
+  year_brand_model: string;
   v_type: VehicleType;
   vin: string;
   price: number,
@@ -16,12 +16,12 @@ export interface Vehicle {
   status: string;
   status_changed: string;
   creation_time: string;
+  document_photos?: Photo[];
 }
 
 export interface VehicleResponce {
   client: number;
-  brand: string;
-  model: string;
+  year_brand_model: string;
   v_type: number;
   vin: string;
   price: number;
@@ -31,6 +31,13 @@ export interface VehicleResponce {
   recipient: string;
   comment: string | null;
 }
+
+export type VehicleRequest = Omit<VehicleResponce, "arrival_date" | "v_type"> & {
+  arrival_date?: string;
+  v_type?: number;
+  document_photos?: File[];
+  remove_document_photo_ids?: number[];
+};
 
 export interface VehicleType {
   id: number;

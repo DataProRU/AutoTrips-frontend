@@ -8,8 +8,8 @@ export default class ReportsService {
     const formData = new FormData();
     formData.append("vin", data.vin);
     formData.append("model", data.model);
-    formData.append("place", data.place);
-    formData.append("comment", data.notes);
+    if (data.place) formData.append("place", data.place);
+    if (data.notes) formData.append("comment", data.notes);
     formData.append("status", data.status);
 
     if (data.carPhotos) {

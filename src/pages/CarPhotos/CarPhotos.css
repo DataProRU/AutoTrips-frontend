@@ -2,6 +2,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 93px 16px 0;
+  padding: 120px 16px 0;
   height: calc(100vh - 20px);
 }

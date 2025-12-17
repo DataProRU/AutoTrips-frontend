@@ -1,25 +1,28 @@
-import { observer } from 'mobx-react';
-import './AdminAddVehicleModal.css';
-import Modal from 'react-modal';
-import { useTranslation } from 'react-i18next';
-import Select from '../../../../ui/Select/Select';
-import { z } from 'zod';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import InputField from '../../../../ui/Input/Input';
-import Button from '../../../../ui/Button/Button';
-import vehicleStore from '../../../../store/VehicleStore';
-import DatePicker from '../../../../ui/DatePicker/Datepicker';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import userStore from '../../../../store/UserStore';
-import Loader from '../../../../ui/Loader/Loader';
-import dayjs from 'dayjs';
-import MessageBox from '../../../../ui/MessageBox/MessageBox';
-import { AxiosError } from '../../../../models/response/AxiosError';
-import { Vehicle } from '../../../../models/response/Vehicle';
-import ConfirmModal from '../../../../ui/ConfirmModal/ConfirmModal';
+import { observer } from "mobx-react";
+import "./AdminAddVehicleModal.css";
+import Modal from "react-modal";
+import { useTranslation } from "react-i18next";
+import Select from "../../../../ui/Select/Select";
+import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import InputField from "../../../../ui/Input/Input";
+import Button from "../../../../ui/Button/Button";
+import vehicleStore from "../../../../store/VehicleStore";
+import DatePicker from "../../../../ui/DatePicker/Datepicker";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import userStore from "../../../../store/UserStore";
+import Loader from "../../../../ui/Loader/Loader";
+import dayjs from "dayjs";
+import MessageBox from "../../../../ui/MessageBox/MessageBox";
+import { AxiosError } from "../../../../models/response/AxiosError";
+import { Vehicle, VehicleRequest } from "../../../../models/response/Vehicle";
+import ConfirmModal from "../../../../ui/ConfirmModal/ConfirmModal";
+import FileUploader from "../../../../ui/FileUploader/FileUploader";
+import ProgressBar from "../../../../ui/ProgressBar/ProgressBar";
+import ImageSlider from "../../../../ui/ImageSlider/ImageSlider";
 
 interface AddVehicleModalProps {
   onClose: () => void;
@@ -33,30 +36,50 @@ const AdminAddVehicleModal = observer(
     const getVehicleSchema = useCallback(
       (t: (key: string) => string) =>
         z.object({
-          client: z.string().min(1, t('vehicleModal.errors.clientRequired')),
-          model: z.string().min(1, t('vehicleModal.errors.modelRequired')),
-          brand: z.string().min(1, t('vehicleModal.errors.brandRequired')),
-          type: z.string().min(1, t('vehicleModal.errors.typeRequired')),
-          vin: z.string().min(1, t('vehicleModal.errors.vinRequired')),
+          client: z.string().min(1, t("vehicleModal.errors.clientRequired")),
+          year_brand_model: z
+            .string()
+            .min(1, t("vehicleModal.errors.yearBrandModelRequired")),
+          type: z.string().optional(),
+          vin: z.string().min(1, t("vehicleModal.errors.vinRequired")),
           price: z
             .string()
-            .min(1, t('vehicleModal.errors.priceRequired'))
-            .refine((val) => /^\d+(\.\d{1,2})?$/.test(val), {
-              message: t('vehicleModal.errors.priceInvalid'),
-            })
-            .transform((val) => parseFloat(val)),
-          container: z
-            .string()
-            .min(1, t('vehicleModal.errors.containerRequired')),
-          date: z.date({
-            required_error: t('vehicleModal.errors.dateRequired'),
-          }),
-          transporter: z
-            .string()
-            .min(1, t('vehicleModal.errors.transporterRequired')),
-          recipient: z
-            .string()
-            .min(1, t('vehicleModal.errors.recipientRequired')),
+            .optional()
+            .refine(
+              (val) => !val || val === "" || /^\d+(\.\d{1,2})?$/.test(val),
+              {
+                message: t("vehicleModal.errors.priceInvalid"),
+              }
+            ),
+          container: z.string().optional(),
+          date: z.date().optional().nullable(),
+          transporter: z.string().optional(),
+          recipient: z.string().optional(),
+          document_photos: z
+            .array(z.instanceof(File))
+            .optional()
+            .refine(
+              (files) =>
+                !files || files.every((file) => file.size <= 10 * 1024 * 1024),
+              t("carAcceptanceData.errors.fileSizeLimit")
+            )
+            .refine(
+              (files) =>
+                !files ||
+                files.every(
+                  (file) =>
+                    [
+                      "image/jpeg",
+                      "image/png",
+                      "image/gif",
+                      "image/heic",
+                      "image/heif",
+                    ].includes(file.type) ||
+                    file.name.toLowerCase().endsWith(".heic") ||
+                    file.name.toLowerCase().endsWith(".heif")
+                ),
+              t("carAcceptanceData.errors.fileFormatLimit")
+            ),
           comment: z.string().optional(),
         }),
       []
@@ -68,6 +91,13 @@ const AdminAddVehicleModal = observer(
     const [tabIndex, setTabIndex] = useState(0);
     const [vehiclesCount, setVehiclesCount] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
+    const [isPending, setIsPending] = useState(false);
+    const [imagePreviews, setImagePreviews] = useState<{
+      [key: number]: string[];
+    }>({});
+    const [currentSlides, setCurrentSlides] = useState<{
+      [key: number]: number;
+    }>({});
     const schema = useMemo(
       () =>
         z.object({
@@ -75,6 +105,14 @@ const AdminAddVehicleModal = observer(
         }),
       [t]
     );
+
+    useEffect(() => {
+      return () => {
+        Object.values(imagePreviews).forEach((previews) => {
+          previews.forEach((preview) => URL.revokeObjectURL(preview));
+        });
+      };
+    }, [imagePreviews]);
 
     useEffect(() => {
       const loadData = async () => {
@@ -85,7 +123,7 @@ const AdminAddVehicleModal = observer(
             vehicleStore.fetchVehicleTypes(),
           ]);
         } catch (error) {
-          console.error('Error loading data:', error);
+          console.error("Error loading data:", error);
         } finally {
           setIsLoading(false);
         }
@@ -109,16 +147,15 @@ const AdminAddVehicleModal = observer(
       defaultValues: {
         vehicles: Array(vehiclesCount).fill({
           client: Number(userId).toString(),
-          model: '',
-          brand: '',
-          type: '',
-          vin: '',
-          price: '',
-          container: '',
+          year_brand_model: "",
+          type: "",
+          vin: "",
+          price: "",
+          container: "",
           date: undefined,
-          transporter: '',
-          recipient: '',
-          comment: '',
+          transporter: "",
+          recipient: "",
+          comment: "",
         }),
       },
       resolver: zodResolver(schema),
@@ -126,7 +163,7 @@ const AdminAddVehicleModal = observer(
 
     const addNewVehicle = async () => {
       if (vehiclesCount === 1) {
-        const isValid = await trigger('vehicles');
+        const isValid = await trigger("vehicles");
 
         if (!isValid) {
           const errorIndex = findFirstErrorIndex(errors);
@@ -143,19 +180,18 @@ const AdminAddVehicleModal = observer(
       const sourceVehicle = currentVehicles[0];
       const newVehicle = {
         ...sourceVehicle,
-        model: '',
-        brand: '',
-        type: '',
-        vin: '',
-        price: '',
+        year_brand_model: "",
+        type: "",
+        vin: "",
+        price: "",
         date: sourceVehicle?.date,
         container: sourceVehicle?.container,
         transporter: sourceVehicle?.transporter,
-        recipient: '',
-        comment: '',
+        recipient: "",
+        comment: "",
       };
 
-      setValue('vehicles', [...currentVehicles, newVehicle]);
+      setValue("vehicles", [...currentVehicles, newVehicle]);
 
       setVehiclesCount((prev) => prev + 1);
       setTabIndex(vehiclesCount);
@@ -170,7 +206,7 @@ const AdminAddVehicleModal = observer(
         (_: unknown, i: number) => i !== index
       );
 
-      setValue('vehicles', newVehicles);
+      setValue("vehicles", newVehicles);
 
       setVehiclesCount((prev) => prev - 1);
       setTabIndex((prev) => (prev >= index ? Math.max(0, prev - 1) : prev));
@@ -187,14 +223,14 @@ const AdminAddVehicleModal = observer(
 
         setTabIndex(duplicateIndex);
         setError(`vehicles.${duplicateIndex}.vin`, {
-          type: 'manual',
-          message: t('vehicleModal.errors.duplicateVin'),
+          type: "manual",
+          message: t("vehicleModal.errors.duplicateVin"),
         });
         setFocus(`vehicles.${duplicateIndex}.vin`);
         return;
       }
 
-      const isValid = await trigger('vehicles');
+      const isValid = await trigger("vehicles");
       if (!isValid) {
         const errorIndex = findFirstErrorIndex(errors);
         if (errorIndex !== -1) {
@@ -205,12 +241,12 @@ const AdminAddVehicleModal = observer(
       }
 
       ConfirmModal({
-        title: t('common.ui.confirmTitle'),
-        message: t('vehicleModal.ui.editConfirmModal'),
+        title: t("common.ui.confirmTitle"),
+        message: t("vehicleModal.ui.editConfirmModal"),
         onConfirm: () => handleSubmit(onValidSubmit)(),
-        onCancel: () => console.log('Изменение отменено'),
-        confirmLabel: t('common.ui.yes'),
-        cancelLabel: t('common.ui.no'),
+        onCancel: () => console.log("Изменение отменено"),
+        confirmLabel: t("common.ui.yes"),
+        cancelLabel: t("common.ui.no"),
       });
     };
 
@@ -232,36 +268,142 @@ const AdminAddVehicleModal = observer(
       setFocus(`vehicles.${tabIndex}.${errorField}`);
     };
 
-    const onValidSubmit = async (data: { vehicles: VehiclesFormData }) => {
-      try {
-        const transformedData = data.vehicles.map((vehicle) => ({
-          client: Number(vehicle.client),
-          brand: vehicle.brand,
-          model: vehicle.model,
-          v_type: Number(vehicle.type),
-          vin: vehicle.vin,
-          price: vehicle.price,
-          container_number: vehicle.container,
-          arrival_date: dayjs(vehicle.date).format('YYYY-MM-DD'),
-          transporter: vehicle.transporter,
-          recipient: vehicle.recipient,
-          comment: vehicle.comment || '',
-        }));
+    const handleFileChange = (
+      files: FileList,
+      fieldName: "document_photos",
+      field: { onChange: (value: File[]) => void },
+      index: number
+    ) => {
+      const fileArray = Array.from(files);
+      const newPreviews = fileArray.map((file) => URL.createObjectURL(file));
+      const currentFiles =
+        control._formValues.vehicles[index]?.[fieldName] || [];
+      const updatedFiles = [...currentFiles, ...fileArray];
+      setImagePreviews((prev) => ({
+        ...prev,
+        [index]: [...(prev[index] || []), ...newPreviews],
+      }));
+      setValue(`vehicles.${index}.${fieldName}`, updatedFiles, {
+        shouldValidate: true,
+      });
+      field.onChange(updatedFiles);
+    };
 
-        console.log('Transformed data for API:', transformedData);
+    const handleDeleteFiles = (
+      updatedFiles: File[],
+      fieldName: "document_photos",
+      field: { onChange: (value: File[]) => void },
+      index: number
+    ) => {
+      // Синхронизируем превью с файлами
+      const currentFiles =
+        control._formValues.vehicles[index]?.[fieldName] || [];
+      const deletedIndices: number[] = [];
+      currentFiles.forEach((file: File, fileIndex: number) => {
+        if (!updatedFiles.includes(file)) {
+          deletedIndices.push(fileIndex);
+        }
+      });
+
+      // Удаляем превью для удаленных файлов
+      deletedIndices.reverse().forEach((fileIndex) => {
+        const deletedPreview = imagePreviews[index]?.[fileIndex];
+        if (deletedPreview) {
+          URL.revokeObjectURL(deletedPreview);
+        }
+      });
+
+      const updatedPreviews = (imagePreviews[index] || []).filter(
+        (_: string, fileIndex: number) => !deletedIndices.includes(fileIndex)
+      );
+      setImagePreviews((prev) => ({
+        ...prev,
+        [index]: updatedPreviews,
+      }));
+
+      setValue(`vehicles.${index}.${fieldName}`, updatedFiles, {
+        shouldValidate: true,
+      });
+      field.onChange(updatedFiles);
+    };
+
+    const handleDeleteImage = (index: number, imageIndex: number) => {
+      ConfirmModal({
+        title: t("register.ui.deleteImageTitle") || "Удалить фото",
+        message:
+          t("register.ui.deleteImageMessage") ||
+          "Вы уверены, что хотите удалить это фото?",
+        confirmLabel: t("common.ui.yes"),
+        cancelLabel: t("common.ui.no"),
+        onConfirm: () => {
+          const deletedPreview = imagePreviews[index]?.[imageIndex];
+          if (deletedPreview) {
+            URL.revokeObjectURL(deletedPreview);
+          }
+          const updatedPreviews = (imagePreviews[index] || []).filter(
+            (_, i) => i !== imageIndex
+          );
+          setImagePreviews((prev) => ({
+            ...prev,
+            [index]: updatedPreviews,
+          }));
+
+          const currentFiles =
+            control._formValues.vehicles[index]?.document_photos || [];
+          const updatedFiles = currentFiles.filter(
+            (_: File, i: number) => i !== imageIndex
+          );
+          setValue(`vehicles.${index}.document_photos`, updatedFiles, {
+            shouldValidate: true,
+          });
+        },
+        onCancel: () => {},
+      });
+    };
+
+    const onValidSubmit = async (data: { vehicles: VehiclesFormData }) => {
+      setIsPending(true);
+      try {
+        const transformedData = data.vehicles.map((vehicle): VehicleRequest => {
+          const baseData: VehicleRequest = {
+            client: Number(vehicle.client),
+            year_brand_model: vehicle.year_brand_model,
+            vin: vehicle.vin,
+            price: vehicle.price ? Number(vehicle.price) : 0,
+            container_number: vehicle.container || "",
+            transporter: vehicle.transporter || "",
+            recipient: vehicle.recipient || "",
+            comment: vehicle.comment || "",
+            document_photos: vehicle.document_photos || [],
+          };
+
+          if (vehicle.type) {
+            baseData.v_type = Number(vehicle.type);
+          }
+
+          if (vehicle.date) {
+            baseData.arrival_date = dayjs(vehicle.date).format("YYYY-MM-DD");
+          }
+
+          return baseData;
+        });
+
+        console.log("Transformed data for API:", transformedData);
         await vehicleStore.addVehicles(transformedData);
+        setIsPending(false);
         MessageBox({
-          title: t('common.ui.successTitle'),
-          message: t('common.ui.successMessage'),
+          title: t("common.ui.successTitle"),
+          message: t("common.ui.successMessage"),
           onClose: () => {
             onClose();
             if (onSuccess) onSuccess();
           },
-          buttonText: t('common.ui.okButton'),
+          buttonText: t("common.ui.okButton"),
         });
         onClose();
       } catch (error) {
-        console.error('Error submitting vehicles:', error);
+        setIsPending(false);
+        console.error("Error submitting vehicles:", error);
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 400) {
           const errors = axiosError.response.data;
@@ -269,12 +411,23 @@ const AdminAddVehicleModal = observer(
             for (let i = 0; i < errors.length; i++) {
               if (errors[i].vin) {
                 setError(`vehicles.${i}.vin`, {
-                  type: 'manual',
-                  message: t('vehicleModal.errors.invalidVin'),
+                  type: "manual",
+                  message: t("vehicleModal.errors.invalidVin"),
                 });
 
                 setTabIndex(i);
                 setFocus(`vehicles.${i}.vin`);
+              }
+              if (errors[i].arrival_date) {
+                setError(`vehicles.${i}.date`, {
+                  type: "manual",
+                  message: Array.isArray(errors[i].arrival_date)
+                    ? errors[i].arrival_date[0]
+                    : errors[i].arrival_date,
+                });
+
+                setTabIndex(i);
+                setFocus(`vehicles.${i}.date`);
               }
             }
           }
@@ -296,9 +449,9 @@ const AdminAddVehicleModal = observer(
         ) : (
           <>
             <h2 className="vehicle__title">
-              {t('vehicleModal.ui.addPageTitle')}
+              {t("vehicleModal.ui.addPageTitle")}
             </h2>
-
+            {isPending && <ProgressBar />}
             <form onSubmit={handleSubmit(onValidSubmit)}>
               <Tabs
                 selectedIndex={tabIndex}
@@ -322,12 +475,12 @@ const AdminAddVehicleModal = observer(
                     {vehiclesCount > 1 && (
                       <Button
                         type="button"
-                        text="Удалить"
+                        text={t("common.ui.delete")}
                         className="link warning react-tabs__tab-remove-button"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeVehicle(i);
-                          trigger('vehicles');
+                          trigger("vehicles");
                         }}
                       />
                     )}
@@ -344,7 +497,7 @@ const AdminAddVehicleModal = observer(
                           error={errors.vehicles?.[i]?.client}
                           placeholder={
                             <>
-                              {t('vehicleModal.ui.client')}{' '}
+                              {t("vehicleModal.ui.client")}{" "}
                               <span className="vehicle__red">*</span>
                             </>
                           }
@@ -355,21 +508,15 @@ const AdminAddVehicleModal = observer(
                     <div className="vehicle-group">
                       <InputField
                         type="text"
-                        placeholder={t('vehicleModal.ui.brand')}
-                        name={`vehicles.${i}.brand`}
+                        placeholder={t("vehicleModal.ui.yearBrandModel")}
+                        name={`vehicles.${i}.year_brand_model`}
                         register={register}
-                        error={errors.vehicles?.[i]?.brand}
+                        error={errors.vehicles?.[i]?.year_brand_model}
                         className="input vehicle__input"
-                        value={control._formValues.vehicles[i]?.brand || ''}
-                      />
-                      <InputField
-                        type="text"
-                        placeholder={t('vehicleModal.ui.model')}
-                        name={`vehicles.${i}.model`}
-                        register={register}
-                        error={errors.vehicles?.[i]?.model}
-                        className="input vehicle__input"
-                        value={control._formValues.vehicles[i]?.model || ''}
+                        value={
+                          control._formValues.vehicles[i]?.year_brand_model ||
+                          ""
+                        }
                       />
                     </div>
 
@@ -383,44 +530,41 @@ const AdminAddVehicleModal = observer(
                           control={control}
                           options={vehicleStore.vehicleTypesOptions}
                           error={errors.vehicles?.[i]?.type}
-                          placeholder={
-                            <>
-                              {t('vehicleModal.ui.type')}{' '}
-                              <span className="vehicle__red">*</span>
-                            </>
-                          }
+                          placeholder={t("vehicleModal.ui.type")}
                         />
                       )}
                     />
 
                     <InputField
                       type="text"
-                      placeholder={t('vehicleModal.ui.vin')}
+                      placeholder={t("vehicleModal.ui.vin")}
                       name={`vehicles.${i}.vin`}
                       register={register}
                       error={errors.vehicles?.[i]?.vin}
                       className="input vehicle__input"
-                      value={control._formValues.vehicles[i]?.vin || ''}
+                      value={control._formValues.vehicles[i]?.vin || ""}
                     />
 
                     <InputField
                       type="text"
-                      placeholder={t('vehicleModal.ui.price')}
+                      placeholder={t("vehicleModal.ui.price")}
                       name={`vehicles.${i}.price`}
                       register={register}
                       error={errors.vehicles?.[i]?.price}
                       className="input vehicle__input"
-                      value={control._formValues.vehicles[i]?.price || ''}
+                      value={control._formValues.vehicles[i]?.price || ""}
+                      required={false}
                     />
 
                     <InputField
                       type="text"
-                      placeholder={t('vehicleModal.ui.container')}
+                      placeholder={t("vehicleModal.ui.container")}
                       name={`vehicles.${i}.container`}
                       register={register}
                       error={errors.vehicles?.[i]?.container}
                       className="input vehicle__input"
-                      value={control._formValues.vehicles[i]?.container || ''}
+                      value={control._formValues.vehicles[i]?.container || ""}
+                      required={false}
                     />
 
                     <Controller
@@ -430,13 +574,13 @@ const AdminAddVehicleModal = observer(
                         <DatePicker
                           selected={field.value}
                           onChange={(date: Date) => field.onChange(date)}
-                          placeholderText={t('vehicleModal.ui.date')}
+                          placeholderText={t("vehicleModal.ui.date")}
                           value={
                             field.value
-                              ? field.value.toLocaleDateString('ru-RU')
-                              : ''
+                              ? field.value.toLocaleDateString("ru-RU")
+                              : ""
                           }
-                          required={true}
+                          required={false}
                           control={control}
                           error={errors.vehicles?.[i]?.date}
                         />
@@ -445,33 +589,86 @@ const AdminAddVehicleModal = observer(
 
                     <InputField
                       type="text"
-                      placeholder={t('vehicleModal.ui.transporter')}
+                      placeholder={t("vehicleModal.ui.transporter")}
                       name={`vehicles.${i}.transporter`}
                       register={register}
                       error={errors.vehicles?.[i]?.transporter}
                       className="input vehicle__input"
-                      value={control._formValues.vehicles[i]?.transporter || ''}
+                      value={control._formValues.vehicles[i]?.transporter || ""}
+                      required={false}
                     />
 
                     <InputField
                       type="text"
-                      placeholder={t('vehicleModal.ui.recipient')}
+                      placeholder={t("vehicleModal.ui.recipient")}
                       name={`vehicles.${i}.recipient`}
                       register={register}
                       error={errors.vehicles?.[i]?.recipient}
                       className="input vehicle__input"
-                      value={control._formValues.vehicles[i]?.recipient || ''}
+                      value={control._formValues.vehicles[i]?.recipient || ""}
+                      required={false}
                     />
+
+                    <div>
+                      <label className="label">
+                        {t("vehicleModal.ui.documents")}
+                      </label>
+
+                      <Controller
+                        name={`vehicles.${i}.document_photos`}
+                        control={control}
+                        render={({ field }) => (
+                          <FileUploader
+                            key={`document_photos-${i}`}
+                            onFilesSelected={(files) => {
+                              handleFileChange(
+                                files,
+                                "document_photos",
+                                field,
+                                i
+                              );
+                            }}
+                            onDelete={(updatedFiles) =>
+                              handleDeleteFiles(
+                                updatedFiles,
+                                "document_photos",
+                                field,
+                                i
+                              )
+                            }
+                            error={errors.vehicles?.[i]?.document_photos}
+                          />
+                        )}
+                      />
+                      {imagePreviews[i] && imagePreviews[i].length > 0 && (
+                        <div style={{ marginTop: "20px" }}>
+                          <ImageSlider
+                            imagePreviews={imagePreviews[i]}
+                            currentSlide={currentSlides[i] || 0}
+                            onSlideChange={(slide) =>
+                              setCurrentSlides((prev) => ({
+                                ...prev,
+                                [i]: slide,
+                              }))
+                            }
+                            onDeleteImage={(imageIndex) =>
+                              handleDeleteImage(i, imageIndex)
+                            }
+                            isDeletable={true}
+                          />
+                        </div>
+                      )}
+                    </div>
 
                     <InputField
                       type="text"
-                      placeholder={t('vehicleModal.ui.comment')}
+                      placeholder={t("vehicleModal.ui.comment")}
                       name={`vehicles.${i}.comment`}
                       register={register}
                       error={errors.vehicles?.[i]?.comment}
                       className="input vehicle__input"
                       required={false}
-                      value={control._formValues.vehicles[i]?.comment || ''}
+                      value={control._formValues.vehicles[i]?.comment || ""}
                     />
                   </TabPanel>
                 ))}
@@ -480,14 +677,14 @@ const AdminAddVehicleModal = observer(
               <div className="buttons-container">
                 <Button
                   type="button"
-                  text={t('common.ui.saveAll')}
+                  text={t("common.ui.saveAll")}
                   className="link vehicle__change"
                   onClick={handleFormSubmit}
                 />
 
                 <Button
                   type="button"
-                  text={t('common.ui.back')}
+                  text={t("common.ui.back")}
                   className="link warning"
                   onClick={onClose}
                 />

@@ -17,7 +17,7 @@ import DocsPhotos from "./pages/DocsPhotos/DocsPhotos";
 import UserDocs from "./pages/UserDocs/UserDocs";
 import ClientPage from "./pages/ClientPage/ClientPage";
 import Clients from "./pages/Clients/Clients";
-
+import LogoutButton from "./components/LogoutButton/LogoutButton";
 function App() {
   const { authStore } = useContext(Context);
 
@@ -57,6 +57,7 @@ function App() {
 
   return (
     <Router>
+      <LogoutButton />
       <Routes>
         <Route path="/" element={getHomeComponent()} />
         <Route path="/auth" element={<Auth />} />

@@ -1,19 +1,14 @@
-import { useTranslation } from "react-i18next";
-import CarAcceptanceData from "../../components/CarAcceptanceData/CarAcceptanceData";
 import Header from "../../components/Header/Header";
-import authStore from "../../store/AuthStore";
+import CarAcceptanceData from "../../components/CarAcceptanceData/CarAcceptanceData";
+import { observer } from "mobx-react";
 
-const CarAcceptance = () => {
-
-  const { t } = useTranslation();
-  authStore.page = t("carAcceptanceData.ui.pageTitle");
-
+const CarAcceptance = observer(() => {
   return (
     <>
       <Header />
       <CarAcceptanceData />
     </>
   );
-};
+});
 
 export default CarAcceptance;

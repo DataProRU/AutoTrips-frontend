@@ -90,6 +90,8 @@
   "carAcceptanceData": {
     "ui": {
       "pageTitle": "ავტომობილის მიღება",
+      "newAcceptance": "ახალი მიღება",
+      "existingAcceptance": "არსებული მიღება",
       "acceptanceDate": "მიღების თარიღი",
       "vinPlaceholder": "VIN ნომერი",
       "brandLabel": "მარკა",

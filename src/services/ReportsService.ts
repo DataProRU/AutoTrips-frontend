@@ -51,4 +51,37 @@ export default class ReportsService {
   static getVinReports(vin: string) {
     return $api.get(`/autotrips/reports/?vin=${vin}`);
   }
+  static async updateReport(id: string, data: Partial<AcceptanceData>) {
+    const formData = new FormData();
+
+    if (data.carPhotos) {
+      Array.from(data.carPhotos).forEach((photo) => {
+        formData.append("uploaded_car_photos", photo);
+      });
+    }
+
+    if (data.keyPhotos) {
+      Array.from(data.keyPhotos).forEach((photo) => {
+        formData.append("uploaded_key_photos", photo);
+      });
+    }
+
+    if (data.docsPhotos) {
+      Array.from(data.docsPhotos).forEach((photo) => {
+        formData.append("uploaded_document_photos", photo);
+      });
+    }
+
+    const response = await $api.patch(
+      `/autotrips/reports/${id}/`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    return response;
+  }
 }

@@ -91,6 +91,8 @@
   "carAcceptanceData": {
     "ui": {
       "pageTitle": "Car Acceptance",
+      "newAcceptance": "New Acceptance",
+      "existingAcceptance": "Existing Acceptance",
       "acceptanceDate": "Acceptance date",
       "vinPlaceholder": "VIN number",
       "brandLabel": "Brand",
@@ -206,7 +208,9 @@
       "okButton": "OK",
       "saveAll": "Save All",
       "logout": "Log out",
-      "delete": "Delete"
+      "delete": "Delete",
+      "errorTitle": "Error",
+      "errorMessage": "An error occurred"
     }
   },
   "adminPage": {

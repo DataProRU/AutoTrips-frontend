@@ -91,6 +91,8 @@
   "carAcceptanceData": {
     "ui": {
       "pageTitle": "Принятие авто",
+      "newAcceptance": "Новый прием",
+      "existingAcceptance": "Существующий прием",
       "acceptanceDate": "Дата принятия",
       "vinPlaceholder": "VIN номер",
       "brandLabel": "Марка",
@@ -206,7 +208,9 @@
       "okButton": "ОК",
       "saveAll": "Сохранить все",
       "logout": "Выйти",
-      "delete": "Удалить"
+      "delete": "Удалить",
+      "errorTitle": "Ошибка",
+      "errorMessage": "Произошла ошибка"
     }
   },
   "adminPage": {

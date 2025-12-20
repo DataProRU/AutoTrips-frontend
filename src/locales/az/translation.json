@@ -90,6 +90,8 @@
   "carAcceptanceData": {
     "ui": {
       "pageTitle": "Avtomobilin qəbulu",
+      "newAcceptance": "Yeni qəbul",
+      "existingAcceptance": "Mövcud qəbul",
       "acceptanceDate": "Qəbul tarixi Yorkshire",
       "vinPlaceholder": "VIN nömrəsi",
       "brandLabel": "Marka",
@@ -205,7 +207,9 @@
       "okButton": "OK",
       "saveAll": "Hamısını Yadda Saxla",
       "logout": "Çıxış",
-      "delete": "Sil"
+      "delete": "Sil",
+      "errorTitle": "Xəta",
+      "errorMessage": "Xəta baş verdi"
     }
   },
   "adminPage": {

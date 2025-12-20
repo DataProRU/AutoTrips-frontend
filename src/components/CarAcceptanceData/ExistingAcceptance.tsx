@@ -156,7 +156,7 @@ const ExistingAcceptance = () => {
     } else {
       setImagePreviews([]);
     }
-  }, [selectedDate]);
+  }, [selectedDate, reportsStore.vinReports]);
 
   const openFullscreen = (photos: string[], index: number) => {
     setFullscreenPhotos(photos);

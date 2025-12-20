@@ -208,7 +208,9 @@
       "okButton": "ОК",
       "saveAll": "Сохранить все",
       "logout": "Выйти",
-      "delete": "Удалить"
+      "delete": "Удалить",
+      "errorTitle": "Ошибка",
+      "errorMessage": "Произошла ошибка"
     }
   },
   "adminPage": {

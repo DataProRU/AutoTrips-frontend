@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import ImageSlider from "../../ui/ImageSlider/ImageSlider";
 import FullscreenSlider from "../../ui/FullscreenSlider/FullscreenSlider";
 import { ReportPhoto } from "../../models/response/ReportPhoto";
+import ReportsService from "../../services/ReportsService";
 
 const getSchema = (t: (key: string) => string) =>
   z.object({
@@ -83,7 +84,7 @@ const getSchema = (t: (key: string) => string) =>
 type ExistingAcceptanceFormData = z.infer<ReturnType<typeof getSchema>>;
 
 const ExistingAcceptance = () => {
-  const [uploaderKey] = useState(0);
+  const [uploaderKey, setUploaderKey] = useState(0);
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
 
@@ -180,14 +181,38 @@ const ExistingAcceptance = () => {
     setValue(fieldName, updatedFiles, { shouldValidate: true });
   };
 
-  const onSubmit = (data: ExistingAcceptanceFormData) => {
-    console.log("Existing Acceptance Data:", data);
-    MessageBox({
-      title: t("common.ui.successTitle"),
-      message: "Saved successfully (Mock)",
-      onClose: () => {},
-      buttonText: t("common.ui.okButton"),
-    });
+  const onSubmit = async (data: ExistingAcceptanceFormData) => {
+    if (!data.acceptanceDate) return;
+
+    try {
+      await ReportsService.updateReport(data.acceptanceDate, {
+        carPhotos: data.carPhotos,
+        keyPhotos: data.keyPhotos,
+        docsPhotos: data.docsPhotos,
+      });
+
+      MessageBox({
+        title: t("common.ui.successTitle"),
+        message: t("common.ui.successMessage"),
+        onClose: () => {
+          setValue("carPhotos", [], { shouldValidate: true });
+          setValue("keyPhotos", [], { shouldValidate: true });
+          setValue("docsPhotos", [], { shouldValidate: true });
+          setUploaderKey((prev) => prev + 1);
+          if (selectedVin) {
+            reportsStore.fetchVinReports(selectedVin);
+          }
+        },
+        buttonText: t("common.ui.okButton"),
+      });
+    } catch (error) {
+      MessageBox({
+        title: t("common.ui.errorTitle"),
+        message: t("common.ui.errorMessage"),
+        onClose: () => {},
+        buttonText: t("common.ui.okButton"),
+      });
+    }
   };
 
   return (

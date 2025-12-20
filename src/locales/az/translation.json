@@ -207,7 +207,9 @@
       "okButton": "OK",
       "saveAll": "Hamısını Yadda Saxla",
       "logout": "Çıxış",
-      "delete": "Sil"
+      "delete": "Sil",
+      "errorTitle": "Xəta",
+      "errorMessage": "Xəta baş verdi"
     }
   },
   "adminPage": {

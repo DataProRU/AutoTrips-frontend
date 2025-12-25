@@ -36,6 +36,7 @@
     "react-spinners": "^0.17.0",
     "react-tabs": "^6.1.0",
     "react-zoom-pan-pinch": "^3.7.0",
+    "read-excel-file": "^6.0.1",
     "slick-carousel": "^1.8.1",
     "zod": "^3.24.2"
   },

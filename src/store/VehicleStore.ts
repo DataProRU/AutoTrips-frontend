@@ -66,6 +66,10 @@ class VehicleStore {
     await VehicleService.addVehicles(data);
   }
 
+  async uploadExcel(clientId: number, file: File) {
+    await VehicleService.uploadExcel(clientId, file);
+  }
+
   async updateVehicle(id: number, updatedRecord: VehicleRequest) {
     const response = await VehicleService.updateVehicle(id, updatedRecord);
     this.vehicles = this.vehicles.map((item) =>

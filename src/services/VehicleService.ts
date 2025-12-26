@@ -129,4 +129,16 @@ export default class VehicleService {
       return $api.patch<Vehicle>(`/autotrips/vehicles/${id}/`, jsonData);
     }
   }
+
+  static uploadExcel(clientId: number, file: File) {
+    const formData = new FormData();
+    formData.append("client", clientId.toString());
+    formData.append("excel_file", file);
+
+    return $api.post("/autotrips/vehicles/upload-excel/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
 }

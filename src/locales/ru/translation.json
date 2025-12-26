@@ -226,7 +226,8 @@
     "ui": {
       "pageTitle": "Личный кабинет",
       "clientTitle": "Текущие ТС в пути",
-      "addVehicleBtn": "Добавить новый VIN"
+      "addVehicleBtn": "Добавить новый VIN",
+      "massAddVehicleBtn": "Массовое добавление (Excel)"
     }
   },
   "auth": {
@@ -269,6 +270,23 @@
       "priceRequired": "Цена обязательна",
       "priceInvalid": "Цена введена неверно",
       "commentRequired": "Комментарий обязателен для заполнения"
+    },
+    "massAdd": {
+      "ui": {
+        "title": "Загрузите Excel-таблицу",
+        "requirementsTitle": "Требования к файлу",
+        "formatRequirement": "Формат: Excel",
+        "columnARequirement": "В столбце \"A\" - Марка Модель Год",
+        "columnBRequirement": "В столбце \"B\" - VIN",
+        "rowRequirement": "Важно: 1 строка = 1 автомобиль!",
+        "headerRequirement": "В первой строке - названия столбцов",
+        "exampleTitle": "Пример того как должен выглядеть файл",
+        "makeModelYear": "Марка Модель Год",
+        "vin": "VIN",
+        "fileSelected": "Файл выбран",
+        "attachFile": "Прикрепить файл",
+        "uploadBtn": "Загрузить"
+      }
     }
   }
 }

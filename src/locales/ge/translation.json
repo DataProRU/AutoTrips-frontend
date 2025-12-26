@@ -223,7 +223,8 @@
     "ui": {
       "pageTitle": "პირადი კაბინეტი",
       "clientTitle": "მიმდინარე ტრანსპორტირებადი ავტომობილები",
-      "addVehicleBtn": "ახალი VIN-ის დამატება"
+      "addVehicleBtn": "ახალი VIN-ის დამატება",
+      "massAddVehicleBtn": "მასიური დამატება (Excel)"
     }
   },
   "auth": {
@@ -265,6 +266,23 @@
       "priceRequired": "ფასი აუცილებელია",
       "priceInvalid": "ფასი არასწორია",
       "commentRequired": "კომენტარი სავალდებულოა"
+    },
+    "massAdd": {
+      "ui": {
+        "title": "ატვირთეთ Excel ცხრილი",
+        "requirementsTitle": "ფაილის მოთხოვნები",
+        "formatRequirement": "ფორმატი: Excel",
+        "columnARequirement": "სვეტში \"A\" - მარკა მოდელი წელი",
+        "columnBRequirement": "სვეტში \"B\" - VIN",
+        "rowRequirement": "მნიშვნელოვანია: 1 სტრიქონი = 1 ავტომობილი!",
+        "headerRequirement": "პირველ სტრიქონში - სვეტების სახელები",
+        "exampleTitle": "მაგალითი, თუ როგორ უნდა გამოიყურებოდეს ფაილი",
+        "makeModelYear": "მარკა მოდელი წელი",
+        "vin": "VIN",
+        "fileSelected": "ფაილი არჩეულია",
+        "attachFile": "ფაილის მიმაგრება",
+        "uploadBtn": "ატვირთვა"
+      }
     }
   }
 }

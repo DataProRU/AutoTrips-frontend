@@ -44,3 +44,20 @@
   flex-direction: column;
   gap: 10px;
 }
+
+.light {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  background: var(--secondary);
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 24px;
+  text-align: center;
+  color: var(--white);
+  font-weight: normal;
+  border: 1px solid var(--secondary);
+  transition: 0.3s ease;
+}

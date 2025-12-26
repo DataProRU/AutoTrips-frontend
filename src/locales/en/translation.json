@@ -226,7 +226,8 @@
     "ui": {
       "pageTitle": "Personal Account",
       "clientTitle": "Current Vehicles in Transit",
-      "addVehicleBtn": "Add New VIN"
+      "addVehicleBtn": "Add New VIN",
+      "massAddVehicleBtn": "Mass Add (Excel)"
     }
   },
   "auth": {
@@ -269,6 +270,23 @@
       "priceRequired": "Price is required",
       "priceInvalid": "Invalid price format",
       "commentRequired": "Comment is required"
+    },
+    "massAdd": {
+      "ui": {
+        "title": "Upload Excel Table",
+        "requirementsTitle": "File Requirements",
+        "formatRequirement": "Format: Excel",
+        "columnARequirement": "In column \"A\" - Make Model Year",
+        "columnBRequirement": "In column \"B\" - VIN",
+        "rowRequirement": "Important: 1 row = 1 vehicle!",
+        "headerRequirement": "In the first row - column names",
+        "exampleTitle": "Example of how the file should look",
+        "makeModelYear": "Make Model Year",
+        "vin": "VIN",
+        "fileSelected": "File selected",
+        "attachFile": "Attach file",
+        "uploadBtn": "Upload"
+      }
     }
   }
 }

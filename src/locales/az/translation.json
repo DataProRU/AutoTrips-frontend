@@ -225,7 +225,8 @@
     "ui": {
       "pageTitle": "Şəxsi Kabinet",
       "clientTitle": "Yoldakı Hazırkı Nəqliyyat Vasitələri",
-      "addVehicleBtn": "Yeni VIN Əlavə Et"
+      "addVehicleBtn": "Yeni VIN Əlavə Et",
+      "massAddVehicleBtn": "Kütləvi əlavə (Excel)"
     }
   },
   "auth": {
@@ -267,6 +268,23 @@
       "priceRequired": "Qiymət tələb olunur",
       "priceInvalid": "Yanlış qiymət formatı",
       "commentRequired": "Şərh tələb olunur"
+    },
+    "massAdd": {
+      "ui": {
+        "title": "Excel cədvəlini yükləyin",
+        "requirementsTitle": "Fayl tələbləri",
+        "formatRequirement": "Format: Excel",
+        "columnARequirement": "\"A\" sütununda - Marka Model İl",
+        "columnBRequirement": "\"B\" sütununda - VIN",
+        "rowRequirement": "Vacib: 1 sətir = 1 avtomobil!",
+        "headerRequirement": "Birinci sətirdə - sütun adları",
+        "exampleTitle": "Faylın necə görünməsi barədə nümunə",
+        "makeModelYear": "Marka Model İl",
+        "vin": "VIN",
+        "fileSelected": "Fayl seçildi",
+        "attachFile": "Fayl əlavə et",
+        "uploadBtn": "Yüklə"
+      }
     }
   }
 }

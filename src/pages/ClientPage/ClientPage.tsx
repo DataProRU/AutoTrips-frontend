@@ -13,13 +13,16 @@ import AdminAddVehicleModal from "../../components/Vehicle/Admin/AdminAddVehicle
 import dayjs from "dayjs";
 import ClientEditVehicleModal from "../../components/Vehicle/Client/ClientEditVehicleModal/ClientEditVehicleModal";
 import ClientAddVehicleModal from "../../components/Vehicle/Client/ClientAddVehicleModal/ClientAddVehicleModal";
+import MassAddVehicleModal from "../../components/Vehicle/MassAddVehicleModal/MassAddVehicleModal";
 
 const ClientPage = () => {
   const { t } = useTranslation();
   authStore.page = t("clientPage.ui.pageTitle");
 
   const [isEditModalOpen, setEditModalOpen] = useState(false);
-  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [addModalState, setAddModalState] = useState<
+    "none" | "choice" | "mass" | "manual"
+  >("none");
   const [selectedVehicleId, setSelectedVehicleId] = useState<number | null>(
     null
   );
@@ -38,6 +41,10 @@ const ClientPage = () => {
     vehicleStore.fetchVehicle(vehicleId).then(() => {
       setEditModalOpen(true);
     });
+  };
+
+  const closeAddModal = () => {
+    setAddModalState("none");
   };
 
   return (
@@ -77,9 +84,16 @@ const ClientPage = () => {
 
         <div className="client__footer">
           <Button
+            className="light"
+            onClick={() => {
+              setAddModalState("mass");
+            }}
+            text={t("clientPage.ui.massAddVehicleBtn")}
+          />
+          <Button
             className="link"
             onClick={() => {
-              setAddModalOpen(true);
+              setAddModalState("manual");
             }}
             text={t("clientPage.ui.addVehicleBtn")}
           />
@@ -107,19 +121,27 @@ const ClientPage = () => {
             />
           ) : null)}
 
-        {isAddModalOpen &&
+        {addModalState === "mass" && (
+          <MassAddVehicleModal
+            onClose={closeAddModal}
+            userId={Number(userId ?? authStore.userId)}
+            onSuccess={refreshVehicles}
+          />
+        )}
+
+        {addModalState === "manual" &&
           (authStore.role === "admin" ? (
             <AdminAddVehicleModal
-              onClose={() => setAddModalOpen(false)}
+              onClose={closeAddModal}
               userId={Number(userId)}
-              vehicleId={selectedVehicleId}
+              vehicleId={null}
               onSuccess={refreshVehicles}
             />
           ) : authStore.role === "client" ? (
             <ClientAddVehicleModal
-              onClose={() => setAddModalOpen(false)}
+              onClose={closeAddModal}
               userId={Number(userId ?? authStore.userId)}
-              vehicleId={selectedVehicleId}
+              vehicleId={null}
               onSuccess={refreshVehicles}
             />
           ) : null)}

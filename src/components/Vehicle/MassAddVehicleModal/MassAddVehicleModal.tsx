@@ -6,6 +6,7 @@ import MessageBox from "../../../ui/MessageBox/MessageBox";
 import Loader from "../../../ui/Loader/Loader";
 import "./MassAddVehicleModal.css";
 import { observer } from "mobx-react";
+import Button from "../../../ui/Button/Button";
 
 interface MassAddVehicleModalProps {
   onClose: () => void;
@@ -154,14 +155,21 @@ const MassAddVehicleModal = observer(
               <Loader />
             </div>
           ) : (
-            <button
-              className="mass-add__upload-btn"
+            <Button
+              type="button"
+              text={t("vehicleModal.massAdd.ui.uploadBtn")}
+              className="link mass-add__upload-btn"
               onClick={handleUpload}
               disabled={!file}
-            >
-              {t("vehicleModal.massAdd.ui.uploadBtn")}
-            </button>
+            />
           )}
+
+          <Button
+            type="button"
+            text={t("common.ui.back")}
+            className="link warning "
+            onClick={onClose}
+          />
         </div>
       </Modal>
     );

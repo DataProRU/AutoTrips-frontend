@@ -206,6 +206,7 @@ const ExistingAcceptance = () => {
         buttonText: t("common.ui.okButton"),
       });
     } catch (error) {
+      console.log(error);
       MessageBox({
         title: t("common.ui.errorTitle"),
         message: t("common.ui.errorMessage"),
